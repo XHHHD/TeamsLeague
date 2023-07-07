@@ -11,4 +11,9 @@
     <ProjectReference Include="..\TeamsLeague.BLL\TeamsLeague.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\" />
+    <Folder Include="Windows\" />
+  </ItemGroup>
+
 </Project>
