@@ -4,20 +4,15 @@ namespace TeamsLeague.DAL.Context
 {
     public partial class GameDBContext : DbContext
     {
-        public GameDBContext()
-        {
-            Database.EnsureCreated();
-        }
-
-        public GameDBContext(string connectionString) : base(GetOptions(connectionString))
+        public GameDBContext() : base(GetOptions())
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
-        private static DbContextOptions GetOptions(string connectionString)
+        private static DbContextOptions GetOptions()
         {
-            return new DbContextOptionsBuilder().UseSqlServer(connectionString).Options;
+            return new DbContextOptionsBuilder().UseSqlServer("Server=(localdb)\\mssqllocaldb;Initial Catalog=TeamLeagueDB;Integrated Security=True;").Options;
         }
     }
 }

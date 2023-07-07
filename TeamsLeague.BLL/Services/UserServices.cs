@@ -7,11 +7,10 @@ namespace TeamsLeague.BLL.Services
 {
     public class UserServices : IUserServices
     {
-        GameDBContext _context;
+        GameDBContext _context = new();
 
-        public UserServices(GameDBContext context)
+        public UserServices()
         {
-            _context = context;
         }
 
 
@@ -36,7 +35,7 @@ namespace TeamsLeague.BLL.Services
         public bool DeleteUser(int userId)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == userId)
-                ?? throw new Exception("User is already exist!");
+                ?? throw new Exception("User does not exist!");
 
             _context.Users.Remove(user);
             _context.SaveChanges();
@@ -46,12 +45,24 @@ namespace TeamsLeague.BLL.Services
 
         public UserModel ReadUser(int userId)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.SingleOrDefault(u => u.Id == userId)
+                ?? throw new Exception("User does not exist!");
+
+            var result = new UserModel(user);
+
+            return result;
         }
 
-        public UserModel UpdateUser(UserModel user)
+        public UserModel UpdateUser(UserModel userModel)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.FirstOrDefault(u => u.Id == userModel.Id)
+                ?? throw new Exception("User does not exist!");
+
+            user.Name = userModel.Name;
+
+            _context.SaveChanges();
+
+            return userModel;
         }
     }
 }
