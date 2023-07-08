@@ -46,9 +46,18 @@
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="Optional_Button" Grid.Column="1" FontFamily="Elephant"
-                        FontWeight="Bold" Margin="5, 70, 5, 70" Click="Optional_Button_Click"
-                        FontSize="24" Background="#7FFFFFFF"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="Optional_Button" Grid.Row="0" FontFamily="Elephant"
+                            FontWeight="Bold" Margin="10" Click="Optional_Button_Click"
+                            FontSize="24" Background="#7FFFFFFF"/>
+                    <Button x:Name="Next_Button" Grid.Row="1" FontFamily="Elephant"
+                            FontWeight="Bold" Margin="10" Click="Next_Button_Click"
+                            FontSize="24" Background="#7FFFFFFF" Content="START!"/>
+                </Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

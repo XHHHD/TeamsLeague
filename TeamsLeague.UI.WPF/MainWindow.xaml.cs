@@ -1,16 +1,18 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Linq;
 using System.Windows;
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models;
 using TeamsLeague.BLL.Models.TeamParts;
-using TeamsLeague.BLL.Services;
+using TeamsLeague.UI.WPF.Configuration;
+using TeamsLeague.UI.WPF.Windows;
+using Unity;
 
 namespace TeamsLeague.UI.WPF
 {
     public partial class MainWindow : Window
     {
+        private IBufferingService _buffer;
         private IUserServices _userServices;
         private ITeamServices _teamServices;
         private UserModel? _userModel;
@@ -21,10 +23,11 @@ namespace TeamsLeague.UI.WPF
         public MainWindow()
         {
             InitializeComponent();
-            _userServices = new UserServices();
-            _teamServices = new TeamServices();
+            _buffer = UnityContainerProvider.GetContainer().Resolve<IBufferingService>();
+            _userServices = UnityContainerProvider.GetContainer().Resolve<IUserServices>();
+            _teamServices = UnityContainerProvider.GetContainer().Resolve<ITeamServices>();
             _userModel = _userServices.GetUsers().FirstOrDefault();
-            if (_userModel is null )
+            if (_userModel is null)
             {
                 Optional_Button.Content = _createButton;
             }
@@ -45,7 +48,7 @@ namespace TeamsLeague.UI.WPF
             else
             if (UserName_TextBox.Text == _userModel?.Name)
             {
-                MessageBox.Show("Try to invent something else!");
+                MessageBox.Show("Try to invent something else for updating!");
             }
             else
             {
@@ -61,6 +64,7 @@ namespace TeamsLeague.UI.WPF
                     };
 
                     _userModel = _userServices.CreateUser(_userModel);
+                    _buffer.User = _userModel;
                     _teamModel = _userModel.Team;
 
                     Optional_Button.Content = _updateButton;
@@ -77,7 +81,22 @@ namespace TeamsLeague.UI.WPF
                     }
                 }
 
-                UserInfo_Lbael.Content = _userModel.Name;
+                UserInfo_Lbael.Content = _userModel.Name + ", " + _teamModel?.Name;
+            }
+        }
+
+        private void Next_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (_userModel is null || _teamModel is null)
+            {
+                MessageBox.Show("First u should register!");
+            }
+            else
+            {
+                var lobby = UnityContainerProvider.GetContainer().Resolve<LobbyWindow>();
+
+                lobby.Show();
+                this.Close();
             }
         }
     }
