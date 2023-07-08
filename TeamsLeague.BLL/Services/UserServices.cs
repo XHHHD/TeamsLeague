@@ -53,6 +53,15 @@ namespace TeamsLeague.BLL.Services
             return result;
         }
 
+        public IEnumerable<UserModel> GetUsers()
+        {
+            var users = _context.Users;
+
+            var result = users.Select(u => new UserModel(u));
+
+            return result;
+        }
+
         public UserModel UpdateUser(UserModel userModel)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == userModel.Id)

@@ -6,41 +6,76 @@
         xmlns:local="clr-namespace:TeamsLeague.UI.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Label x:Name="UserName_Label" Grid.Column="0"
-                   FontSize="20" Content="Youre name is: "
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Center"
-                   Margin="10"/>
-            <Label x:Name="UserInfo_Lbael" Grid.Column="1"
-                   FontSize="20" HorizontalAlignment="Left"
-                   VerticalAlignment="Center"
-                   Margin="10"/>
+    <Border>
+        <Border.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush.RelativeTransform>
+                    <TransformGroup>
+                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                        <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                        <RotateTransform Angle="9.031" CenterX="0.5" CenterY="0.5"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </LinearGradientBrush.RelativeTransform>
+                <GradientStop Color="#FF1193B5" Offset="1"/>
+                <GradientStop Color="#FF1AC7A3"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1.5*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="UserName_Label" Grid.Column="0"
+                       FontSize="36" FontWeight="Bold" Content="Youre name is: "
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Margin="10" FontFamily="Elephant"/>
+                <Label x:Name="UserInfo_Lbael" Grid.Column="1"
+                       FontSize="36" FontWeight="Bold"
+                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                       Margin="10"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Optional_Button" Grid.Column="1" FontFamily="Elephant"
+                        FontWeight="Bold" Margin="5, 70, 5, 70" Click="Optional_Button_Click"
+                        FontSize="24" Background="#7FFFFFFF"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Youre name:"
+                               VerticalAlignment="Center" HorizontalAlignment="Right"
+                               FontSize="30" FontWeight="Bold" Margin="10"
+                               FontFamily="Elephant"/>
+                    <TextBox x:Name="UserName_TextBox" Grid.Column="1" Grid.Row="0"
+                             FontSize="30" Margin="20" VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center" TextAlignment="Center"
+                             Background="#7FFFFFFF"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Youre team name:"
+                               VerticalAlignment="Center" HorizontalAlignment="Right"
+                               FontSize="30" FontWeight="Bold" Margin="10"
+                               FontFamily="Elephant"/>
+                    <TextBox x:Name="UserTeamName_TextBox" Grid.Column="1" Grid.Row="1"
+                             FontSize="30" Margin="20" VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center" TextAlignment="Center"
+                             Background="#7FFFFFFF"/>
+                </Grid>
+            </Grid>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Youre name:"
-                       VerticalAlignment="Center" HorizontalAlignment="Right"
-                       FontSize="32" FontWeight="Bold" Margin="10"/>
-            <TextBox x:Name="CreateUserName_TextBox" Grid.Column="1"
-                     FontSize="20" Margin="10" VerticalContentAlignment="Center"
-                     HorizontalContentAlignment="Center" TextAlignment="Center"/>
-            <Button x:Name="CreateUser" Grid.Column="2" Content="CREATE!"
-                    FontSize="32" FontWeight="Bold" Margin="10" Click="CreateUser_Click"/>
-        </Grid>
-    </Grid>
+    </Border>
 </Window>
