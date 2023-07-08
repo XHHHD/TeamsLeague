@@ -7,10 +7,11 @@ namespace TeamsLeague.BLL.Services
 {
     public class UserServices : IUserServices
     {
-        GameDBContext _context = new();
+        GameDBContext _context;
 
         public UserServices()
         {
+            _context = new();
         }
 
 
@@ -43,21 +44,21 @@ namespace TeamsLeague.BLL.Services
             return true;
         }
 
+        public IEnumerable<UserModel> GetUsers()
+        {
+            var users = _context.Users;
+
+            var result = users.Select(u => new UserModel(u));
+
+            return result;
+        }
+
         public UserModel ReadUser(int userId)
         {
             var user = _context.Users.SingleOrDefault(u => u.Id == userId)
                 ?? throw new Exception("User does not exist!");
 
             var result = new UserModel(user);
-
-            return result;
-        }
-
-        public IEnumerable<UserModel> GetUsers()
-        {
-            var users = _context.Users;
-
-            var result = users.Select(u => new UserModel(u));
 
             return result;
         }

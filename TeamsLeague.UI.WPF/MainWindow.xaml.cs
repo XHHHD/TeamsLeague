@@ -12,6 +12,7 @@ namespace TeamsLeague.UI.WPF
     public partial class MainWindow : Window
     {
         private IUserServices _userServices;
+        private ITeamServices _teamServices;
         private UserModel? _userModel;
         private TeamModel? _teamModel;
         private const string _createButton = "CREATE!";
@@ -21,6 +22,7 @@ namespace TeamsLeague.UI.WPF
         {
             InitializeComponent();
             _userServices = new UserServices();
+            _teamServices = new TeamServices();
             _userModel = _userServices.GetUsers().FirstOrDefault();
             if (_userModel is null )
             {
@@ -66,9 +68,13 @@ namespace TeamsLeague.UI.WPF
                 else
                 {
                     _userModel.Name = UserName_TextBox.Text;
-                    //_teamModel.Name = UserTeamName_TextBox.Text;
                     _userModel = _userServices.UpdateUser(_userModel);
-                    //_teamModel = _teamService.UpdateTeam(_teamModel);
+
+                    if (_teamModel is not null)
+                    {
+                        _teamModel.Name = UserTeamName_TextBox.Text;
+                        _teamModel = _teamServices.UpdateTeam(_teamModel);
+                    }
                 }
 
                 UserInfo_Lbael.Content = _userModel.Name;
