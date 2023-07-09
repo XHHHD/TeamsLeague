@@ -8,7 +8,7 @@
       d:DesignHeight="120" d:DesignWidth="240"
       Title="MiniPageForMenu">
 
-    <ToggleButton x:Name="TButton" Background="{x:Null}" BorderBrush="{x:Null}" Click="ToggleButton_Click">
+    <ToggleButton x:Name="TButton" Background="{x:Null}" BorderBrush="{x:Null}" Checked="TButton_Checked">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition/>

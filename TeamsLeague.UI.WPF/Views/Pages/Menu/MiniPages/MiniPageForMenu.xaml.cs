@@ -13,6 +13,9 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
             PageType = type;
         }
 
+        private void TButton_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
 
+        }
     }
 }
