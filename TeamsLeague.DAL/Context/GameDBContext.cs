@@ -6,7 +6,7 @@ namespace TeamsLeague.DAL.Context
     {
         public GameDBContext() : base(GetOptions())
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

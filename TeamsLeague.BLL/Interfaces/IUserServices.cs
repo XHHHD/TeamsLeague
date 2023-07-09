@@ -6,8 +6,9 @@ namespace TeamsLeague.BLL.Interfaces
     {
         UserModel CreateUser(UserModel user);
         UserModel ReadUser(int userId);
-        IEnumerable<UserModel> GetUsers();
         UserModel UpdateUser(UserModel user);
         bool DeleteUser(int userId);
+        IEnumerable<UserModel> GetUsers();
+        UserModel AddTeam(string teamName);
     }
 }

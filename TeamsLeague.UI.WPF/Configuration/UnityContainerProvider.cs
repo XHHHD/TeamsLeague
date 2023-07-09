@@ -22,5 +22,7 @@ namespace TeamsLeague.UI.WPF.Configuration
         {
             return Container;
         }
+
+        public static T GetNew<T>() => Container.Resolve<T>();
     }
 }

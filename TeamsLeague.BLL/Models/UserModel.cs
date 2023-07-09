@@ -7,7 +7,7 @@ namespace TeamsLeague.BLL.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TeamModel? Team { get; set; }
+        public TeamModel Team { get; set; }
 
 
         public UserModel() { }

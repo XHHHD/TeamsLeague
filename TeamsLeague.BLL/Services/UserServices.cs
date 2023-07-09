@@ -2,6 +2,7 @@
 using TeamsLeague.BLL.Models;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities;
+using TeamsLeague.DAL.Entities.TeamParts;
 
 namespace TeamsLeague.BLL.Services
 {
@@ -44,15 +45,6 @@ namespace TeamsLeague.BLL.Services
             return true;
         }
 
-        public IEnumerable<UserModel> GetUsers()
-        {
-            var users = _context.Users;
-
-            var result = users.Select(u => new UserModel(u));
-
-            return result;
-        }
-
         public UserModel ReadUser(int userId)
         {
             var user = _context.Users.SingleOrDefault(u => u.Id == userId)
@@ -73,6 +65,33 @@ namespace TeamsLeague.BLL.Services
             _context.SaveChanges();
 
             return userModel;
+        }
+
+        public IEnumerable<UserModel> GetUsers()
+        {
+            var users = _context.Users;
+
+            var result = users.Select(u => new UserModel(u));
+
+            return result;
+        }
+
+        public UserModel AddTeam(string teamName)
+        {
+            var user = _context.Users.FirstOrDefault()
+                ?? throw new Exception("No users in DB!");
+            var team = _context.Teams.SingleOrDefault(t => t.Name == teamName)
+                ?? new Team()
+                {
+                    Name = teamName,
+                    User = user,
+                };
+
+            user.Team = team;
+            
+            _context.SaveChanges();
+
+            return new UserModel(user);
         }
     }
 }
