@@ -1,4 +1,5 @@
-﻿using TeamsLeague.BLL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities;
@@ -69,7 +70,7 @@ namespace TeamsLeague.BLL.Services
 
         public IEnumerable<UserModel> GetUsers()
         {
-            var users = _context.Users;
+            var users = _context.Users.Include(u => u.Team);
 
             var result = users.Select(u => new UserModel(u));
 
