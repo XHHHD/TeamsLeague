@@ -45,7 +45,7 @@ namespace TeamsLeague.UI.WPF.Windows
 
         private void CreateComponent()
         {
-            foreach (var type in Enum.GetValues<MenuMiniPagesType>())
+            foreach (var type in Enum.GetValues<MenuPagesType>())
             {
                 PagesMiniBar_StackPanel.Children.Add(new Frame()
                 {

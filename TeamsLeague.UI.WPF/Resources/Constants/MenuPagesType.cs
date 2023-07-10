@@ -1,6 +1,6 @@
 ﻿namespace TeamsLeague.UI.WPF.Resources.Constants
 {
-    public enum MenuMiniPagesType
+    public enum MenuPagesType
     {
         UserTeamStats = 0,
         LeagueStats = 1,

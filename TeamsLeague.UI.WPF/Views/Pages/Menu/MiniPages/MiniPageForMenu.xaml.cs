@@ -9,14 +9,14 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
 {
     public partial class MiniPageForMenu : Page
     {
-        private readonly MenuMiniPagesType _pageType;
+        private readonly MenuPagesType _pageType;
         private StackPanel? _stackPanel;
         private Image? _image;
         private TextBlock? _topText;
         private TextBlock? _subText;
 
 
-        public MiniPageForMenu(MenuMiniPagesType type)
+        public MiniPageForMenu(MenuPagesType type)
         {
             InitializeComponent();
             _pageType = type;
@@ -28,7 +28,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
         {
             switch (_pageType)
             {
-                case MenuMiniPagesType.UserTeamStats:
+                case MenuPagesType.UserTeamStats:
                     Page_Grid.RowDefinitions.Add(new RowDefinition());
                     Page_Grid.RowDefinitions.Add(new RowDefinition());
                     _image = new Image()
@@ -54,7 +54,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
                     Grid.SetRow(_subText, 0);
                     break;
 
-                case MenuMiniPagesType.LeagueStats:
+                case MenuPagesType.LeagueStats:
                     Page_Grid.RowDefinitions.Add(new RowDefinition());
                     Page_Grid.RowDefinitions.Add(new RowDefinition());
                     _image = new Image()
@@ -80,7 +80,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
                     Page_Grid.Children.Add(_subText);
                     break;
 
-                case MenuMiniPagesType.Trainings:
+                case MenuPagesType.Trainings:
                     _topText = new TextBlock()
                     {
                         Name = "TopText",
@@ -105,7 +105,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
                     Page_Grid.Children.Add(_stackPanel);
                     break;
 
-                case MenuMiniPagesType.TopTeams:
+                case MenuPagesType.TopTeams:
                     _topText = new TextBlock()
                     {
                         Name = "TopText",
@@ -130,7 +130,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
                     Page_Grid.Children.Add(_stackPanel);
                     break;
 
-                case MenuMiniPagesType.TopMembers:
+                case MenuPagesType.TopMembers:
                     _topText = new TextBlock()
                     {
                         Name = "TopText",
@@ -155,7 +155,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
                     Page_Grid.Children.Add(_stackPanel);
                     break;
 
-                case MenuMiniPagesType.UserStats:
+                case MenuPagesType.UserStats:
                     Page_Grid.RowDefinitions.Add(new RowDefinition());
                     Page_Grid.RowDefinitions.Add(new RowDefinition());
                     _image = new Image()
@@ -183,7 +183,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
             }
         }
 
-        private void TButton_Checked(object sender, System.Windows.RoutedEventArgs e)
+        private void TButton_Checked(object sender, RoutedEventArgs e)
         {
 
         }
