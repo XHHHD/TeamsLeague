@@ -8,11 +8,45 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Img\Default\G1.png" />
+    <None Remove="Resources\Img\Default\G2.png" />
+    <None Remove="Resources\Img\Default\G3.png" />
+    <None Remove="Resources\Img\Default\icons8-ос-free-bsd-100-black.png" />
+    <None Remove="Resources\Img\Default\icons8-ос-free-bsd-100-white.png" />
+    <None Remove="Resources\Img\Default\icons8-ос-free-bsd-50-black.png" />
+    <None Remove="Resources\Img\Default\icons8-ос-free-bsd-50-white.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TeamsLeague.BLL\TeamsLeague.BLL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Unity" Version="5.11.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Img\Default\G1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\G2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\G3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-100-black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-100-white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-50-black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-50-white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

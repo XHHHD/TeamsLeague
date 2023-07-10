@@ -51,7 +51,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
                     Page_Grid.Children.Add(_image);
                     Page_Grid.Children.Add(_subText);
                     Grid.SetRow(_image, 0);
-                    Grid.SetRow(_subText, 0);
+                    Grid.SetRow(_subText, 1);
                     break;
 
                 case MenuPagesType.LeagueStats:
@@ -75,7 +75,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
                         VerticalAlignment = VerticalAlignment.Center,
                     };
                     Grid.SetRow(_image, 0);
-                    Grid.SetRow(_subText, 0);
+                    Grid.SetRow(_subText, 1);
                     Page_Grid.Children.Add(_image);
                     Page_Grid.Children.Add(_subText);
                     break;
@@ -178,7 +178,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu.MiniPages
                     Page_Grid.Children.Add(_image);
                     Page_Grid.Children.Add(_subText);
                     Grid.SetRow(_image, 0);
-                    Grid.SetRow(_subText, 0);
+                    Grid.SetRow(_subText, 1);
                     break;
             }
         }
