@@ -191,6 +191,188 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                     Page_Grid.Children.Add(stackPanel2);
                     break;
                 case MenuPagesType.Trainings:
+                    var logoImage = new Image()
+                    {
+                        Name = "MemberLogo",
+                        Width = 200,
+                        Height = 200,
+                        Margin = new Thickness(3),
+                        Source = new BitmapImage(new Uri("/Resources/Img/Default/icons8-ос-free-bsd-100-white.png", UriKind.Relative))
+                    };
+                    Grid.SetColumn(logoImage, 0);
+                    Grid.SetRow(logoImage, 0);
+                    Grid00.Children.Add(logoImage);
+
+                    var teamNameTextBlock = new TextBlock()
+                    {
+                        Name = "TeamName",
+                        TextWrapping = TextWrapping.Wrap,
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 48,
+                        Text = "Team Name"
+                    };
+
+                    var teamShortNameTextBlock = new TextBlock()
+                    {
+                        Name = "TeamShortName",
+                        TextWrapping = TextWrapping.Wrap,
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 48,
+                        Text = "ONE"
+                    };
+
+                    var teamLevelTextBlock = new TextBlock()
+                    {
+                        Name = "TeamLevel",
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 36,
+                        Text = "0"
+                    };
+
+                    var teamEnergyTextBlock = new TextBlock()
+                    {
+                        Name = "TeamEnergy",
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 36,
+                        Text = "0"
+                    };
+
+                    var teamMaxEnergyTextBlock = new TextBlock()
+                    {
+                        Name = "TeamMaxEnergy",
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 36,
+                        Text = "0"
+                    };
+
+                    var teamInfoTextBlock = new TextBlock()
+                    {
+                        Name = "TeamInfo",
+                        TextWrapping = TextWrapping.Wrap,
+                        TextAlignment = TextAlignment.Right,
+                        FontFamily = new FontFamily("Arial"),
+                        FontSize = 30,
+                        Text = "Other short information about team."
+                    };
+
+                    var teamNameStackPanel = new StackPanel()
+                    {
+                        Orientation = Orientation.Horizontal,
+                        HorizontalAlignment = HorizontalAlignment.Right
+                    };
+                    teamNameStackPanel.Children.Add(teamNameTextBlock);
+                    teamNameStackPanel.Children.Add(new TextBlock()
+                    {
+                        Text = "[",
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 48
+                    });
+                    teamNameStackPanel.Children.Add(teamShortNameTextBlock);
+                    teamNameStackPanel.Children.Add(new TextBlock()
+                    {
+                        Text = "]",
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 48
+                    });
+
+                    var teamLevelStackPanel = new StackPanel()
+                    {
+                        Orientation = Orientation.Horizontal,
+                        HorizontalAlignment = HorizontalAlignment.Right
+                    };
+                    teamLevelStackPanel.Children.Add(new TextBlock()
+                    {
+                        Text = "Level: ",
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 36
+                    });
+                    teamLevelStackPanel.Children.Add(teamLevelTextBlock);
+
+                    var teamEnergyStackPanel = new StackPanel()
+                    {
+                        Orientation = Orientation.Horizontal,
+                        HorizontalAlignment = HorizontalAlignment.Right
+                    };
+                    teamEnergyStackPanel.Children.Add(new TextBlock()
+                    {
+                        Text = "Team Energy: ",
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 36
+                    });
+                    teamEnergyStackPanel.Children.Add(teamEnergyTextBlock);
+                    teamEnergyStackPanel.Children.Add(new TextBlock()
+                    {
+                        Text = "/",
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 36
+                    });
+                    teamEnergyStackPanel.Children.Add(teamMaxEnergyTextBlock);
+
+                    Grid00.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+                    Grid00.ColumnDefinitions.Add(new ColumnDefinition());
+                    Grid00.Children.Add(teamNameStackPanel);
+                    Grid00.Children.Add(teamLevelStackPanel);
+                    Grid00.Children.Add(teamEnergyStackPanel);
+                    Grid00.Children.Add(teamInfoTextBlock);
+
+                    // Action buttons
+                    Action1.Content = new TextBlock()
+                    {
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 28,
+                        Text = "Solo Ranked Games"
+                    };
+
+                    Action2.Content = new TextBlock()
+                    {
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 28,
+                        Text = "Group Trainings"
+                    };
+
+                    Action3.Content = new TextBlock()
+                    {
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 28,
+                        TextWrapping = TextWrapping.Wrap,
+                        TextAlignment = TextAlignment.Center,
+                        Text = "Scrimmages with other teams in league"
+                    };
+
+                    Action4.Content = new TextBlock()
+                    {
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 28,
+                        Text = "Ranked match"
+                    };
+
+                    Action5.Content = new TextBlock()
+                    {
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 28,
+                        Text = "Current tournament"
+                    };
+
+                    // Characteristics
+                    Expiriance.Text = "Value 1";
+                    Health.Text = "Value 2";
+                    Power.Text = "Value 3";
+                    Teamplay.Text = "Value 4";
+                    RankPoints.Text = "Value 5";
+                    Rank.Content = "Team rank";
+                    Trail.Text = "Team trail";
+
+                    // Members
+                    TopLiner.Content = "There is no topliner";
+                    Jungler.Content = "There is no jungler";
+                    Midliner.Content = "There is no midliner";
+                    Bottliner.Content = "There is no botliner";
+                    Support.Content = "There is no support";
                     break;
                 case MenuPagesType.TopTeams:
                     break;
