@@ -7,45 +7,54 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using TeamsLeague.BLL.Interfaces;
+using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Resources.Constants;
+using TeamsLeague.UI.WPF.Views.Pages.Menu;
 
 namespace TeamsLeague.UI.WPF.Windows
 {
     public partial class GameWindow : Window
     {
         private readonly IBufferingService _buffer;
-        private List<ToggleButton> miniBarButtons;
+        private readonly List<ToggleButton> _miniBarButtons;
+
 
         public GameWindow(IBufferingService buffer)
         {
-            InitializeComponent();
             _buffer = buffer;
-            miniBarButtons = new();
-            CreateComponent();
+            _miniBarButtons = new();
+
+            InitializeComponent();
+            BuildComponent();
         }
+
 
         private void GameWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
         private void CheckedFullScreenButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Maximized;
         }
+
         private void UncheckedFullScreenButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Normal;
         }
+
         private void MinimizedButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }
 
-        private void MenuButtonClick(object sender, RoutedEventArgs e)
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is ToggleButton button)
             {
@@ -57,9 +66,11 @@ namespace TeamsLeague.UI.WPF.Windows
                             break;
 
                         case MenuPagesType.LeagueStats:
+                            GameMainFrame.Content = UnityContainerProvider.GetNew<LeagueMenu>();
                             break;
 
                         case MenuPagesType.Trainings:
+                            GameMainFrame.Content = UnityContainerProvider.GetNew<TeamTrainingsMenu>();
                             break;
 
                         case MenuPagesType.TopTeams:
@@ -69,12 +80,13 @@ namespace TeamsLeague.UI.WPF.Windows
                             break;
 
                         case MenuPagesType.UserStats:
+                            GameMainFrame.Content = UnityContainerProvider.GetNew<UserStatsMenu>();
                             break;
                     }
 
                     button.IsChecked = true;
 
-                    foreach (var otherButton in miniBarButtons)
+                    foreach (var otherButton in _miniBarButtons)
                     {
                         if (otherButton != button)
                         {
@@ -85,7 +97,7 @@ namespace TeamsLeague.UI.WPF.Windows
             }
         }
 
-        private void CreateComponent()
+        private void BuildComponent()
         {
             foreach (var type in Enum.GetValues<MenuPagesType>())
             {
@@ -102,13 +114,13 @@ namespace TeamsLeague.UI.WPF.Windows
                     IsChecked = false,
                 };
 
-                miniBarButton.Click += MenuButtonClick;
+                miniBarButton.Click += MenuButton_Click;
 
                 PagesMiniBar_StackPanel.Children.Add(miniBarButton);
 
                 GetMiniPage(type, miniBarMainGrid);
 
-                miniBarButtons.Add(miniBarButton);
+                _miniBarButtons.Add(miniBarButton);
             }
         }
 
