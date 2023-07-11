@@ -23,8 +23,8 @@
                 <ColumnDefinition Width="0.25*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical" Grid.Column="0">
-                <TextBlock x:Name="TeamName" Text="Team Name" FontFamily="Arial Black" FontSize="48"/>
-                <TextBlock x:Name="TeamInformation" FontFamily="Arial Black" FontSize="24"
+                <TextBlock x:Name="TeamName_TextBlock" Text="Team Name" FontFamily="Arial Black" FontSize="48"/>
+                <TextBlock x:Name="TeamInformation_TextBlock" FontFamily="Arial Black" FontSize="24"
                            Text="Team Stats Information"/>
             </StackPanel>
         </Grid>

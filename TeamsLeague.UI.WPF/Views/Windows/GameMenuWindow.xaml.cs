@@ -10,6 +10,7 @@ using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Resources.Constants;
 using TeamsLeague.UI.WPF.Views.Pages.Menu;
+using Unity.Resolution;
 
 namespace TeamsLeague.UI.WPF.Windows
 {
@@ -63,6 +64,7 @@ namespace TeamsLeague.UI.WPF.Windows
                     switch (type)
                     {
                         case MenuPagesType.UserTeamStats:
+                            GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("team", _buffer.User?.Team));
                             break;
 
                         case MenuPagesType.LeagueStats:

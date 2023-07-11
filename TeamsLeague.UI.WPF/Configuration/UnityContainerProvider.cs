@@ -2,6 +2,7 @@
 using TeamsLeague.BLL.Services;
 using Unity;
 using Unity.Lifetime;
+using Unity.Resolution;
 
 namespace TeamsLeague.UI.WPF.Configuration
 {
@@ -24,5 +25,6 @@ namespace TeamsLeague.UI.WPF.Configuration
         }
 
         public static T GetNew<T>() => Container.Resolve<T>();
+        public static T GetNew<T>(params ParameterOverride[] overrides) => Container.Resolve<T>(overrides);
     }
 }

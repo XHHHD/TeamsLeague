@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
-using TeamsLeague.BLL.Interfaces;
+﻿using System.Windows.Controls;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 
@@ -21,6 +19,8 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void BuildComponent()
         {
+            TeamName_TextBlock.Text = _team.Name;
+
             foreach (var member in _team.Members)
             {
                 Members_StackPanel.Children.Add(GetMemberViews(member));
