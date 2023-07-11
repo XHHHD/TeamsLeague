@@ -1,13 +1,16 @@
-﻿namespace TeamsLeague.DAL.Entities.MemberParts
+﻿using TeamsLeague.DAL.Constants;
+
+namespace TeamsLeague.DAL.Entities.MemberParts
 {
     public class MemberTrait
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Member Member { get; set; }
+        public MemberTraitType Type { get; set; }
+        public virtual Member Member { get; set; }
 
 
+        #region DB KEYS
         public int Id { get; set; }
         public int MemberId { get; set; }
+        #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TeamsLeague.DAL.Constants
 {
-    public enum MemberTaitType
+    public enum MemberTraitType
     {
     }
 }

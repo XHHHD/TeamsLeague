@@ -4,12 +4,13 @@ namespace TeamsLeague.DAL.Entities.MemberParts
 {
     public class Position
     {
-        public string Name { get; set; }
         public PositionType Type { get; set; }
-        public Member Member { get; set; }
+        public virtual Member Member { get; set; }
 
 
+        #region DB KEYS
         public int Id { get; set; }
         public int MemberId { get; set; }
+        #endregion
     }
 }

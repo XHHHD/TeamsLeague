@@ -1,4 +1,5 @@
-﻿using TeamsLeague.BLL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities;
@@ -34,6 +35,7 @@ namespace TeamsLeague.BLL.Services
                 User = user,
             };
 
+
             _context.Teams.Add(team);
             _context.SaveChanges();
 
@@ -62,7 +64,13 @@ namespace TeamsLeague.BLL.Services
 
         public TeamModel ReadTeam(int teamId)
         {
-            var team = _context.Teams.SingleOrDefault(t => t.Id == teamId)
+            var team = _context.Teams
+                .Include(t => t.Members)
+                .ThenInclude(m => m.Positions)
+                .Include(t => t.Members)
+                .ThenInclude(m => m.Traits)
+                .Include(t => t.Traits)
+                .SingleOrDefault(t => t.Id == teamId)
                 ?? throw new Exception("Team does not exist!");
 
             var result = new TeamModel(team);

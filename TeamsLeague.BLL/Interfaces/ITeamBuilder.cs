@@ -5,11 +5,11 @@ namespace TeamsLeague.BLL.Interfaces
 {
     public interface ITeamBuilder
     {
-        ITeamBuilder CreateBasicStats();
+        ITeamBuilder GenerateBasicStats();
         ITeamBuilder GenerateMembers();
         ITeamBuilder GenerateMembers(PositionType type);
         ITeamBuilder AddTrait();
-        ITeamBuilder AddTrait(TeamTaitType type);
+        ITeamBuilder AddTrait(TeamTraitType type);
         TeamModel Build();
     }
 }

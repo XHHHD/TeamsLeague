@@ -9,7 +9,7 @@ namespace TeamsLeague.BLL.Interfaces
         IMemberBuilder AddPosition();
         IMemberBuilder AddPosition(PositionType type);
         IMemberBuilder AddTrait();
-        IMemberBuilder AddTrait(MemberTaitType type);
+        IMemberBuilder AddTrait(MemberTraitType type);
         MemberModel Build();
     }
 }

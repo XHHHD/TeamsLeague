@@ -75,7 +75,7 @@ namespace TeamsLeague.BLL.Services.Builders
             return this;
         }
 
-        public IMemberBuilder AddTrait(MemberTaitType type)
+        public IMemberBuilder AddTrait(MemberTraitType type)
         {
             MemberModel.MemberTraits ??= new HashSet<MemberTrait>();
 
