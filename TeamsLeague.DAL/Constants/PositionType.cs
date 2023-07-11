@@ -1,6 +1,6 @@
 ﻿namespace TeamsLeague.DAL.Constants
 {
-    public enum MemberPositionType
+    public enum PositionType
     {
         Top = 0,
         Jungle = 1,
