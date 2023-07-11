@@ -1,4 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 
@@ -27,10 +31,62 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             }
         }
 
-        private Grid GetMemberViews(MemberModel member)
+        private Button GetMemberViews(MemberModel member)
         {
-            var mainMemberGrid = new Grid();
-            return mainMemberGrid;
+            var mainMemberButton = new Button
+            {
+                MinWidth = 160,
+                Background = null,
+            };
+
+            mainMemberButton.Click += MemberButton_Click;
+
+            var stackPanel = new StackPanel
+            {
+                VerticalAlignment = VerticalAlignment.Top,
+                Height = 490,
+                Background = new SolidColorBrush
+                {
+                    Color = new Color { R = 0, G = 0, B = 0, },
+                    Opacity = 0.1,
+                },
+            };
+
+            var memberName = new TextBlock
+            {
+                Text = member.Name,
+                VerticalAlignment = VerticalAlignment.Top,
+                FontFamily = new FontFamily("Arial Black"),
+                FontSize = 20,
+            };
+            stackPanel.Children.Add(memberName);
+
+            var memberLeagueImg = new Image
+            {
+                MinHeight = 30,
+                Margin = new Thickness(3),
+                Source = new BitmapImage(new Uri("/Resources/Img/Default/icons8-ос-free-bsd-100-black.png", UriKind.Relative)),
+            };
+            stackPanel.Children.Add(memberLeagueImg);
+
+            var memberParameter1 = new TextBlock
+            {
+                Text = "Member stats1",
+                FontFamily = new FontFamily("Arial Black"),
+                FontSize = 16,
+                Background = new SolidColorBrush
+                {
+                    Color = new Color { R = 0, G = 0, B = 0, },
+                    Opacity = 0.2,
+                },
+            };
+            stackPanel.Children.Add(memberParameter1);
+
+            return mainMemberButton;
+        }
+
+        private void MemberButton_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

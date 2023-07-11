@@ -30,7 +30,6 @@
         </Grid>
         <ScrollViewer Grid.Row="1"  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
             <StackPanel x:Name="Members_StackPanel" Orientation="Horizontal" HorizontalAlignment="Left">
-                <Frame x:Name="Member" NavigationUIVisibility="Hidden" MinWidth="160"/>
             </StackPanel>
         </ScrollViewer>
         <Image x:Name="TeamLogo" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="5"
