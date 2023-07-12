@@ -62,8 +62,6 @@ namespace TeamsLeague.UI.WPF.Windows
             {
                 if (button.Tag is MenuPagesType type)
                 {
-                    GameMainFrame.Content = null;
-
                     switch (type)
                     {
                         case MenuPagesType.UserTeamStats:

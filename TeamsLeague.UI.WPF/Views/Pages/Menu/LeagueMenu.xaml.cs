@@ -9,7 +9,6 @@ using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
-using TeamsLeague.UI.WPF.Windows;
 using Unity.Resolution;
 
 namespace TeamsLeague.UI.WPF.Views.Pages.Menu
@@ -27,6 +26,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             _cash = cash;
             _teamService = teamService;
             TeamsOfLeague = _teamService.GetTeams().ToHashSet();
+
             InitializeComponent();
             BuildComponent();
         }
@@ -38,7 +38,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             {
                 if (button.Tag is TeamModel team)
                 {
-                    UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("team", _cash.User?.Team));
+                    _cash.GameWindow.GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("team", team));
                 }
             }
         }

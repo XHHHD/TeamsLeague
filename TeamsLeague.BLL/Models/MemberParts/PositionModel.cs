@@ -6,6 +6,5 @@ namespace TeamsLeague.BLL.Models.MemberParts
     {
         public int Id { get; set; }
         public PositionType Type { get; set; }
-        public MemberModel Member { get; set; }
     }
 }

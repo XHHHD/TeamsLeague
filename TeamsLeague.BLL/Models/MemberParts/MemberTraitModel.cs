@@ -2,7 +2,7 @@
 
 namespace TeamsLeague.BLL.Models.MemberParts
 {
-    public class MemberTrait
+    public class MemberTraitModel
     {
         public int Id { get; set; }
         public MemberTraitType Type { get; set; }

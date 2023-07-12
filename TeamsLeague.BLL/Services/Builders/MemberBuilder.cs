@@ -1,19 +1,38 @@
 ﻿using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Context;
+using TeamsLeague.DAL.Entities.MemberParts;
 
 namespace TeamsLeague.BLL.Services.Builders
 {
     public class MemberBuilder : IMemberBuilder
     {
-        private readonly IMemberService _memberServices;
+        private readonly IMemberService _memberService;
+        private readonly GameDBContext _context;
+        private readonly Random _random;
+
+        private const int defaultAge = 14;
+        private const double defaultAttack = 10;
+        private const double defaultDefense = 10;
+        private const double defaultExperience = 0;
+        private const byte defaultSkillPoints = 0;
+        private const int defaultRankPoints = 0;
+        private const double defaultEnergy = 100;
+        private const double defaultMaxEnergy = 100;
+        private const double defaultMentalPower = 100;
+        private const double defaultMaxMentalPower = 100;
+        private const double defaultMentalHealth = 100;
+        private const double defaultMaxMentalHealth = 100;
 
         private MemberModel MemberModel { get; set; }
 
 
-        public MemberBuilder(IMemberService memberServices)
+        public MemberBuilder(IMemberService memberService)
         {
-            _memberServices = memberServices;
+            _memberService = memberService;
+            _context = new();
+            _random = new();
             MemberModel = new();
         }
 
@@ -23,15 +42,28 @@ namespace TeamsLeague.BLL.Services.Builders
             MemberModel = new MemberModel
             {
                 Name = "",
-                Age = 0,
-                MovePoints = 0,
-                Experience = 0,
-                MentalHealth = 0,
+                Age = defaultAge,
+                Attack = defaultAttack,
+                Defense = defaultDefense,
+                CreationDate = DateTime.Now,
+                LastChanges = DateTime.Now,
+
+                Experience = defaultExperience,
+                SkillPoints = defaultSkillPoints,
+                RankPoints = defaultRankPoints,
+
+                Energy = defaultEnergy,
+                MaxEnergy = defaultMaxEnergy,
+                MentalPower = defaultMentalPower,
+                MaxMentalPower = defaultMaxMentalPower,
+                MentalHealth = defaultMentalHealth,
+                MaxMentalHealth = defaultMaxMentalHealth,
+
                 Positions = new HashSet<PositionModel>(),
-                MemberTraits = new HashSet<MemberTrait>(),
+                Traits = new HashSet<MemberTraitModel>(),
             };
 
-            //MemberModel = _memberServices.CreateMember(MemberModel);
+            MemberModel = _memberService.CreateMember(MemberModel);
 
             return this;
         }
@@ -64,12 +96,12 @@ namespace TeamsLeague.BLL.Services.Builders
 
         public IMemberBuilder AddTrait()
         {
-            MemberModel.MemberTraits ??= new HashSet<MemberTrait>();
+            MemberModel.Traits ??= new HashSet<MemberTraitModel>();
 
-            MemberModel.MemberTraits.Add(new MemberTrait
+            MemberModel.Traits.Add(new MemberTraitModel
             {
                 //ADD HERE GENERATED
-                //POSITION PARAMETERS
+                //TRAIT PARAMETERS
             });
 
             return this;
@@ -77,12 +109,12 @@ namespace TeamsLeague.BLL.Services.Builders
 
         public IMemberBuilder AddTrait(MemberTraitType type)
         {
-            MemberModel.MemberTraits ??= new HashSet<MemberTrait>();
+            MemberModel.Traits ??= new HashSet<MemberTraitModel>();
 
-            MemberModel.MemberTraits.Add(new MemberTrait
+            MemberModel.Traits.Add(new MemberTraitModel
             {
                 //ADD HERE GENERATED
-                //POSITION PARAMETERS
+                //TRAIT PARAMETERS
             });
 
             return this;
@@ -102,9 +134,9 @@ namespace TeamsLeague.BLL.Services.Builders
                     + "was null or empty! Member should have at list one position in collection.");
             }
             else
-            if (MemberModel.MemberTraits is null)
+            if (MemberModel.Traits is null)
             {
-                throw new ArgumentNullException(nameof(MemberModel.MemberTraits) + "was null! Unacceptable member model!");
+                throw new ArgumentNullException(nameof(MemberModel.Traits) + "was null! Unacceptable member model!");
             }
             return MemberModel;
         }
