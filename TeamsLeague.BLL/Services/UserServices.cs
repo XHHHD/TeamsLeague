@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models;
+using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities;
 using TeamsLeague.DAL.Entities.TeamParts;
@@ -51,7 +52,16 @@ namespace TeamsLeague.BLL.Services
             var user = _context.Users.SingleOrDefault(u => u.Id == userId)
                 ?? throw new Exception("User does not exist!");
 
-            var result = new UserModel(user);
+            var result = new UserModel()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Team = new TeamModel
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                }
+            };
 
             return result;
         }
@@ -76,11 +86,21 @@ namespace TeamsLeague.BLL.Services
             return userModel;
         }
 
-        public IEnumerable<UserModel> GetUsers()
+        public IEnumerable<UserModel> GetAllUsers()
         {
             var users = _context.Users.Include(u => u.Team);
 
-            var result = users.Select(u => new UserModel(u));
+            var result = users.Select(u => new UserModel
+            {
+                Id = u.Id,
+                Name = u.Name,
+                Team = u.Team != null
+                ? new TeamModel
+                {
+                    Id = u.Team.Id,
+                    Name = u.Team.Name,
+                } : null,
+            });
 
             return result;
         }

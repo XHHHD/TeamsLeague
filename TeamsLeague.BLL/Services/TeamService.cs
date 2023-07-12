@@ -20,7 +20,6 @@ namespace TeamsLeague.BLL.Services
             _context = context;
         }
 
-
         public TeamModel CreateTeam(TeamModel teamModel)
         {
             if (_context.Teams.FirstOrDefault(t => t.Name == teamModel.Name) != null)
@@ -327,5 +326,7 @@ namespace TeamsLeague.BLL.Services
 
             return true;
         }
+
+        public bool IsTeamNameIsFree(string teamName) => _context.Teams.FirstOrDefault(t => t.Name == teamName) is null;
     }
 }

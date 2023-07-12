@@ -264,5 +264,7 @@ namespace TeamsLeague.BLL.Services
 
             return true;
         }
+
+        public bool IsMemberNameIsFree(string memberName) => _context.Members.FirstOrDefault(t => t.Name == memberName) is null;
     }
 }

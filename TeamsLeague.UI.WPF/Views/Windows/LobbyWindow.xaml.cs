@@ -9,21 +9,25 @@ namespace TeamsLeague.UI.WPF.Windows
 {
     public partial class LobbyWindow : Window
     {
+        private readonly IGameGenerator _gameGenerator;
         private readonly ICashBasket _cash;
         private readonly IUserServices _userService;
         private readonly ITeamService _teamService;
         private readonly ITeamBuilder _teamBuilder;
+
         private const string _createButton = "CREATE!";
         private const string _updateButton = "UPDATE";
 
-        public LobbyWindow(ICashBasket cash, IUserServices userServices, ITeamService teamServices, ITeamBuilder teamBuilder)
+        public LobbyWindow(IGameGenerator gameGenerator, ICashBasket cash, IUserServices userServices, ITeamService teamServices, ITeamBuilder teamBuilder)
         {
+            _gameGenerator = gameGenerator;
             _cash = cash;
             _userService = userServices;
             _teamService = teamServices;
             _teamBuilder = teamBuilder;
 
-            _cash.User = _userService.GetUsers().FirstOrDefault();
+            _cash.User = _userService.GetAllUsers().FirstOrDefault();
+            if ( _cash.User?.Team is not null ) { _cash.User.Team = _teamService.ReadTeam(_cash.User.Team.Id); }
 
             InitializeComponent();
             if (_cash.User == null)
@@ -35,6 +39,8 @@ namespace TeamsLeague.UI.WPF.Windows
                 Optional_Button.Content = _updateButton;
                 GetUserInfo();
             }
+
+            _gameGenerator.GenerateEnvironment();
         }
 
         private void Optional_Button_Click(object sender, RoutedEventArgs e)
@@ -61,6 +67,7 @@ namespace TeamsLeague.UI.WPF.Windows
                     _cash.User.Team = _teamBuilder
                         .GenerateBasicStats(UserTeamName_TextBox.Text)
                         .Build();
+                    _cash.User.Team = _teamService.CreateTeam(_cash.User.Team);
                     _cash.User = _userService.UpdateUser(_cash.User);
 
                     Optional_Button.Content = _updateButton;

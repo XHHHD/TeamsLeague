@@ -6,7 +6,6 @@ namespace TeamsLeague.BLL.Services.Builders
 {
     public class MemberBuilder : IMemberBuilder
     {
-        private readonly IMemberService _memberService;
         private readonly Random _random;
 
         private const int defaultAge = 14;
@@ -28,19 +27,18 @@ namespace TeamsLeague.BLL.Services.Builders
         private MemberModel MemberModel { get; set; }
 
 
-        public MemberBuilder(IMemberService memberService)
+        public MemberBuilder(Random random)
         {
-            _memberService = memberService;
-            _random = new();
+            _random = random;
             MemberModel = new();
         }
 
 
-        public IMemberBuilder GenerateBasicStats()
+        public IMemberBuilder GenerateBasicStats(string memberName)
         {
             MemberModel = new MemberModel
             {
-                Name = "",
+                Name = memberName,
                 Age = defaultAge,
                 Attack = defaultAttack,
                 Defense = defaultDefense,
@@ -64,8 +62,6 @@ namespace TeamsLeague.BLL.Services.Builders
                 Positions = new HashSet<PositionModel>(),
                 Traits = new HashSet<MemberTraitModel>(),
             };
-
-            MemberModel = _memberService.CreateMember(MemberModel);
 
 
             return this;
@@ -102,6 +98,9 @@ namespace TeamsLeague.BLL.Services.Builders
             return this;
         }
 
+        /// <summary>
+        /// Add to the member position with specific type, except position types he already have.
+        /// </summary>
         public IMemberBuilder AddPosition(PositionType type)
         {
             MemberModel.Positions ??= new HashSet<PositionModel>();
@@ -150,6 +149,9 @@ namespace TeamsLeague.BLL.Services.Builders
             return this;
         }
 
+        /// <summary>
+        /// Add to the member trait with specific type, except trait types member already have.
+        /// </summary>
         public IMemberBuilder AddTrait(MemberTraitType type)
         {
             MemberModel.Traits ??= new HashSet<MemberTraitModel>();
@@ -185,8 +187,6 @@ namespace TeamsLeague.BLL.Services.Builders
             {
                 throw new ArgumentNullException(nameof(MemberModel.Traits) + "was null! Unacceptable member model!");
             }
-
-            _memberService.UpdateMember(MemberModel);
 
 
             return MemberModel;

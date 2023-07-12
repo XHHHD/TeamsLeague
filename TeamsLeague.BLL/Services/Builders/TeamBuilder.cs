@@ -1,14 +1,13 @@
-﻿using System.Linq;
-using TeamsLeague.BLL.Interfaces;
+﻿using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
+using TeamsLeague.BLL.Services.Game;
 using TeamsLeague.DAL.Constants;
 
 namespace TeamsLeague.BLL.Services.Builders
 {
     public class TeamBuilder : ITeamBuilder
     {
-        private readonly ITeamService _teamService;
         private readonly IMemberBuilder _memberBuilder;
         private readonly Random _random;
 
@@ -25,40 +24,11 @@ namespace TeamsLeague.BLL.Services.Builders
         private TeamModel TeamModel { get; set; }
 
 
-        public TeamBuilder(ITeamService teamService, IMemberBuilder memberBuilder)
+        public TeamBuilder(IMemberBuilder memberBuilder, Random random)
         {
-            _teamService = teamService;
             _memberBuilder = memberBuilder;
-            _random = new();
+            _random = random;
             TeamModel = new();
-        }
-
-
-        public ITeamBuilder GenerateBasicStats()
-        {
-            TeamModel = new TeamModel
-            {
-                Name = "",
-                Image = defaultTeamImage,
-
-                Experience = defaultExperience,
-                RankPoints = defaultRankPoints,
-                Honor = defaultHonor,
-
-                Energy = defaultEnergy,
-                MaxEnergy = defaultMaxEnergy,
-                Health = defaultHealth,
-                MaxHealth = defaultMaxHealth,
-                Teamplay = defaultTeamplay,
-
-                Members = new HashSet<MemberModel>(),
-                Traits = new HashSet<TeamTraitModel>(),
-            };
-
-            TeamModel = _teamService.CreateTeam(TeamModel);
-
-
-            return this;
         }
 
         public ITeamBuilder GenerateBasicStats(string teamName)
@@ -82,8 +52,6 @@ namespace TeamsLeague.BLL.Services.Builders
                 Traits = new HashSet<TeamTraitModel>(),
             };
 
-            TeamModel = _teamService.CreateTeam(TeamModel);
-
 
             return this;
         }
@@ -95,8 +63,10 @@ namespace TeamsLeague.BLL.Services.Builders
         {
             TeamModel.Members ??= new HashSet<MemberModel>();
 
+            var memberName = NameGenerator.GenerateTeamName();
+
             var member = _memberBuilder
-                .GenerateBasicStats()
+                .GenerateBasicStats(memberName)
                 .AddPosition()
                 .Build();
 
@@ -113,8 +83,10 @@ namespace TeamsLeague.BLL.Services.Builders
         {
             TeamModel.Members ??= new HashSet<MemberModel>();
 
+            var memberName = NameGenerator.GenerateTeamName();
+
             var member = _memberBuilder
-                .GenerateBasicStats()
+                .GenerateBasicStats(memberName)
                 .AddPosition(type)
                 .Build();
 
@@ -154,6 +126,10 @@ namespace TeamsLeague.BLL.Services.Builders
             return this;
         }
 
+        /// <summary>
+        /// Add trait with specific type to the team.
+        /// </summary>
+        /// <param name="type">Desired trait type.</param>
         public ITeamBuilder AddTrait(TeamTraitType type)
         {
             TeamModel.Traits ??= new HashSet<TeamTraitModel>();
@@ -183,8 +159,6 @@ namespace TeamsLeague.BLL.Services.Builders
             {
                 throw new ArgumentNullException(nameof(TeamModel.Traits) + "was null! Unacceptable team model!");
             }
-
-            _teamService.UpdateTeam(TeamModel);
 
 
             return TeamModel;

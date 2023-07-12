@@ -9,5 +9,6 @@ namespace TeamsLeague.BLL.Interfaces
         IEnumerable<TeamModel> GetTeams();
         TeamModel UpdateTeam(TeamModel team);
         bool DeleteTeam(int teamId);
+        bool IsTeamNameIsFree(string teamName);
     }
 }
