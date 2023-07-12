@@ -6,12 +6,12 @@ namespace TeamsLeague.BLL.Services.Builders
 {
     public class MemberBuilder : IMemberBuilder
     {
-        private readonly IMemberServices _memberServices;
+        private readonly IMemberService _memberServices;
 
         private MemberModel MemberModel { get; set; }
 
 
-        public MemberBuilder(IMemberServices memberServices)
+        public MemberBuilder(IMemberService memberServices)
         {
             _memberServices = memberServices;
             MemberModel = new();

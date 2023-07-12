@@ -1,5 +1,6 @@
 ﻿using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Services;
+using TeamsLeague.UI.WPF.Buffer;
 using Unity;
 using Unity.Lifetime;
 using Unity.Resolution;
@@ -13,10 +14,10 @@ namespace TeamsLeague.UI.WPF.Configuration
         static UnityContainerProvider()
         {
             Container = new UnityContainer();
-            Container.RegisterType<IBufferingService, BufferingService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ICashBasket, CashBasket>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IUserServices, UserServices>();
-            Container.RegisterType<ITeamServices, TeamServices>();
-            Container.RegisterType<IMemberServices, MemberServices>();
+            Container.RegisterType<ITeamService, TeamService>();
+            Container.RegisterType<IMemberService, MemberService>();
         }
 
         public static UnityContainer GetContainer()

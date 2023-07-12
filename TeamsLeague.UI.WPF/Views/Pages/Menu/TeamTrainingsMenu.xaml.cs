@@ -1,23 +1,23 @@
 ﻿using System.Windows.Controls;
-using TeamsLeague.BLL.Interfaces;
+using TeamsLeague.UI.WPF.Buffer;
 
 namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 {
     public partial class TeamTrainingsMenu : Page
     {
-        private readonly IBufferingService _buffer;
+        private readonly ICashBasket _cash;
 
-        public TeamTrainingsMenu(IBufferingService buffer)
+        public TeamTrainingsMenu(ICashBasket cash)
         {
-            _buffer = buffer;
+            _cash = cash;
             InitializeComponent();
             BuildComponent();
         }
 
         private void BuildComponent()
         {
-            TeamName_TextBlock.Text = _buffer.User?.Team is not null ? _buffer.User?.Team.Name : "Team Name";
-            TeamShortName_TextBlock.Text = _buffer.User?.Team is not null ? _buffer.User?.Team.Name.ToUpper().Remove(3) : "ONE";
+            TeamName_TextBlock.Text = _cash.User?.Team is not null ? _cash.User?.Team.Name : "Team Name";
+            TeamShortName_TextBlock.Text = _cash.User?.Team is not null ? _cash.User?.Team.Name.ToUpper().Remove(3) : "ONE";
         }
     }
 }

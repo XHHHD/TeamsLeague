@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TeamsLeague.BLL.Interfaces;
+using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Resources.Constants;
 using TeamsLeague.UI.WPF.Views.Pages.Menu;
@@ -16,13 +17,13 @@ namespace TeamsLeague.UI.WPF.Windows
 {
     public partial class GameWindow : Window
     {
-        private readonly IBufferingService _buffer;
+        private readonly ICashBasket _cash;
         private readonly List<ToggleButton> _miniBarButtons;
 
 
-        public GameWindow(IBufferingService buffer)
+        public GameWindow(ICashBasket cash)
         {
-            _buffer = buffer;
+            _cash = cash;
             _miniBarButtons = new();
 
             InitializeComponent();
@@ -61,10 +62,12 @@ namespace TeamsLeague.UI.WPF.Windows
             {
                 if (button.Tag is MenuPagesType type)
                 {
+                    GameMainFrame.Content = null;
+
                     switch (type)
                     {
                         case MenuPagesType.UserTeamStats:
-                            GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("team", _buffer.User?.Team));
+                            GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("team", _cash.User?.Team));
                             break;
 
                         case MenuPagesType.LeagueStats:
@@ -171,7 +174,7 @@ namespace TeamsLeague.UI.WPF.Windows
             var subText = new TextBlock
             {
                 Name = "SubText",
-                Text = _buffer.User?.Team is not null ? _buffer.User.Team.Name : "Team Name",
+                Text = _cash.User?.Team is not null ? _cash.User.Team.Name : "Team Name",
                 FontSize = 30,
                 FontFamily = new FontFamily("Arial Black"),
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -215,7 +218,7 @@ namespace TeamsLeague.UI.WPF.Windows
             var topText = new TextBlock
             {
                 Name = "TopText",
-                Text = _buffer.User?.Team is not null ? _buffer.User.Team.Name.ToUpper() : "TEAM",
+                Text = _cash.User?.Team is not null ? _cash.User.Team.Name.ToUpper() : "TEAM",
                 FontSize = 30,
                 FontFamily = new FontFamily("Arial Black"),
                 HorizontalAlignment = HorizontalAlignment.Center,

@@ -2,26 +2,27 @@
 using System.Linq;
 using System.Windows;
 using TeamsLeague.BLL.Interfaces;
+using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
 
 namespace TeamsLeague.UI.WPF.Windows
 {
     public partial class LobbyWindow : Window
     {
-        private readonly IBufferingService _buffer;
+        private readonly ICashBasket _cash;
         private readonly IUserServices _userServices;
-        private readonly ITeamServices _teamServices;
+        private readonly ITeamService _teamServices;
         private const string _createButton = "CREATE!";
         private const string _updateButton = "UPDATE";
 
-        public LobbyWindow(IBufferingService buffer, IUserServices userServices, ITeamServices teamServices)
+        public LobbyWindow(ICashBasket cash, IUserServices userServices, ITeamService teamServices)
         {
             InitializeComponent();
-            _buffer = buffer;
+            _cash = cash;
             _userServices = userServices;
             _teamServices = teamServices;
-            _buffer.User = _userServices.GetUsers().FirstOrDefault();
-            if (_buffer.User == null)
+            _cash.User = _userServices.GetUsers().FirstOrDefault();
+            if (_cash.User == null)
             {
                 Optional_Button.Content = _createButton;
             }
@@ -39,34 +40,34 @@ namespace TeamsLeague.UI.WPF.Windows
                 MessageBox.Show("Please fill in all fields!");
             }
             else
-            if (UserName_TextBox.Text == _buffer.User?.Name)
+            if (UserName_TextBox.Text == _cash.User?.Name)
             {
                 MessageBox.Show("Try to invent something else for updating!");
             }
             else
             {
-                if (_buffer.User == null)
+                if (_cash.User == null)
                 {
-                    _buffer.User = new()
+                    _cash.User = new()
                     {
                         Name = UserName_TextBox.Text,
                     };
 
-                    _buffer.User = _userServices.CreateUser(_buffer.User);
-                    _buffer.User = _userServices.AddTeam(UserTeamName_TextBox.Text);
-                    _buffer.User = _buffer.User;
+                    _cash.User = _userServices.CreateUser(_cash.User);
+                    _cash.User = _userServices.AddTeam(UserTeamName_TextBox.Text);
+                    _cash.User = _cash.User;
 
                     Optional_Button.Content = _updateButton;
                 }
                 else
                 {
-                    _buffer.User.Name = UserName_TextBox.Text;
-                    _buffer.User = _userServices.UpdateUser(_buffer.User);
+                    _cash.User.Name = UserName_TextBox.Text;
+                    _cash.User = _userServices.UpdateUser(_cash.User);
 
-                    if (_buffer.User.Team is not null)
+                    if (_cash.User.Team is not null)
                     {
-                        _buffer.User.Team.Name = UserTeamName_TextBox.Text;
-                        _buffer.User.Team = _teamServices.UpdateTeam(_buffer.User.Team);
+                        _cash.User.Team.Name = UserTeamName_TextBox.Text;
+                        _cash.User.Team = _teamServices.UpdateTeam(_cash.User.Team);
                     }
                 }
                 GetUserInfo();
@@ -75,22 +76,23 @@ namespace TeamsLeague.UI.WPF.Windows
 
         private void Next_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (_buffer.User is null || _buffer.User.Team is null)
+            if (_cash.User is null || _cash.User.Team is null)
             {
                 MessageBox.Show("First u should register!");
             }
             else
             {
-                UnityContainerProvider.GetNew<GameWindow>().Show();
+                _cash.GameWindow = UnityContainerProvider.GetNew<GameWindow>();
+                _cash.GameWindow.Show();
                 this.Close();
             }
         }
 
         private void GetUserInfo()
         {
-            UserInfo_Lbael.Content = _buffer.User?.Name + ", " + _buffer.User?.Team?.Name;
-            UserName_TextBox.Text = _buffer.User?.Name;
-            UserTeamName_TextBox.Text = _buffer.User?.Team?.Name;
+            UserInfo_Lbael.Content = _cash.User?.Name + ", " + _cash.User?.Team?.Name;
+            UserName_TextBox.Text = _cash.User?.Name;
+            UserTeamName_TextBox.Text = _cash.User?.Team?.Name;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TeamsLeague.BLL.Services
 {
     public class UserServices : IUserServices
     {
-        GameDBContext _context;
+        private readonly GameDBContext _context;
 
         public UserServices()
         {

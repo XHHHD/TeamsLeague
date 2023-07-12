@@ -2,7 +2,7 @@
 
 namespace TeamsLeague.BLL.Interfaces
 {
-    public interface ITeamServices
+    public interface ITeamService
     {
         TeamModel CreateTeam(TeamModel team);
         TeamModel ReadTeam(int teamId);

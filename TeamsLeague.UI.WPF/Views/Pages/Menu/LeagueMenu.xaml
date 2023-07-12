@@ -24,7 +24,7 @@
                    Margin="3" Source="/Resources/Img/Default/icons8-ос-free-bsd-100-black.png"/>
             <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
                 <StackPanel x:Name="TeamsLeague_StackPanel" Orientation="Vertical">
-                    <Frame x:Name="Team" NavigationUIVisibility="Hidden" Height="60" Margin="3"/>
+                    
                 </StackPanel>
             </ScrollViewer>
         </Grid>

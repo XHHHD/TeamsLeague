@@ -7,14 +7,16 @@ using TeamsLeague.DAL.Entities.TeamParts;
 
 namespace TeamsLeague.BLL.Services
 {
-    public class TeamServices : ITeamServices
+    public class TeamService : ITeamService
     {
-        GameDBContext _context;
+        private readonly GameDBContext _context;
 
-        public TeamServices()
+
+        public TeamService()
         {
             _context = new();
         }
+
 
         public TeamModel CreateTeam(TeamModel teamModel)
         {
