@@ -3,6 +3,7 @@ using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities.MemberParts;
+using TeamsLeague.DAL.Entities.TeamParts;
 
 namespace TeamsLeague.BLL.Services
 {
@@ -11,9 +12,9 @@ namespace TeamsLeague.BLL.Services
         private readonly GameDBContext _context;
 
 
-        public MemberService()
+        public MemberService(GameDBContext context)
         {
-            _context = new();
+            _context = context;
         }
 
 
@@ -21,6 +22,13 @@ namespace TeamsLeague.BLL.Services
         {
             if (_context.Members.SingleOrDefault(m => m.Name == memberModel.Name) is not null)
             { throw new Exception($"Member with name - {memberModel.Name}, is already exist!"); }
+
+            Team? team = null;
+            if (memberModel.Team is not null)
+            {
+                team = _context.Teams.SingleOrDefault(t => t.Id == memberModel.Team.Id)
+                    ?? throw new Exception("Team wasn't found!");
+            }
 
             var member = new Member
             {
@@ -41,6 +49,11 @@ namespace TeamsLeague.BLL.Services
                 MaxMentalPower = memberModel.MaxMentalPower,
                 MentalHealth = memberModel.MentalHealth,
                 MaxMentalHealth = memberModel.MaxMentalHealth,
+                Teamplay = memberModel.Teamplay,
+                MinTeamplay = memberModel.MinTeamplay,
+                MaxTeamplay = memberModel.MaxTeamplay,
+
+                Team = team,
             };
 
 
@@ -51,17 +64,6 @@ namespace TeamsLeague.BLL.Services
             memberModel.Id = memberModel.Id;
 
             return memberModel;
-        }
-
-        public bool DeleteMember(int memberId)
-        {
-            var member = _context.Members.FirstOrDefault(m => m.Id == memberId)
-                ?? throw new Exception($"Member does not exist!");
-
-            _context.Members.Remove(member);
-            _context.SaveChanges();
-
-            return true;
         }
 
         public IEnumerable<MemberModel> GetMembers()
@@ -88,6 +90,9 @@ namespace TeamsLeague.BLL.Services
                 MaxMentalPower = m.MaxMentalPower,
                 MentalHealth = m.MentalHealth,
                 MaxMentalHealth = m.MaxMentalHealth,
+                Teamplay = m.Teamplay,
+                MinTeamplay = m.MinTeamplay,
+                MaxTeamplay = m.MaxTeamplay,
 
                 Team = m.Team != null
                 ? new TeamModel
@@ -138,6 +143,9 @@ namespace TeamsLeague.BLL.Services
                 MaxMentalPower = member.MaxMentalPower,
                 MentalHealth = member.MentalHealth,
                 MaxMentalHealth = member.MaxMentalHealth,
+                Teamplay = member.Teamplay,
+                MinTeamplay = member.MinTeamplay,
+                MaxTeamplay = member.MaxTeamplay,
 
                 Team = member.Team != null
                 ? new TeamModel
@@ -187,10 +195,74 @@ namespace TeamsLeague.BLL.Services
             member.MaxMentalPower = memberModel.MaxMentalPower;
             member.MentalHealth = memberModel.MentalHealth;
             member.MaxMentalHealth = memberModel.MaxMentalHealth;
+            member.Teamplay = memberModel.Teamplay;
+            member.MinTeamplay = memberModel.MinTeamplay;
+            member.MaxTeamplay = memberModel.MaxTeamplay;
+
+            //REMOVING POSITIONS
+            foreach (var position in member.Positions.ToList())
+            {
+                if (!memberModel.Positions.Select(p => p.Id).Contains(position.Id))
+                {
+                    _context.Positions.Remove(position);
+                }
+            }
+
+            //ADDING NEW POSITIONS
+            foreach (var positionModel in memberModel.Positions)
+            {
+                var position = member.Positions.FirstOrDefault(p => p.Id == positionModel.Id);
+
+                if (position is null)
+                {
+                    position = new();
+
+                    member.Positions.Add(position);
+                    _context.Positions.Add(position);
+                }
+
+                position.Type = positionModel.Type;
+            }
+
+            //REMOVING TRAITS
+            foreach (var trait in member.Traits.ToList())
+            {
+                if (!memberModel.Traits.Select(p => p.Id).Contains(trait.Id))
+                {
+                    _context.MemberTraits.Remove(trait);
+                }
+            }
+
+            //ADDING NEW TRAITS
+            foreach (var traitModel in memberModel.Traits)
+            {
+                var trait = member.Traits.FirstOrDefault(p => p.Id == traitModel.Id);
+
+                if (trait is null)
+                {
+                    trait = new();
+
+                    member.Traits.Add(trait);
+                    _context.MemberTraits.Add(trait);
+                }
+
+                trait.Type = traitModel.Type;
+            }
 
             _context.SaveChanges();
 
             return memberModel;
+        }
+
+        public bool DeleteMember(int memberId)
+        {
+            var member = _context.Members.FirstOrDefault(m => m.Id == memberId)
+                ?? throw new Exception($"Member does not exist!");
+
+            _context.Members.Remove(member);
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }

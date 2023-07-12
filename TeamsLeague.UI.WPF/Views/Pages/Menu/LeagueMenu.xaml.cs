@@ -18,6 +18,9 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         private readonly ICashBasket _cash;
         private readonly ITeamService _teamService;
 
+        private const string defaultTeamImg = "/Resources/Img/Default/icons8-ос-free-bsd-100-white.png";
+        private const string defaultTeamRankImg = "/Resources/Img/Default/icons8-ос-free-bsd-100-black.png";
+
         private HashSet<TeamModel> TeamsOfLeague { get; set; }
 
 
@@ -78,7 +81,8 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 Width = 50,
                 HorizontalAlignment = HorizontalAlignment.Right,
                 Margin = new Thickness(2),
-                Source = new BitmapImage(new Uri("/Resources/Img/Default/icons8-ос-free-bsd-100-black.png", UriKind.Relative)),
+                Source = new BitmapImage(
+                    new Uri(defaultTeamRankImg, UriKind.Relative)),
             };
 
             var teamLogoImg = new Image
@@ -86,7 +90,8 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 Height = 50,
                 Width = 50,
                 Margin = new Thickness(2),
-                Source = new BitmapImage(new Uri("/Resources/Img/Default/icons8-ос-free-bsd-100-white.png", UriKind.Relative)),
+                Source = new BitmapImage(
+                    new Uri(team.Image ?? defaultTeamImg, UriKind.Relative)),
             };
             var teamNameTextBlock = new TextBlock
             {

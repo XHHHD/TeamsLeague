@@ -22,6 +22,9 @@ namespace TeamsLeague.BLL.Models.MemberParts
         public double MaxMentalPower { get; set; }
         public double MentalHealth { get; set; }
         public double MaxMentalHealth { get; set; }
+        public double Teamplay { get; set; }
+        public double MinTeamplay { get; set; }
+        public double MaxTeamplay { get; set; }
 
         public TeamModel? Team { get; set; }
         public HashSet<PositionModel> Positions { get; set; }

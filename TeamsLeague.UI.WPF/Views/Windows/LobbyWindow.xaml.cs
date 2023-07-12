@@ -10,18 +10,22 @@ namespace TeamsLeague.UI.WPF.Windows
     public partial class LobbyWindow : Window
     {
         private readonly ICashBasket _cash;
-        private readonly IUserServices _userServices;
-        private readonly ITeamService _teamServices;
+        private readonly IUserServices _userService;
+        private readonly ITeamService _teamService;
+        private readonly ITeamBuilder _teamBuilder;
         private const string _createButton = "CREATE!";
         private const string _updateButton = "UPDATE";
 
-        public LobbyWindow(ICashBasket cash, IUserServices userServices, ITeamService teamServices)
+        public LobbyWindow(ICashBasket cash, IUserServices userServices, ITeamService teamServices, ITeamBuilder teamBuilder)
         {
-            InitializeComponent();
             _cash = cash;
-            _userServices = userServices;
-            _teamServices = teamServices;
-            _cash.User = _userServices.GetUsers().FirstOrDefault();
+            _userService = userServices;
+            _teamService = teamServices;
+            _teamBuilder = teamBuilder;
+
+            _cash.User = _userService.GetUsers().FirstOrDefault();
+
+            InitializeComponent();
             if (_cash.User == null)
             {
                 Optional_Button.Content = _createButton;
@@ -53,21 +57,23 @@ namespace TeamsLeague.UI.WPF.Windows
                         Name = UserName_TextBox.Text,
                     };
 
-                    _cash.User = _userServices.CreateUser(_cash.User);
-                    _cash.User = _userServices.AddTeam(UserTeamName_TextBox.Text);
-                    _cash.User = _cash.User;
+                    _cash.User = _userService.CreateUser(_cash.User);
+                    _cash.User.Team = _teamBuilder
+                        .GenerateBasicStats(UserTeamName_TextBox.Text)
+                        .Build();
+                    _cash.User = _userService.UpdateUser(_cash.User);
 
                     Optional_Button.Content = _updateButton;
                 }
                 else
                 {
                     _cash.User.Name = UserName_TextBox.Text;
-                    _cash.User = _userServices.UpdateUser(_cash.User);
+                    _cash.User = _userService.UpdateUser(_cash.User);
 
                     if (_cash.User.Team is not null)
                     {
                         _cash.User.Team.Name = UserTeamName_TextBox.Text;
-                        _cash.User.Team = _teamServices.UpdateTeam(_cash.User.Team);
+                        _cash.User.Team = _teamService.UpdateTeam(_cash.User.Team);
                     }
                 }
                 GetUserInfo();

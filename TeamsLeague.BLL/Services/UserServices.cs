@@ -11,9 +11,9 @@ namespace TeamsLeague.BLL.Services
     {
         private readonly GameDBContext _context;
 
-        public UserServices()
+        public UserServices(GameDBContext context)
         {
-            _context = new();
+            _context = context;
         }
 
 
@@ -61,7 +61,15 @@ namespace TeamsLeague.BLL.Services
             var user = _context.Users.FirstOrDefault(u => u.Id == userModel.Id)
                 ?? throw new Exception("User does not exist!");
 
+            Team? team = null;
+            if (userModel.Team is not null)
+            {
+                team = _context.Teams.SingleOrDefault(t => t.Id == userModel.Team.Id)
+                    ?? throw new Exception("Team wasn't found!");
+            }
+
             user.Name = userModel.Name;
+            user.Team = team;
 
             _context.SaveChanges();
 
@@ -75,24 +83,6 @@ namespace TeamsLeague.BLL.Services
             var result = users.Select(u => new UserModel(u));
 
             return result;
-        }
-
-        public UserModel AddTeam(string teamName)
-        {
-            var user = _context.Users.FirstOrDefault()
-                ?? throw new Exception("No users in DB!");
-            var team = _context.Teams.SingleOrDefault(t => t.Name == teamName)
-                ?? new Team()
-                {
-                    Name = teamName,
-                    User = user,
-                };
-
-            user.Team = team;
-            
-            _context.SaveChanges();
-
-            return new UserModel(user);
         }
     }
 }

@@ -22,6 +22,9 @@ namespace TeamsLeague.DAL.Entities.MemberParts
         public double MaxMentalPower { get; set; }
         public double MentalHealth { get; set; }
         public double MaxMentalHealth { get; set; }
+        public double Teamplay { get; set; }
+        public double MinTeamplay { get; set; }
+        public double MaxTeamplay { get; set; }
         #endregion
 
         #region PROXY STATS
