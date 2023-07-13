@@ -38,6 +38,7 @@ namespace TeamsLeague.BLL.Services
                 Defense = memberModel.Defense,
                 CreationDate = memberModel.CreationDate,
                 LastChanges = memberModel.LastChanges,
+                MainPosition = memberModel.MainPosition,
 
                 Experience = memberModel.Experience,
                 SkillPoints = memberModel.SkillPoints,
@@ -61,7 +62,7 @@ namespace TeamsLeague.BLL.Services
             _context.SaveChanges();
 
 
-            memberModel.Id = memberModel.Id;
+            memberModel.Id = member.Id;
 
             return memberModel;
         }
@@ -79,6 +80,7 @@ namespace TeamsLeague.BLL.Services
                 Defense = m.Defense,
                 CreationDate = m.CreationDate,
                 LastChanges = m.LastChanges,
+                MainPosition = m.MainPosition,
 
                 Experience = m.Experience,
                 SkillPoints = m.SkillPoints,
@@ -132,6 +134,7 @@ namespace TeamsLeague.BLL.Services
                 Defense = member.Defense,
                 CreationDate = member.CreationDate,
                 LastChanges = member.LastChanges,
+                MainPosition = member.MainPosition,
 
                 Experience = member.Experience,
                 SkillPoints = member.SkillPoints,
@@ -183,7 +186,7 @@ namespace TeamsLeague.BLL.Services
             member.Attack = memberModel.Attack;
             member.Defense = memberModel.Defense;
             member.CreationDate = memberModel.CreationDate;
-            member.LastChanges = memberModel.LastChanges;
+            member.MainPosition = memberModel.MainPosition;
 
             member.Experience = memberModel.Experience;
             member.SkillPoints = memberModel.SkillPoints;
@@ -264,7 +267,5 @@ namespace TeamsLeague.BLL.Services
 
             return true;
         }
-
-        public bool IsMemberNameIsFree(string memberName) => _context.Members.FirstOrDefault(t => t.Name == memberName) is null;
     }
 }

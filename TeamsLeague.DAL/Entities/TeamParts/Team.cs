@@ -7,6 +7,7 @@ namespace TeamsLeague.DAL.Entities.TeamParts
         #region BASIC STATS
         public string Name { get; set; }
         public string? Image { get; set; }
+        public DateTime LastChanges { get; set; }
 
         public double Experience { get; set; }
         public int RankPoints { get; set; }

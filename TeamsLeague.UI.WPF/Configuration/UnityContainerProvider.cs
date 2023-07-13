@@ -2,7 +2,7 @@
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Services;
 using TeamsLeague.BLL.Services.Builders;
-using TeamsLeague.BLL.Services.Game;
+using TeamsLeague.BLL.Services.Generators;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.UI.WPF.Buffer;
 using Unity;
@@ -24,8 +24,9 @@ namespace TeamsLeague.UI.WPF.Configuration
             Container.RegisterType<ICashBasket, CashBasket>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IUserServices, UserServices>();
             Container.RegisterType<ITeamService, TeamService>();
-            Container.RegisterType<ITeamBuilder, TeamBuilder>();
             Container.RegisterType<IMemberService, MemberService>();
+            Container.RegisterType<IImagesService, ImagesService>();
+            Container.RegisterType<ITeamBuilder, TeamBuilder>();
             Container.RegisterType<IMemberBuilder, MemberBuilder>();
         }
 

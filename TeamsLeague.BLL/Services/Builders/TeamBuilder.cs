@@ -1,7 +1,7 @@
 ﻿using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
-using TeamsLeague.BLL.Services.Game;
+using TeamsLeague.BLL.Services.Generators;
 using TeamsLeague.DAL.Constants;
 
 namespace TeamsLeague.BLL.Services.Builders
@@ -16,9 +16,9 @@ namespace TeamsLeague.BLL.Services.Builders
         private const int defaultRankPoints = 0;
         private const double defaultHonor = 0;
         private const double defaultEnergy = 0;
-        private const double defaultMaxEnergy = 0;
-        private const double defaultHealth = 0;
-        private const double defaultMaxHealth = 0;
+        private const double defaultMaxEnergy = 100;
+        private const double defaultHealth = 100;
+        private const double defaultMaxHealth = 100;
         private const double defaultTeamplay = 0;
 
         private TeamModel TeamModel { get; set; }
@@ -37,6 +37,7 @@ namespace TeamsLeague.BLL.Services.Builders
             {
                 Name = teamName,
                 Image = defaultTeamImage,
+                LastChanges = DateTime.UtcNow,
 
                 Experience = defaultExperience,
                 RankPoints = defaultRankPoints,
@@ -63,7 +64,7 @@ namespace TeamsLeague.BLL.Services.Builders
         {
             TeamModel.Members ??= new HashSet<MemberModel>();
 
-            var memberName = NameGenerator.GenerateTeamName();
+            var memberName = NameGenerator.GenerateMemberName();
 
             var member = _memberBuilder
                 .GenerateBasicStats(memberName)
@@ -83,7 +84,7 @@ namespace TeamsLeague.BLL.Services.Builders
         {
             TeamModel.Members ??= new HashSet<MemberModel>();
 
-            var memberName = NameGenerator.GenerateTeamName();
+            var memberName = NameGenerator.GenerateMemberName();
 
             var member = _memberBuilder
                 .GenerateBasicStats(memberName)

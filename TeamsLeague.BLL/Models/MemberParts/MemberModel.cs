@@ -1,4 +1,5 @@
 ﻿using TeamsLeague.BLL.Models.TeamParts;
+using TeamsLeague.DAL.Constants;
 
 namespace TeamsLeague.BLL.Models.MemberParts
 {
@@ -11,6 +12,7 @@ namespace TeamsLeague.BLL.Models.MemberParts
         public double Defense { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastChanges { get; set; }
+        public PositionType MainPosition { get; set; }
 
         public double Experience { get; set; }
         public byte SkillPoints { get; set; }

@@ -1,14 +1,14 @@
 ﻿using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.DAL.Constants;
 
-namespace TeamsLeague.BLL.Services.Game
+namespace TeamsLeague.BLL.Services.Generators
 {
     public class GameGenerator : IGameGenerator
     {
         private readonly ITeamService _teamService;
         private readonly ITeamBuilder _teamBuilder;
 
-        private const int ExpectedTeamsCount = 10;
+        private const int ExpectedTeamsCount = 100;
 
 
         public GameGenerator(ITeamService teamService, ITeamBuilder teamBuilder)

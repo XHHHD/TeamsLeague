@@ -1,4 +1,5 @@
-﻿using TeamsLeague.DAL.Entities.TeamParts;
+﻿using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Entities.TeamParts;
 
 namespace TeamsLeague.DAL.Entities.MemberParts
 {
@@ -11,6 +12,7 @@ namespace TeamsLeague.DAL.Entities.MemberParts
         public double Defense { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime LastChanges { get; set; }
+        public PositionType MainPosition { get; set; }
 
         public double Experience { get; set; }
         public byte SkillPoints { get; set; }

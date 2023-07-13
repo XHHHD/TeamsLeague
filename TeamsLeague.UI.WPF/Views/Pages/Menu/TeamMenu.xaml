@@ -24,12 +24,78 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical" Grid.Column="0">
                 <TextBlock x:Name="TeamName_TextBlock" Text="Team Name" FontFamily="Arial Black" FontSize="48"/>
-                <TextBlock x:Name="TeamInformation_TextBlock" FontFamily="Arial Black" FontSize="24"
-                           Text="Team Stats Information"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="1" Grid.Row="0" FontFamily="Arial Black" FontSize="24"
+                               Text="Energy :"/>
+                    <TextBlock x:Name="Energy_TextBlock" Grid.Column="2" Grid.Row="0" FontFamily="Arial Black" FontSize="24"
+                               Text="_____"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" FontFamily="Arial Black" FontSize="24"
+                               Text="Health :"/>
+                    <TextBlock x:Name="Health_TextBlock" Grid.Column="2" Grid.Row="1" FontFamily="Arial Black" FontSize="24"
+                               Text="_____"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" FontFamily="Arial Black" FontSize="24"
+                               Text="Honor :"/>
+                    <TextBlock x:Name="Honor_TextBlock" Grid.Column="2" Grid.Row="2" FontFamily="Arial Black" FontSize="24"
+                               Text="_____"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" FontFamily="Arial Black" FontSize="24"
+                               Text="Experience :"/>
+                    <TextBlock x:Name="Experience_TextBlock" Grid.Column="2" Grid.Row="3" FontFamily="Arial Black" FontSize="24"
+                               Text="_____"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" FontFamily="Arial Black" FontSize="24"
+                               Text="Rank points :"/>
+                    <TextBlock x:Name="RankPoints_TextBlock" Grid.Column="2" Grid.Row="4" FontFamily="Arial Black" FontSize="24"
+                               Text="_____"/>
+                    <TextBlock Grid.Column="1" Grid.Row="5" FontFamily="Arial Black" FontSize="24"
+                               Text="Teamplay :"/>
+                    <TextBlock x:Name="Teamplay_TextBlock" Grid.Column="2" Grid.Row="5" FontFamily="Arial Black" FontSize="24"
+                               Text="_____"/>
+                </Grid>
             </StackPanel>
         </Grid>
-        <ScrollViewer Grid.Row="1"  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
-            <StackPanel x:Name="Members_StackPanel" Orientation="Horizontal" HorizontalAlignment="Left">
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="#0000FFFF"/>
+                    <Setter Property="Foreground" Value="#FF3D7E88"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Height" Value="10"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ScrollBar">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <Track x:Name="PART_Track"
+                                               IsDirectionReversed="False">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="{x:Static ScrollBar.LineLeftCommand}" Visibility="Collapsed"/>
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Background="{TemplateBinding Foreground}"/>
+                                        </Track.Thumb>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Command="{x:Static ScrollBar.LineRightCommand}" Visibility="Collapsed"/>
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ScrollViewer.Resources>
+            <StackPanel x:Name="Members_StackPanel" Orientation="Horizontal" HorizontalAlignment="Left" Background="#33FFFFFF">
             </StackPanel>
         </ScrollViewer>
         <Image x:Name="TeamLogo" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="5"

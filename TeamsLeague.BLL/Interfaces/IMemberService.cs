@@ -9,6 +9,5 @@ namespace TeamsLeague.BLL.Interfaces
         IEnumerable<MemberModel> GetMembers();
         MemberModel UpdateMember(MemberModel member);
         bool DeleteMember(int memberId);
-        bool IsMemberNameIsFree(string memberName);
     }
 }

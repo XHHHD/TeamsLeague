@@ -12,16 +12,19 @@ namespace TeamsLeague.BLL.Services
 {
     public class TeamService : ITeamService
     {
+        private readonly IMemberService _memberService;
         private readonly GameDBContext _context;
 
 
-        public TeamService(GameDBContext context)
+        public TeamService(IMemberService memberService, GameDBContext context)
         {
+            _memberService = memberService;
             _context = context;
         }
 
         public TeamModel CreateTeam(TeamModel teamModel)
         {
+            //DB REQUESTS
             if (_context.Teams.FirstOrDefault(t => t.Name == teamModel.Name) != null)
             { throw new Exception("Team with this name is already exist!"); }
 
@@ -32,11 +35,12 @@ namespace TeamsLeague.BLL.Services
                     ?? throw new Exception("User wasn't found!");
             }
 
-
+            //GENERATE TEAM
             var team = new Team
             {
                 Name = teamModel.Name,
                 Image = teamModel.Image,
+                LastChanges = teamModel.LastChanges,
 
                 Experience = teamModel.Experience,
                 RankPoints = teamModel.RankPoints,
@@ -51,12 +55,31 @@ namespace TeamsLeague.BLL.Services
                 User = user,
             };
 
+            //CREATE MEMBERS
+            if (teamModel.Members is not null)
+            {
+                foreach(var memberModel in teamModel.Members)
+                {
+                    var member = _context.Members.FirstOrDefault(m => m.Name == memberModel.Name);
+
+                    if (member is null)
+                    {
+                        memberModel.Id = _memberService.CreateMember(memberModel).Id;
+
+                        member = _context.Members.FirstOrDefault(m => m.Id == memberModel.Id);
+                    }
+
+                    team.Members.Add(member);
+                }
+            }
+
 
             _context.Teams.Add(team);
             _context.SaveChanges();
 
 
             teamModel.Id = team.Id;
+
 
             return teamModel;
         }
@@ -71,6 +94,7 @@ namespace TeamsLeague.BLL.Services
             {
                 Name = t.Name,
                 Image = t.Image,
+                LastChanges = t.LastChanges,
 
                 Experience = t.Experience,
                 RankPoints = t.RankPoints,
@@ -157,8 +181,10 @@ namespace TeamsLeague.BLL.Services
 
             var result = new TeamModel
             {
+                Id = teamId,
                 Name = team.Name,
                 Image = team.Image,
+                LastChanges = team.LastChanges,
 
                 Experience = team.Experience,
                 RankPoints = team.RankPoints,
@@ -243,6 +269,7 @@ namespace TeamsLeague.BLL.Services
 
             team.Name = teamModel.Name;
             team.Image = teamModel.Image;
+            team.LastChanges = DateTime.Now;
 
             team.Experience = teamModel.Experience;
             team.RankPoints = teamModel.RankPoints;

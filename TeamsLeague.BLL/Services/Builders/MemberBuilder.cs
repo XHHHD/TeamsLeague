@@ -1,6 +1,7 @@
 ﻿using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Entities.MemberParts;
 
 namespace TeamsLeague.BLL.Services.Builders
 {
@@ -44,6 +45,7 @@ namespace TeamsLeague.BLL.Services.Builders
                 Defense = defaultDefense,
                 CreationDate = DateTime.Now,
                 LastChanges = DateTime.Now,
+                MainPosition = 0,
 
                 Experience = defaultExperience,
                 SkillPoints = defaultSkillPoints,
@@ -74,6 +76,7 @@ namespace TeamsLeague.BLL.Services.Builders
         {
             MemberModel.Positions ??= new HashSet<PositionModel>();
 
+            #region GET TYPE OF POSITION, WHICH WASN'T ADDED BEFORE
             var existTypes = Enum.GetValues<PositionType>().ToList();
             var potentialTypes = existTypes;
 
@@ -89,11 +92,19 @@ namespace TeamsLeague.BLL.Services.Builders
             {
                 return this;
             }
+            #endregion
 
-            MemberModel.Positions.Add(new PositionModel
+            var position = new PositionModel
             {
                 Type = potentialTypes[_random.Next(0, potentialTypes.Count - 1)],
-            });
+            };
+
+            if (MemberModel.Positions.Count == 0)
+            {
+                MemberModel.MainPosition = position.Type;
+            }
+
+            MemberModel.Positions.Add(position);
 
             return this;
         }
@@ -108,6 +119,11 @@ namespace TeamsLeague.BLL.Services.Builders
             if (MemberModel.Positions.Select(p => p.Type).Contains(type))
             {
                 throw new Exception($"Can't add position with type: {type} more then ones!");
+            }
+
+            if (MemberModel.Positions.Count == 0)
+            {
+                MemberModel.MainPosition = type;
             }
 
             MemberModel.Positions.Add(new PositionModel

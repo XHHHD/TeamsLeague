@@ -22,7 +22,36 @@
                        FontSize="48" Text="League Name"/>
             <Image x:Name="TeamLogoImg" Grid.Row="0" HorizontalAlignment="Right" Width="60" MinHeight="60"
                    Margin="3" Source="/Resources/Img/Default/icons8-ос-free-bsd-100-black.png"/>
-            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer.Resources>
+                    <Style TargetType="ScrollBar">
+                        <Setter Property="Background" Value="#0000FFFF"/>
+                        <Setter Property="Foreground" Value="#FF3D7E88"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Width" Value="10"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ScrollBar">
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <Track x:Name="PART_Track"
+                                               IsDirectionReversed="True">
+                                            <Track.DecreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.LineUpCommand}" Visibility="Collapsed"/>
+                                            </Track.DecreaseRepeatButton>
+                                            <Track.Thumb>
+                                                <Thumb Background="{TemplateBinding Foreground}"/>
+                                            </Track.Thumb>
+                                            <Track.IncreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.LineDownCommand}" Visibility="Collapsed"/>
+                                            </Track.IncreaseRepeatButton>
+                                        </Track>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ScrollViewer.Resources>
                 <StackPanel x:Name="TeamsLeague_StackPanel" Orientation="Vertical">
                     
                 </StackPanel>
