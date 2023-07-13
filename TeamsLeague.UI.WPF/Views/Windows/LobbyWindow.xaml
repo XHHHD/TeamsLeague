@@ -18,7 +18,7 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="#FF1193B5" Offset="1"/>
+                    <GradientStop Color="#FF255663" Offset="1"/>
                     <GradientStop Color="CadetBlue"/>
                 </LinearGradientBrush>
             </Border.Background>

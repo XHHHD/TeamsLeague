@@ -10,7 +10,7 @@
         MinWidth="1240" MinHeight="736" Background="#00000000"
         Title="MemberWindow">
 
-    <GroupBox Background="CadetBlue">
+    <GroupBox Background="#FF3D8E88">
         <GroupBox.Header>
             <GroupBox Background="CadetBlue">
                 <TextBlock x:Name="MemberNameValue" HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -49,7 +49,7 @@
                             <TextBlock x:Name="ExperienceValue" MaxWidth="600" HorizontalAlignment="Right" TextWrapping="Wrap" TextAlignment="Right"
                                     FontFamily="Arial" FontSize="32" Text="exp: 0/0"/>
                             <Border x:Name="FreeSkillPoints" Background="#A0FFFFFF">
-                            <Button Background="#60FFFFFF" FontSize="26" FontWeight="Bold"
+                                <Button Background="CadetBlue" FontSize="26" FontWeight="Bold"
                                     Content="LEVEL UP!" Margin="2"/>
                             </Border>
                         </StackPanel>
@@ -57,8 +57,8 @@
                                 VerticalAlignment="Bottom" FontFamily="Arial" FontSize="32" Text="Position"/>
                     </Grid>
                 </Grid>
-                <GroupBox Grid.Row="1">
-                    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
+                <GroupBox Grid.Row="1" Background="CadetBlue">
+                    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" Margin="10">
                         <StackPanel>
                             <Grid>
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
@@ -119,23 +119,23 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <GroupBox>
+                <GroupBox Background="#FF3D8E88">
                     <StackPanel Grid.Column="0">
-                        <Button x:Name="MatchHistory1" MinHeight="80" Margin="3" Background="{x:Null}">
+                        <Button x:Name="MatchHistory1" MinHeight="80" Margin="10" Background="CadetBlue">
                             <TextBlock FontFamily="Arial Black" FontSize="28" TextWrapping="Wrap" TextAlignment="Center" Text="Last match history"/>
                         </Button>
-                        <Button x:Name="MatchHistory2" MinHeight="80" Margin="3" Background="{x:Null}">
+                        <Button x:Name="MatchHistory2" MinHeight="80" Margin="10" Background="CadetBlue">
                             <TextBlock FontFamily="Arial Black" FontSize="28" TextWrapping="Wrap" TextAlignment="Center" Text="Last match history"/>
                         </Button>
-                        <Button x:Name="MatchHistory3" MinHeight="80" Margin="3" Background="{x:Null}">
+                        <Button x:Name="MatchHistory3" MinHeight="80" Margin="10" Background="CadetBlue">
                             <TextBlock FontFamily="Arial Black" FontSize="28" TextWrapping="Wrap" TextAlignment="Center" Text="Last match history"/>
                         </Button>
-                        <Button x:Name="MatchHistory4" MinHeight="80" Margin="3" Background="{x:Null}">
+                        <Button x:Name="MatchHistory4" MinHeight="80" Margin="10" Background="CadetBlue">
                             <TextBlock FontFamily="Arial Black" FontSize="28" TextWrapping="Wrap" TextAlignment="Center" Text="Last match history"/>
                         </Button>
                     </StackPanel>
                 </GroupBox>
-                <Button Name="Close_Button" Grid.Row="1" Background="{x:Null}" Margin="3" Click="Close_Button_Click">
+                <Button Name="Close_Button" Grid.Row="1" Background="#FF255663" Margin="3" Click="Close_Button_Click">
                     <TextBlock FontFamily="Arial Black" FontSize="48" TextAlignment="Center" Text="BACK"/>
                 </Button>
             </Grid>

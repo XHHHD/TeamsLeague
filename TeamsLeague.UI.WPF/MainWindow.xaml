@@ -18,7 +18,7 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </LinearGradientBrush.RelativeTransform>
-                <GradientStop Color="#FF1193B5" Offset="1"/>
+                <GradientStop Color="#FF255663" Offset="1"/>
                 <GradientStop Color="CadetBlue"/>
             </LinearGradientBrush>
         </Grid.Background>
@@ -33,8 +33,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label x:Name="Logo_Label" Grid.Column="1" Grid.Row="0" FontSize="32"
-               FontWeight="Bold"/>
+               FontWeight="Bold" Foreground="#FF3D8E88"/>
         <Button x:Name="Start_Button" Grid.Column="1" Grid.Row="1" Content="START"
-                FontSize="32" FontWeight="Bold" Background="#7FFFFFFF" Click="Start_Button_Click"/>
+                FontSize="32" FontWeight="Bold" Background="#7FFFFFFF" Foreground="#FF255663" Click="Start_Button_Click"/>
     </Grid>
 </Window>

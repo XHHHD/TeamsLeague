@@ -32,6 +32,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             BuildComponent();
         }
 
+
         private void MemberDetailsButton_Click(object sender, RoutedEventArgs e)
         {
             if(sender is Button button)
@@ -49,7 +50,6 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         {
         }
 
-
         private void BuildComponent()
         {
             TeamName_TextBlock.Text = _team.Name;
@@ -58,7 +58,23 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
             foreach (var member in _team.Members)
             {
-                Members_StackPanel.Children.Add(GetMemberViews(member));
+                Members_StackPanel.Children.Add(new GroupBox
+                {
+                    Background = new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0x88)),
+                    Content = GetMemberViews(member),
+                    Header = new GroupBox
+                    {
+                        Background = Brushes.CadetBlue,
+                        Content = new TextBlock
+                        {
+                            Text = member.Name,
+                            TextAlignment = TextAlignment.Center,
+                            VerticalAlignment = VerticalAlignment.Top,
+                            FontFamily = new FontFamily("Arial Black"),
+                            FontSize = 20,
+                        },
+                    },
+                });
             }
 
             if (_team.Id == _cash.User?.Team.Id && _cash.User?.Team.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
@@ -107,16 +123,6 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                     Opacity = 0.1,
                 },
             };
-
-            var memberName = new TextBlock
-            {
-                Text = member.Name,
-                TextAlignment = TextAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Top,
-                FontFamily = new FontFamily("Arial Black"),
-                FontSize = 20,
-            };
-            stackPanel.Children.Add(memberName);
 
             var mainPositionName = new TextBlock
             {
