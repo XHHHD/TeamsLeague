@@ -20,7 +20,7 @@ namespace TeamsLeague.BLL.Services.Generators
 
         public void GenerateEnvironment()
         {
-            var currentTeamsCount = _teamService.GetTeams().Count();
+            var currentTeamsCount = _teamService.GetAllTeams().Count();
 
             while (currentTeamsCount < ExpectedTeamsCount)
             {

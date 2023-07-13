@@ -22,6 +22,7 @@ namespace TeamsLeague.BLL.Services
             _context = context;
         }
 
+
         public TeamModel CreateTeam(TeamModel teamModel)
         {
             //DB REQUESTS
@@ -84,7 +85,7 @@ namespace TeamsLeague.BLL.Services
             return teamModel;
         }
 
-        public IEnumerable<TeamModel> GetTeams()
+        public IEnumerable<TeamModel> GetAllTeams()
         {
             var teams = _context.Teams
                 .Include(t => t.Members)
@@ -92,6 +93,7 @@ namespace TeamsLeague.BLL.Services
 
             var result = teams.Select(t => new TeamModel
             {
+                Id = t.Id,
                 Name = t.Name,
                 Image = t.Image,
                 LastChanges = t.LastChanges,
@@ -168,7 +170,7 @@ namespace TeamsLeague.BLL.Services
             return result;
         }
 
-        public TeamModel ReadTeam(int teamId)
+        public TeamModel GetTeam(int teamId)
         {
             var team = _context.Teams
                 .Include(t => t.Members)
@@ -212,6 +214,7 @@ namespace TeamsLeague.BLL.Services
                     Defense = m.Defense,
                     CreationDate = m.CreationDate,
                     LastChanges = m.LastChanges,
+                    MainPosition = m.MainPosition,
 
                     Experience = m.Experience,
                     SkillPoints = m.SkillPoints,

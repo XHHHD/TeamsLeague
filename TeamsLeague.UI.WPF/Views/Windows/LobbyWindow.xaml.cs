@@ -27,7 +27,7 @@ namespace TeamsLeague.UI.WPF.Windows
             _teamBuilder = teamBuilder;
 
             _cash.User = _userService.GetAllUsers().FirstOrDefault();
-            if ( _cash.User?.Team is not null ) { _cash.User.Team = _teamService.ReadTeam(_cash.User.Team.Id); }
+            if ( _cash.User?.Team is not null ) { _cash.User.Team = _teamService.GetTeam(_cash.User.Team.Id); }
 
             InitializeComponent();
             if (_cash.User == null)

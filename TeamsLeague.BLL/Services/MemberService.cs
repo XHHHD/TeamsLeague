@@ -30,6 +30,10 @@ namespace TeamsLeague.BLL.Services
                     ?? throw new Exception("Team wasn't found!");
             }
 
+
+            memberModel.Positions ??= new();
+            memberModel.Traits ??= new();
+
             var member = new Member
             {
                 Name = memberModel.Name,
@@ -55,6 +59,16 @@ namespace TeamsLeague.BLL.Services
                 MaxTeamplay = memberModel.MaxTeamplay,
 
                 Team = team,
+                Positions = memberModel.Positions.Select(p => new Position
+                {
+                    Id = p.Id,
+                    Type = p.Type,
+                }).ToHashSet(),
+                Traits = memberModel.Traits.Select(t => new MemberTrait
+                {
+                    Id = t.Id,
+                    Type = t.Type,
+                }).ToHashSet(),
             };
 
 
@@ -67,7 +81,7 @@ namespace TeamsLeague.BLL.Services
             return memberModel;
         }
 
-        public IEnumerable<MemberModel> GetMembers()
+        public IEnumerable<MemberModel> GetAllMembers()
         {
             var members = _context.Members;
 
@@ -120,7 +134,7 @@ namespace TeamsLeague.BLL.Services
             return result;
         }
 
-        public MemberModel ReadMember(int memberId)
+        public MemberModel GetMember(int memberId)
         {
             var member = _context.Members.FirstOrDefault(m => m.Id == memberId)
                 ?? throw new Exception($"Member does not exist!");

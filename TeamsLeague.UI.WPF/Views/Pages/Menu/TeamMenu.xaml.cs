@@ -3,30 +3,46 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.BLL.Services;
 using TeamsLeague.DAL.Constants;
 using TeamsLeague.UI.WPF.Buffer;
+using TeamsLeague.UI.WPF.Configuration;
+using TeamsLeague.UI.WPF.Views.Windows;
+using Unity.Resolution;
 
 namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 {
     public partial class TeamMenu : Page
     {
         private readonly ICashBasket _cash;
+        private readonly ITeamService _teamService;
         private readonly TeamModel _team;
 
 
-        public TeamMenu(ICashBasket cash, TeamModel team)
+        public TeamMenu(ICashBasket cash, ITeamService teamService, int teamId)
         {
             _cash = cash;
-            _team = team;
+            _teamService = teamService;
+            _team = _teamService.GetTeam(teamId);
+
             InitializeComponent();
             BuildComponent();
         }
 
         private void MemberDetailsButton_Click(object sender, RoutedEventArgs e)
         {
+            if(sender is Button button)
+            {
+                if (button.Tag is MemberModel memberModel)
+                {
+                    var memberWindow = UnityContainerProvider.GetNew<MemberWindow>(new ParameterOverride("memberId", memberModel.Id));
+
+                    memberWindow.ShowDialog();
+                }
+            }
         }
 
         private void AddMemberButton_Click(object sender, RoutedEventArgs e)
@@ -76,6 +92,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             {
                 MinWidth = 300,
                 Background = null,
+                Tag = member,
             };
 
             mainMemberButton.Click += MemberDetailsButton_Click;

@@ -65,7 +65,7 @@ namespace TeamsLeague.UI.WPF.Windows
                     switch (type)
                     {
                         case MenuPagesType.UserTeamStats:
-                            GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("team", _cash.User?.Team));
+                            GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("teamId", _cash.User?.Team.Id));
                             break;
 
                         case MenuPagesType.LeagueStats:

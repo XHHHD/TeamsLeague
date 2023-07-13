@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeamsLeague.UI.WPF.Windows"
         mc:Ignorable="d"
-        Title="GameMenuWindow" MinWidth="1440" MinHeight="810" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        Title="GameMenuWindow" MinWidth="1440" MinHeight="810" WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
         MouseLeftButtonDown="GameWindow_MouseLeftButtonDown"  Background="{x:Null}"
         AllowsTransparency="True">
     <Border CornerRadius="40">

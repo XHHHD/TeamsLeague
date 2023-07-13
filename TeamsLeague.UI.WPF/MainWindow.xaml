@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeamsLeague.UI.WPF"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.Background>
@@ -18,7 +19,7 @@
                     </TransformGroup>
                 </LinearGradientBrush.RelativeTransform>
                 <GradientStop Color="#FF1193B5" Offset="1"/>
-                <GradientStop Color="#FF1AC7A3"/>
+                <GradientStop Color="CadetBlue"/>
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>

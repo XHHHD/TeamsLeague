@@ -28,7 +28,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         {
             _cash = cash;
             _teamService = teamService;
-            TeamsOfLeague = _teamService.GetTeams().ToHashSet();
+            TeamsOfLeague = _teamService.GetAllTeams().ToHashSet();
 
             InitializeComponent();
             BuildComponent();
@@ -41,7 +41,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             {
                 if (button.Tag is TeamModel team)
                 {
-                    _cash.GameWindow.GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("team", team));
+                    _cash.GameWindow.GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("teamId", team.Id));
                 }
             }
         }

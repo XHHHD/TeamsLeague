@@ -5,8 +5,8 @@ namespace TeamsLeague.BLL.Interfaces
     public interface IMemberService
     {
         MemberModel CreateMember(MemberModel member);
-        MemberModel ReadMember(int memberId);
-        IEnumerable<MemberModel> GetMembers();
+        MemberModel GetMember(int memberId);
+        IEnumerable<MemberModel> GetAllMembers();
         MemberModel UpdateMember(MemberModel member);
         bool DeleteMember(int memberId);
     }
