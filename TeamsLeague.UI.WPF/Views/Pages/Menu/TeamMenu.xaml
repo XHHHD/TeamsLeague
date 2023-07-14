@@ -30,9 +30,9 @@
                 </Border>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.25*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -43,13 +43,15 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="1" Grid.Row="0" FontFamily="Arial Black" FontSize="24"
-                               Text="Energy :"/>
-                    <TextBlock x:Name="Energy_TextBlock" Grid.Column="2" Grid.Row="0" FontFamily="Arial Black" FontSize="24"
-                               Text="_____"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" FontFamily="Arial Black" FontSize="24"
                                Text="Health :"/>
-                    <TextBlock x:Name="Health_TextBlock" Grid.Column="2" Grid.Row="1" FontFamily="Arial Black" FontSize="24"
-                               Text="_____"/>
+                    <ProgressBar x:Name="Health_Progress" Grid.Column="2" Grid.Row="0" Minimum="0"
+                                 Maximum="100" Value="42" BorderThickness="2" MaxWidth="120" HorizontalAlignment="Stretch"
+                                 Background="CadetBlue" Foreground="#60FFFFFF"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" FontFamily="Arial Black" FontSize="24"
+                               Text="Energy :"/>
+                    <ProgressBar x:Name="Energy_Progress" Grid.Column="2" Grid.Row="1" Minimum="0"
+                                 Maximum="100" Value="42" BorderThickness="2" MaxWidth="120" HorizontalAlignment="Stretch"
+                                 Background="CadetBlue" Foreground="#60FFFFFF"/>
                     <TextBlock Grid.Column="1" Grid.Row="2" FontFamily="Arial Black" FontSize="24"
                                Text="Honor :"/>
                     <TextBlock x:Name="Honor_TextBlock" Grid.Column="2" Grid.Row="2" FontFamily="Arial Black" FontSize="24"

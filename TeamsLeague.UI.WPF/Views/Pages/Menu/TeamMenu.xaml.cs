@@ -58,23 +58,8 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
             foreach (var member in _team.Members)
             {
-                Members_StackPanel.Children.Add(new GroupBox
-                {
-                    Background = new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0x88)),
-                    Content = GetMemberViews(member),
-                    Header = new GroupBox
-                    {
-                        Background = Brushes.CadetBlue,
-                        Content = new TextBlock
-                        {
-                            Text = member.Name,
-                            TextAlignment = TextAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Top,
-                            FontFamily = new FontFamily("Arial Black"),
-                            FontSize = 20,
-                        },
-                    },
-                });
+                Members_StackPanel.Children.Add(GetMemberViews(member));
+                Members_StackPanel.Background = null;
             }
 
             if (_team.Id == _cash.User?.Team.Id && _cash.User?.Team.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
@@ -94,8 +79,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void FillInStats()
         {
-            Energy_TextBlock.Text = _team.Energy.ToString() + "/" + _team.MaxEnergy.ToString();
-            Health_TextBlock.Text = _team.Health.ToString() + "/" + _team.MaxHealth.ToString();
+            Health_Progress.Value = _team.Health;
+            Health_Progress.Maximum = _team.MaxHealth;
+            Energy_Progress.Value = _team.Energy;
+            Energy_Progress.Maximum = _team.MaxEnergy;
             Honor_TextBlock.Text = _team.Honor.ToString();
             Experience_TextBlock.Text = _team.Experience.ToString();
             RankPoints_TextBlock.Text = _team.RankPoints.ToString();
@@ -106,23 +93,46 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         {
             var mainMemberButton = new Button
             {
-                MinWidth = 300,
+                MinWidth = 240,
+                MaxWidth = 300,
                 Background = null,
+                BorderThickness = new Thickness(0),
+                VerticalAlignment = VerticalAlignment.Stretch,
                 Tag = member,
             };
-
             mainMemberButton.Click += MemberDetailsButton_Click;
+
+            var memberGroup = new GroupBox
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                Background = new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0x88)),
+                Header = new GroupBox
+                {
+                    Background = Brushes.CadetBlue,
+                    Content = new TextBlock
+                    {
+                        Text = member.Name,
+                        TextAlignment = TextAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Top,
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 20,
+                    },
+                },
+            };
+            mainMemberButton.Content = memberGroup;
 
             var stackPanel = new StackPanel
             {
                 VerticalAlignment = VerticalAlignment.Top,
-                Height = 490,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
                 Background = new SolidColorBrush
                 {
                     Color = new Color { R = 0, G = 0, B = 0, },
                     Opacity = 0.1,
                 },
             };
+            memberGroup.Content = stackPanel;
 
             var mainPositionName = new TextBlock
             {
@@ -137,7 +147,8 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             var memberLeagueImg = new Image
             {
                 MinHeight = 30,
-                Margin = new Thickness(3),
+                MaxHeight = 180,
+                Margin = new Thickness(20),
                 Source = new BitmapImage(new Uri(ImagesService.GetPositionImageUrl(member.MainPosition), UriKind.Relative)),
             };
             stackPanel.Children.Add(memberLeagueImg);
@@ -145,7 +156,6 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             var parameters = GetParametersView(member);
 
             stackPanel.Children.Add(parameters);
-            mainMemberButton.Content = stackPanel;
 
             return mainMemberButton;
         }
@@ -336,17 +346,19 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 },
             };
 
-            var energyValue = new TextBlock
+            var energyValue = new ProgressBar
             {
-                Text = member.Energy.ToString() + "/" + member.MaxEnergy.ToString(),
-                FontFamily = new FontFamily("Arial Black"),
-                FontSize = 16,
-                TextAlignment = TextAlignment.Right,
-                Background = new SolidColorBrush
+                MaxWidth = 120,
+                Background = new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0x88)),
+                Foreground = new SolidColorBrush
                 {
                     Color = new Color { R = 0, G = 0, B = 0, },
-                    Opacity = 0.2,
+                    Opacity = 0.6,
                 },
+                Minimum = 0,
+                Maximum = member.MaxEnergy,
+                Value = member.Energy,
+                BorderThickness = new Thickness(2),
             };
 
             var mentalPower = new TextBlock

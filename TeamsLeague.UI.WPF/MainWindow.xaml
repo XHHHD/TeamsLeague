@@ -33,7 +33,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Label x:Name="Logo_Label" Grid.Column="1" Grid.Row="0" FontSize="32"
-               FontWeight="Bold" Foreground="#FF3D8E88"/>
+               FontWeight="Bold" Foreground="#7FFFFFFF"/>
         <Button x:Name="Start_Button" Grid.Column="1" Grid.Row="1" Content="START"
                 FontSize="32" FontWeight="Bold" Background="#7FFFFFFF" Foreground="#FF255663" Click="Start_Button_Click"/>
     </Grid>

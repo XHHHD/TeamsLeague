@@ -80,18 +80,6 @@
                             </Grid>
                             <Grid>
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                                    TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Energy:"/>
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <TextBlock x:Name="EnergyValue" VerticalAlignment="Center"
-                                            TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="0"/>
-                                    <TextBlock VerticalAlignment="Center" TextAlignment="Center" FontFamily="Arial Black"
-                                                    FontSize="28" Text="/"/>
-                                    <TextBlock x:Name="MaxEnergyValue" VerticalAlignment="Center"
-                                            TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="100"/>
-                                </StackPanel>
-                            </Grid>
-                            <Grid>
-                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
                                     TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Mental power:"/>
                                 <TextBlock x:Name="MentalPowerValue" HorizontalAlignment="Right" VerticalAlignment="Center"
                                     TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="0"/>
@@ -99,8 +87,16 @@
                             <Grid>
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
                                     TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Mental health:"/>
-                                <TextBlock x:Name="MentalHealthValue" HorizontalAlignment="Right" VerticalAlignment="Center"
-                                    TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="0"/>
+                                <ProgressBar x:Name="MentalHealthValue" HorizontalAlignment="Right"
+                                             Orientation="Horizontal" MinWidth="120" Minimum="0" Background="{x:Null}"
+                                             Foreground="#50FFFFFF" Maximum="100" Value="42" BorderThickness="1"/>
+                            </Grid>
+                            <Grid>
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Energy:"/>
+                                <ProgressBar x:Name="EnergyValue" HorizontalAlignment="Right"
+                                             Orientation="Horizontal" MinWidth="120" Minimum="0" Background="{x:Null}"
+                                             Foreground="#50FFFFFF" Maximum="100" Value="42" BorderThickness="1"/>
                             </Grid>
                             <Grid>
                                 <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"

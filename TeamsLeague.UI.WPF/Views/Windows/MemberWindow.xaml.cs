@@ -49,12 +49,13 @@ namespace TeamsLeague.UI.WPF.Views.Windows
 
             DefenseValue.Text = _memberModel.Defense.ToString();
 
-            EnergyValue.Text = _memberModel.Energy.ToString();
-            MaxEnergyValue.Text = _memberModel.MaxEnergy.ToString();
-
             MentalPowerValue.Text = _memberModel.MentalPower.ToString();
 
-            MentalHealthValue.Text = _memberModel.MentalHealth.ToString();
+            MentalHealthValue.Value = _memberModel.MentalHealth;
+            MentalHealthValue.Maximum = _memberModel.MaxMentalHealth;
+
+            EnergyValue.Value = _memberModel.Energy;
+            EnergyValue.Maximum = _memberModel.MaxEnergy;
 
             TeamplayValue.Text = _memberModel.Teamplay.ToString();
         }
