@@ -1,17 +1,22 @@
-﻿using System.Windows;
+﻿using System.Security.Policy;
+using System.Windows;
 using System.Windows.Input;
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
+using TeamsLeague.UI.WPF.Configuration;
+using TeamsLeague.UI.WPF.Views.Pages.Menu;
+using TeamsLeague.UI.WPF.Views.Windows.Member;
+using Unity.Resolution;
 
 namespace TeamsLeague.UI.WPF.Views.Windows
 {
-    public partial class MemberWindow : Window
+    public partial class MemberDetailsWindow : Window
     {
         private readonly IMemberService _memberService;
         private readonly MemberModel _memberModel;
 
 
-        public MemberWindow(IMemberService memberService, int memberId)
+        public MemberDetailsWindow(IMemberService memberService, int memberId)
         {
             _memberService = memberService;
             _memberModel = _memberService.GetMember(memberId);
@@ -58,6 +63,12 @@ namespace TeamsLeague.UI.WPF.Views.Windows
             EnergyValue.Maximum = _memberModel.MaxEnergy;
 
             TeamplayValue.Text = _memberModel.Teamplay.ToString();
+        }
+
+        private void LvlUp_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var levelUp = UnityContainerProvider.GetNew<MemberLevelUpWindow>(new ParameterOverride("memberModel", _memberModel));
+            levelUp.ShowDialog();
         }
     }
 }

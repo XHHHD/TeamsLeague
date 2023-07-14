@@ -108,6 +108,6 @@
                Width="225" Height="225" Source="/Resources/Img/Default/icons8-ос-free-bsd-100-white.png"/>
         <Button x:Name="BackButton" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right"
                 VerticalAlignment="Bottom" Margin="5" Width="250" Height="250" FontFamily="Arial Black"
-                Background="#7FFFFFFF" FontSize="60" Content="BACK"/>
+                Background="#70FFFFFF" FontSize="60" Content="BACK" Click="BackButton_Click"/>
     </Grid>
 </Page>

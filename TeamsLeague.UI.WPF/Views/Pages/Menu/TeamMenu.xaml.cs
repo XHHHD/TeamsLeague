@@ -17,13 +17,15 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 {
     public partial class TeamMenu : Page
     {
+        private readonly object _creator;
         private readonly ICashBasket _cash;
         private readonly ITeamService _teamService;
         private readonly TeamModel _team;
 
 
-        public TeamMenu(ICashBasket cash, ITeamService teamService, int teamId)
+        public TeamMenu(ICashBasket cash, ITeamService teamService, int teamId, object creator)
         {
+            _creator = creator;
             _cash = cash;
             _teamService = teamService;
             _team = _teamService.GetTeam(teamId);
@@ -39,9 +41,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             {
                 if (button.Tag is MemberModel memberModel)
                 {
-                    var memberWindow = UnityContainerProvider.GetNew<MemberWindow>(new ParameterOverride("memberId", memberModel.Id));
+                    var memberWindow = UnityContainerProvider.GetNew<MemberDetailsWindow>(new ParameterOverride("memberId", memberModel.Id));
 
                     memberWindow.ShowDialog();
+                    BuildComponent();
                 }
             }
         }
@@ -50,12 +53,18 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         {
         }
 
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            _cash.GameWindow.GameMainFrame.Content = _creator;
+        }
+
         private void BuildComponent()
         {
             TeamName_TextBlock.Text = _team.Name;
 
             FillInStats();
 
+            Members_StackPanel.Children.Clear();
             foreach (var member in _team.Members)
             {
                 Members_StackPanel.Children.Add(GetMemberViews(member));

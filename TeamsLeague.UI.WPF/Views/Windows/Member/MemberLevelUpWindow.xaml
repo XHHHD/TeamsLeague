@@ -1,0 +1,55 @@
+﻿<Window x:Class="TeamsLeague.UI.WPF.Views.Windows.Member.MemberLevelUpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TeamsLeague.UI.WPF.Views.Windows.Member"
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" Background="{x:Null}"
+        Title="MemberLevelUpWindow" Height="300" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Margin="10" Background="#FF255663" Foreground="CadetBlue" FontSize="16" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="ATTACK"/>
+            <Button x:Name="Attack_LvlUp_Button" Grid.Row="0" Grid.Column="1" Margin="10" Background="#FF3D8E88" Foreground="#FF255663" FontSize="24" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="+" Click="LvlUp_Button_Click"/>
+            <Label Grid.Row="1" Grid.Column="0" Margin="10" Background="#FF255663" Foreground="CadetBlue" FontSize="16" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="DEFENSE"/>
+            <Button x:Name="Defense_LvlUp_Button" Grid.Row="1" Grid.Column="1" Margin="10" Background="#FF3D8E88" Foreground="#FF255663" FontSize="24" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="+" Click="LvlUp_Button_Click"/>
+            <Label Grid.Row="2" Grid.Column="0" Margin="10" Background="#FF255663" Foreground="CadetBlue" FontSize="16" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="MENTAL POWER"/>
+            <Button x:Name="MentalPower_LvlUp_Button" Grid.Row="2" Grid.Column="1" Margin="10" Background="#FF3D8E88" Foreground="#FF255663" FontSize="24" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="+" Click="LvlUp_Button_Click"/>
+            <Label Grid.Row="3" Grid.Column="0" Margin="10" Background="#FF255663" Foreground="CadetBlue" FontSize="16" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="MENTAL HEALTH"/>
+            <Button x:Name="MentalHealth_LvlUp_Button" Grid.Row="3" Grid.Column="1" Margin="10" Background="#FF3D8E88" Foreground="#FF255663" FontSize="24" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="+" Click="LvlUp_Button_Click"/>
+            <Label Grid.Row="4" Grid.Column="0" Margin="10" Background="#FF255663" Foreground="CadetBlue" FontSize="16" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="ENERGY"/>
+            <Button x:Name="Energy_LvlUp_Button" Grid.Row="4" Grid.Column="1" Margin="10" Background="#FF3D8E88" Foreground="#FF255663" FontSize="24" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="+" Click="LvlUp_Button_Click"/>
+            <Label Grid.Row="5" Grid.Column="0" Margin="10" Background="#FF255663" Foreground="CadetBlue" FontSize="16" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Content="TEAMPLAY"/>
+            <Button x:Name="Teamplay_LvlUp_Button" Grid.Row="5" Grid.Column="1" Margin="10" Background="#FF3D8E88" Foreground="#FF255663" FontSize="24" FontWeight="Bold" FontFamily="Arial Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="+" Click="LvlUp_Button_Click"/>
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" VerticalAlignment="Stretch" Margin="20" Background="#FF255663">
+                <Border Margin="10" Background="CadetBlue">
+                    <Label x:Name="FreeSkillPointsValue" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF255663" FontSize="40" FontWeight="Bold" FontFamily="Arial Black" Content="0"/>
+                </Border>
+            </Border>
+            <Button Grid.Row="2" Margin="15" Background="#FF255663" Foreground="CadetBlue" FontSize="16" FontWeight="Bold" Content="BACK" Click="Button_Click"/>
+        </Grid>
+    </Grid>
+</Window>

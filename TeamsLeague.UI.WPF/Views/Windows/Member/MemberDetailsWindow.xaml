@@ -1,4 +1,4 @@
-﻿<Window x:Class="TeamsLeague.UI.WPF.Views.Windows.MemberWindow"
+﻿<Window x:Class="TeamsLeague.UI.WPF.Views.Windows.MemberDetailsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -49,8 +49,8 @@
                             <TextBlock x:Name="ExperienceValue" MaxWidth="600" HorizontalAlignment="Right" TextWrapping="Wrap" TextAlignment="Right"
                                     FontFamily="Arial" FontSize="32" Text="exp: 0/0"/>
                             <Border x:Name="FreeSkillPoints" Background="#A0FFFFFF">
-                                <Button Background="CadetBlue" FontSize="26" FontWeight="Bold"
-                                    Content="LEVEL UP!" Margin="2"/>
+                                <Button x:Name="LvlUp_Button" Background="CadetBlue" FontSize="26" FontWeight="Bold"
+                                    Content="LEVEL UP!" Margin="2" Click="LvlUp_Button_Click"/>
                             </Border>
                         </StackPanel>
                         <TextBlock x:Name="MainPositionValue" Grid.Row="1" MaxWidth="600" HorizontalAlignment="Right" TextWrapping="Wrap" TextAlignment="Right"

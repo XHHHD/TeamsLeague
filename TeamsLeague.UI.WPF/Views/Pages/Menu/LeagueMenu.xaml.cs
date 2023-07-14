@@ -41,7 +41,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             {
                 if (button.Tag is TeamModel team)
                 {
-                    _cash.GameWindow.GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("teamId", team.Id));
+                    _cash.GameWindow.GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("teamId", team.Id), new ParameterOverride("creator", this));
                 }
             }
         }
