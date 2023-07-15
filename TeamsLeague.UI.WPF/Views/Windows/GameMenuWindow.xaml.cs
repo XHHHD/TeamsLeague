@@ -27,6 +27,8 @@ namespace TeamsLeague.UI.WPF.Windows
 
             InitializeComponent();
             BuildComponent();
+
+            GameMainFrame.Content = UnityContainerProvider.GetNew<TeamMenu>(new ParameterOverride("teamId", _cash.User?.Team.Id));
         }
 
 
@@ -101,6 +103,8 @@ namespace TeamsLeague.UI.WPF.Windows
 
         private void BuildComponent()
         {
+            var toggleFirstButton = true;
+
             foreach (var type in Enum.GetValues<MenuPagesType>())
             {
                 var miniBarMainGrid = new Grid();
@@ -113,10 +117,12 @@ namespace TeamsLeague.UI.WPF.Windows
                     Width = 240,
                     Content = miniBarMainGrid,
                     Tag = type,
-                    IsChecked = false,
+                    IsChecked = toggleFirstButton,
                 };
 
                 miniBarButton.Click += MenuButton_Click;
+
+                toggleFirstButton = false;
 
                 PagesMiniBar_StackPanel.Children.Add(miniBarButton);
 
