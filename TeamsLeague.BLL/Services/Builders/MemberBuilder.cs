@@ -1,6 +1,8 @@
 ﻿using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
+using TeamsLeague.BLL.Services.Generators;
 using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Constants.Names;
 using TeamsLeague.DAL.Entities.MemberParts;
 
 namespace TeamsLeague.BLL.Services.Builders
@@ -34,6 +36,40 @@ namespace TeamsLeague.BLL.Services.Builders
             MemberModel = new();
         }
 
+
+        public IMemberBuilder GenerateBasicStats()
+        {
+            MemberModel = new MemberModel
+            {
+                Name = NameGenerator.GenerateMemberName(),
+                Age = defaultAge,
+                Attack = defaultAttack,
+                Defense = defaultDefense,
+                CreationDate = DateTime.Now,
+                LastChanges = DateTime.Now,
+                MainPosition = 0,
+
+                Experience = defaultExperience,
+                SkillPoints = defaultSkillPoints,
+                RankPoints = defaultRankPoints,
+                Teamplay = defaultTeamplay,
+                MinTeamplay = defaultMinTeamplay,
+                MaxTeamplay = defaultMaxTeamplay,
+
+                Energy = defaultEnergy,
+                MaxEnergy = defaultMaxEnergy,
+                MentalPower = defaultMentalPower,
+                MaxMentalPower = defaultMaxMentalPower,
+                MentalHealth = defaultMentalHealth,
+                MaxMentalHealth = defaultMaxMentalHealth,
+
+                Positions = new HashSet<PositionModel>(),
+                Traits = new HashSet<MemberTraitModel>(),
+            };
+
+
+            return this;
+        }
 
         public IMemberBuilder GenerateBasicStats(string memberName)
         {

@@ -7,6 +7,7 @@ namespace TeamsLeague.BLL.Interfaces
         MemberModel CreateMember(MemberModel member);
         MemberModel GetMember(int memberId);
         IEnumerable<MemberModel> GetAllMembers();
+        IEnumerable<MemberModel> GetAllFreeMembers();
         MemberModel UpdateMember(MemberModel member);
         bool DeleteMember(int memberId);
     }

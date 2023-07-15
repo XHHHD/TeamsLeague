@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -8,9 +9,11 @@ using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.BLL.Services;
 using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Entities.TeamParts;
 using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Views.Windows;
+using TeamsLeague.UI.WPF.Views.Windows.Member;
 using Unity.Resolution;
 
 namespace TeamsLeague.UI.WPF.Views.Pages.Menu
@@ -20,7 +23,8 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         private readonly object _creator;
         private readonly ICashBasket _cash;
         private readonly ITeamService _teamService;
-        private readonly TeamModel _team;
+
+        private TeamModel TeamModel {get; set;}
 
 
         public TeamMenu(ICashBasket cash, ITeamService teamService, int teamId, object creator)
@@ -28,7 +32,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             _creator = creator;
             _cash = cash;
             _teamService = teamService;
-            _team = _teamService.GetTeam(teamId);
+            TeamModel = _teamService.GetTeam(teamId);
 
             InitializeComponent();
             BuildComponent();
@@ -37,20 +41,37 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void MemberDetailsButton_Click(object sender, RoutedEventArgs e)
         {
-            if(sender is Button button)
+            if (sender is Button button)
             {
                 if (button.Tag is MemberModel memberModel)
                 {
                     var memberWindow = UnityContainerProvider.GetNew<MemberDetailsWindow>(new ParameterOverride("memberId", memberModel.Id));
 
+                    IsEnabled = false;
+                    memberWindow.Closed += (s, args) =>
+                    {
+                        IsEnabled = true;
+                        BuildComponent();
+                    };
+
                     memberWindow.ShowDialog();
-                    BuildComponent();
                 }
             }
         }
 
         private void AddMemberButton_Click(object sender, RoutedEventArgs e)
         {
+            var potentialPositions = Enum.GetValues<PositionType>().Where(t => !TeamModel.Members.Select(m => m.MainPosition).Contains(t)).ToList();
+            var addingMember = UnityContainerProvider.GetNew<AddMemberWindow>(new ParameterOverride("teamId", TeamModel.Id), new ParameterOverride("potentialPositions", potentialPositions));
+
+            IsEnabled = false;
+            addingMember.Closed += (s, args) =>
+            {
+                IsEnabled = true;
+                BuildComponent();
+            };
+
+            addingMember.ShowDialog();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -60,20 +81,22 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void BuildComponent()
         {
-            TeamName_TextBlock.Text = _team.Name;
+            TeamModel = _teamService.GetTeam(TeamModel.Id);
+
+            TeamName_TextBlock.Text = TeamModel.Name;
 
             FillInStats();
 
             Members_StackPanel.Children.Clear();
-            foreach (var member in _team.Members)
+            foreach (var member in TeamModel.Members)
             {
                 Members_StackPanel.Children.Add(GetMemberViews(member));
                 Members_StackPanel.Background = null;
             }
 
-            if (_team.Id == _cash.User?.Team.Id && _cash.User?.Team.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
+            if (TeamModel.Id == _cash.User?.Team.Id && TeamModel.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
             {
-                Members_StackPanel.Children.Add(new Button
+                var addMemberButton = new Button
                 {
                     Width = 240,
                     Margin = new Thickness(0),
@@ -82,20 +105,24 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                     FontFamily = new FontFamily("Arial Black"),
                     FontSize = 120,
                     Content = "+",
-                });
+                };
+
+                addMemberButton.Click += AddMemberButton_Click;
+
+                Members_StackPanel.Children.Add(addMemberButton);
             }
         }
 
         private void FillInStats()
         {
-            Health_Progress.Value = _team.Health;
-            Health_Progress.Maximum = _team.MaxHealth;
-            Energy_Progress.Value = _team.Energy;
-            Energy_Progress.Maximum = _team.MaxEnergy;
-            Honor_TextBlock.Text = _team.Honor.ToString();
-            Experience_TextBlock.Text = _team.Experience.ToString();
-            RankPoints_TextBlock.Text = _team.RankPoints.ToString();
-            Teamplay_TextBlock.Text = _team.Teamplay.ToString();    //IN FEATURE NUMBER WILL BE HIDDEN AND SHOW ONLY MENTHAL LEVEL
+            Health_Progress.Value = TeamModel.Health;
+            Health_Progress.Maximum = TeamModel.MaxHealth;
+            Energy_Progress.Value = TeamModel.Energy;
+            Energy_Progress.Maximum = TeamModel.MaxEnergy;
+            Honor_TextBlock.Text = TeamModel.Honor.ToString();
+            Experience_TextBlock.Text = TeamModel.Experience.ToString();
+            RankPoints_TextBlock.Text = TeamModel.RankPoints.ToString();
+            Teamplay_TextBlock.Text = TeamModel.Teamplay.ToString();    //IN FEATURE NUMBER WILL BE HIDDEN AND SHOW ONLY MENTHAL LEVEL
         }
 
         private Button GetMemberViews(MemberModel member)

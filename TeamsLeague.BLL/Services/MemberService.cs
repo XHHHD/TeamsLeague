@@ -1,4 +1,5 @@
-﻿using TeamsLeague.BLL.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Context;
@@ -12,9 +13,9 @@ namespace TeamsLeague.BLL.Services
         private readonly GameDBContext _context;
 
 
-        public MemberService(GameDBContext context)
+        public MemberService()
         {
-            _context = context;
+            _context = new();
         }
 
 
@@ -74,6 +75,12 @@ namespace TeamsLeague.BLL.Services
 
             _context.Members.Add(member);
             _context.SaveChanges();
+            _context.Entry(member).State = EntityState.Detached;
+            if (team != null)
+            {
+                _context.Entry(team).State = EntityState.Detached;
+            }
+            _context.SaveChanges();
 
 
             memberModel.Id = member.Id;
@@ -83,7 +90,60 @@ namespace TeamsLeague.BLL.Services
 
         public IEnumerable<MemberModel> GetAllMembers()
         {
-            var members = _context.Members;
+            var members = _context.Members.AsNoTracking();
+
+            var result = members.Select(m => new MemberModel
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Age = m.Age,
+                Attack = m.Attack,
+                Defense = m.Defense,
+                CreationDate = m.CreationDate,
+                LastChanges = m.LastChanges,
+                MainPosition = m.MainPosition,
+
+                Experience = m.Experience,
+                SkillPoints = m.SkillPoints,
+                RankPoints = m.RankPoints,
+
+                Energy = m.Energy,
+                MaxEnergy = m.MaxEnergy,
+                MentalPower = m.MentalPower,
+                MaxMentalPower = m.MaxMentalPower,
+                MentalHealth = m.MentalHealth,
+                MaxMentalHealth = m.MaxMentalHealth,
+                Teamplay = m.Teamplay,
+                MinTeamplay = m.MinTeamplay,
+                MaxTeamplay = m.MaxTeamplay,
+
+                Team = m.Team != null
+                ? new TeamModel
+                {
+                    Id = m.Team.Id,
+                    Name = m.Team.Name,
+                }
+                : null,
+
+                Positions = m.Positions.Select(p => new PositionModel
+                {
+                    Id = p.Id,
+                    Type = p.Type,
+                }).ToHashSet(),
+
+                Traits = m.Traits.Select(t => new MemberTraitModel
+                {
+                    Id = t.Id,
+                    Type = t.Type
+                }).ToHashSet()
+            });
+
+            return result;
+        }
+
+        public IEnumerable<MemberModel> GetAllFreeMembers()
+        {
+            var members = _context.Members.Where(m => m.Team == null);
 
             var result = members.Select(m => new MemberModel
             {
@@ -266,6 +326,8 @@ namespace TeamsLeague.BLL.Services
                 trait.Type = traitModel.Type;
             }
 
+            _context.SaveChanges();
+            _context.Entry(member).State = EntityState.Detached;
             _context.SaveChanges();
 
             return memberModel;

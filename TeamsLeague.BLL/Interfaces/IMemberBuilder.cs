@@ -5,6 +5,7 @@ namespace TeamsLeague.BLL.Interfaces
 {
     public interface IMemberBuilder
     {
+        IMemberBuilder GenerateBasicStats();
         IMemberBuilder GenerateBasicStats(string memberName);
         /// <summary>
         /// Add to the member position with random type, except position types he already have, or do nothing.

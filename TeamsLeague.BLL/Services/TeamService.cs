@@ -16,10 +16,10 @@ namespace TeamsLeague.BLL.Services
         private readonly GameDBContext _context;
 
 
-        public TeamService(IMemberService memberService, GameDBContext context)
+        public TeamService(IMemberService memberService)
         {
             _memberService = memberService;
-            _context = context;
+            _context = new();
         }
 
 
@@ -249,7 +249,7 @@ namespace TeamsLeague.BLL.Services
                         Id = t.Id,
                         Type = t.Type
                     }).ToHashSet()
-                }).ToHashSet(),
+                }).OrderBy(m => m.MainPosition).ToHashSet(),
 
                 Traits = team.Traits.Select(tr => new TeamTraitModel
                 {
@@ -357,6 +357,20 @@ namespace TeamsLeague.BLL.Services
             return true;
         }
 
-        public bool IsTeamNameIsFree(string teamName) => _context.Teams.FirstOrDefault(t => t.Name == teamName) is null;
+        public bool AddMemberToTheTeam(int teamId, int memberId)
+        {
+            var team = _context.Teams.FirstOrDefault(t => t.Id == teamId)
+                ?? throw new Exception("Team does not exist!");
+            var member = _context.Members.FirstOrDefault(m => m.Id == memberId)
+                ?? throw new Exception("Member does not exist!");
+
+            team.Members.Add(member);
+
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        public bool IsTeamNameIsFree(string teamName) => _context.Teams.AsNoTracking().FirstOrDefault(t => t.Name == teamName) is null;
     }
 }

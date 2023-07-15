@@ -10,5 +10,6 @@ namespace TeamsLeague.BLL.Interfaces
         TeamModel UpdateTeam(TeamModel team);
         bool DeleteTeam(int teamId);
         bool IsTeamNameIsFree(string teamName);
+        bool AddMemberToTheTeam(int teamId, int memberId);
     }
 }
