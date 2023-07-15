@@ -1,6 +1,6 @@
 ﻿namespace TeamsLeague.BLL.Models
 {
-    public enum LevelUpTypes
+    public enum UsingSkillPointsTypes
     {
         Attack = 0,
         Defense = 1,

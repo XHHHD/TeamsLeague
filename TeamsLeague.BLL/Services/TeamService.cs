@@ -13,26 +13,26 @@ namespace TeamsLeague.BLL.Services
     public class TeamService : ITeamService
     {
         private readonly IMemberService _memberService;
-        private readonly GameDBContext _context;
+        private GameDBContext Context { get; set; }
 
 
         public TeamService(IMemberService memberService)
         {
             _memberService = memberService;
-            _context = new();
         }
 
 
         public TeamModel CreateTeam(TeamModel teamModel)
         {
             //DB REQUESTS
-            if (_context.Teams.FirstOrDefault(t => t.Name == teamModel.Name) != null)
+            Context = new();
+            if (Context.Teams.FirstOrDefault(t => t.Name == teamModel.Name) != null)
             { throw new Exception("Team with this name is already exist!"); }
 
             User? user = null;
             if (teamModel.User is not null)
             {
-                user = _context.Users.FirstOrDefault(u => u.Id == teamModel.User.Id)
+                user = Context.Users.FirstOrDefault(u => u.Id == teamModel.User.Id)
                     ?? throw new Exception("User wasn't found!");
             }
 
@@ -61,13 +61,13 @@ namespace TeamsLeague.BLL.Services
             {
                 foreach(var memberModel in teamModel.Members)
                 {
-                    var member = _context.Members.FirstOrDefault(m => m.Name == memberModel.Name);
+                    var member = Context.Members.FirstOrDefault(m => m.Name == memberModel.Name);
 
                     if (member is null)
                     {
                         memberModel.Id = _memberService.CreateMember(memberModel).Id;
 
-                        member = _context.Members.FirstOrDefault(m => m.Id == memberModel.Id);
+                        member = Context.Members.FirstOrDefault(m => m.Id == memberModel.Id);
                     }
 
                     team.Members.Add(member);
@@ -75,9 +75,9 @@ namespace TeamsLeague.BLL.Services
             }
 
 
-            _context.Teams.Add(team);
-            _context.SaveChanges();
-
+            Context.Teams.Add(team);
+            Context.SaveChanges();
+            Context.Dispose();
 
             teamModel.Id = team.Id;
 
@@ -87,7 +87,8 @@ namespace TeamsLeague.BLL.Services
 
         public IEnumerable<TeamModel> GetAllTeams()
         {
-            var teams = _context.Teams
+            Context = new();
+            var teams = Context.Teams
                 .Include(t => t.Members)
                 .Include(t => t.Traits);
 
@@ -165,14 +166,17 @@ namespace TeamsLeague.BLL.Services
                     Id = tr.Id,
                     Type = tr.Type,
                 }).ToHashSet(),
-            });
+            }).ToList();
+
+            Context.Dispose();
 
             return result;
         }
 
         public TeamModel GetTeam(int teamId)
         {
-            var team = _context.Teams
+            Context = new();
+            var team = Context.Teams
                 .Include(t => t.Members)
                 .ThenInclude(m => m.Positions)
                 .Include(t => t.Members)
@@ -258,12 +262,15 @@ namespace TeamsLeague.BLL.Services
                 }).ToHashSet(),
             };
 
+            Context.Dispose();
+
             return result;
         }
 
         public TeamModel UpdateTeam(TeamModel teamModel)
         {
-            var team = _context.Teams
+            Context = new();
+            var team = Context.Teams
                 .Include(t => t.User)
                 .Include(t => t.Members)
                 .Include(t => t.Traits)
@@ -341,36 +348,41 @@ namespace TeamsLeague.BLL.Services
                 Type = tr.Type,
             }).ToHashSet();
 
-            _context.SaveChanges();
+            Context.SaveChanges();
+            Context.Dispose();
 
             return teamModel;
         }
 
         public bool DeleteTeam(int teamId)
         {
-            var team = _context.Teams.FirstOrDefault(t => t.Id == teamId)
+            Context = new();
+            var team = Context.Teams.FirstOrDefault(t => t.Id == teamId)
                 ?? throw new Exception("Team does not exist!");
 
-            _context.Teams.Remove(team);
-            _context.SaveChanges();
+            Context.Teams.Remove(team);
+            Context.SaveChanges();
+            Context.Dispose();
 
             return true;
         }
 
         public bool AddMemberToTheTeam(int teamId, int memberId)
         {
-            var team = _context.Teams.FirstOrDefault(t => t.Id == teamId)
+            Context = new();
+            var team = Context.Teams.FirstOrDefault(t => t.Id == teamId)
                 ?? throw new Exception("Team does not exist!");
-            var member = _context.Members.FirstOrDefault(m => m.Id == memberId)
+            var member = Context.Members.FirstOrDefault(m => m.Id == memberId)
                 ?? throw new Exception("Member does not exist!");
 
             team.Members.Add(member);
 
-            _context.SaveChanges();
+            Context.SaveChanges();
+            Context.Dispose();
 
             return true;
         }
 
-        public bool IsTeamNameIsFree(string teamName) => _context.Teams.AsNoTracking().FirstOrDefault(t => t.Name == teamName) is null;
+        public bool IsTeamNameIsFree(string teamName) => Context.Teams.AsNoTracking().FirstOrDefault(t => t.Name == teamName) is null;
     }
 }

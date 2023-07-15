@@ -24,7 +24,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical" Grid.Column="0">
                 <Border Background="#66000000" Width="Auto">
-                    <Border Background="CadetBlue" Width="Auto" Margin="2">
+                    <Border Background="CadetBlue" HorizontalAlignment="Stretch" Margin="2">
                         <TextBlock x:Name="TeamName_TextBlock" Text="Team Name" FontFamily="Arial Black" FontSize="48"/>
                     </Border>
                 </Border>

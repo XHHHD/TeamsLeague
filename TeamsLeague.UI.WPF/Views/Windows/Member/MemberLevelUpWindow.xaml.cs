@@ -10,15 +10,15 @@ namespace TeamsLeague.UI.WPF.Views.Windows.Member
     public partial class MemberLevelUpWindow : Window
     {
         private readonly IMemberService _memberService;
-        private readonly MemberModel _memberModel;
 
+        private MemberModel MemberModel { get; set; }
         private List<Button> LevelUpButtons { get; set; }
 
 
         public MemberLevelUpWindow(IMemberService memberService, MemberModel memberModel)
         {
             _memberService = memberService;
-            _memberModel = memberModel;
+            MemberModel = memberModel;
             LevelUpButtons = new();
 
             InitializeComponent();
@@ -28,13 +28,13 @@ namespace TeamsLeague.UI.WPF.Views.Windows.Member
 
         private void LvlUp_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (_memberModel.SkillPoints > 0)
+            if (MemberModel.SkillPoints > 0)
             {
                 if (sender is Button button)
                 {
-                    if (button.Tag is LevelUpTypes type)
+                    if (button.Tag is UsingSkillPointsTypes type)
                     {
-                        //_memberModel = _memberService.LevelUp(type);
+                        MemberModel = _memberService.UseSkillPoints(MemberModel.Id, type);
                         BuildComponent();
                     }
                 }
@@ -43,14 +43,14 @@ namespace TeamsLeague.UI.WPF.Views.Windows.Member
 
         private void BuildComponent()
         {
-            FreeSkillPointsValue.Content = _memberModel.SkillPoints;
+            FreeSkillPointsValue.Content = MemberModel.SkillPoints;
 
-            Attack_LvlUp_Button.Tag = LevelUpTypes.Attack;
-            Defense_LvlUp_Button.Tag = LevelUpTypes.Defense;
-            MentalPower_LvlUp_Button.Tag = LevelUpTypes.MentalPower;
-            MentalHealth_LvlUp_Button.Tag = LevelUpTypes.MentalHealth;
-            Energy_LvlUp_Button.Tag = LevelUpTypes.Energy;
-            Teamplay_LvlUp_Button.Tag = LevelUpTypes.Teamplay;
+            Attack_LvlUp_Button.Tag = UsingSkillPointsTypes.Attack;
+            Defense_LvlUp_Button.Tag = UsingSkillPointsTypes.Defense;
+            MentalPower_LvlUp_Button.Tag = UsingSkillPointsTypes.MentalPower;
+            MentalHealth_LvlUp_Button.Tag = UsingSkillPointsTypes.MentalHealth;
+            Energy_LvlUp_Button.Tag = UsingSkillPointsTypes.Energy;
+            Teamplay_LvlUp_Button.Tag = UsingSkillPointsTypes.Teamplay;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

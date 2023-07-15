@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
+using TeamsLeague.DAL.Entities.MemberParts;
 using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Views.Windows.Member;
 using Unity.Resolution;
@@ -11,13 +12,14 @@ namespace TeamsLeague.UI.WPF.Views.Windows
     public partial class MemberDetailsWindow : Window
     {
         private readonly IMemberService _memberService;
-        private readonly MemberModel _memberModel;
+
+        private MemberModel Member { get; set; }
 
 
         public MemberDetailsWindow(IMemberService memberService, int memberId)
         {
             _memberService = memberService;
-            _memberModel = _memberService.GetMember(memberId);
+            Member = _memberService.GetMember(memberId);
 
             InitializeComponent();
             BuildComponent();
@@ -36,41 +38,51 @@ namespace TeamsLeague.UI.WPF.Views.Windows
 
         private void BuildComponent()
         {
-            LvlUp_Button.IsEnabled = _memberModel.SkillPoints > 0;
-            FreeSkillPoints.IsEnabled = _memberModel.SkillPoints > 0;
-            LvlUp_Button.Visibility = _memberModel.SkillPoints > 0 ? Visibility.Visible : Visibility.Hidden;
-            FreeSkillPoints.Visibility = _memberModel.SkillPoints > 0 ? Visibility.Visible : Visibility.Hidden;
+            Member = _memberService.GetMember(Member.Id);
 
-            MemberNameValue.Text = _memberModel.Name;
+            LvlUp_Button.IsEnabled = Member.SkillPoints > 0;
+            FreeSkillPoints.IsEnabled = Member.SkillPoints > 0;
+            LvlUp_Button.Visibility = Member.SkillPoints > 0 ? Visibility.Visible : Visibility.Hidden;
+            FreeSkillPoints.Visibility = Member.SkillPoints > 0 ? Visibility.Visible : Visibility.Hidden;
 
-            RankPointsValue.Text = _memberModel.RankPoints.ToString();
+            MemberNameValue.Text = Member.Name;
 
-            ExperienceValue.Text = _memberModel.Experience.ToString();
+            RankPointsValue.Text = Member.RankPoints.ToString();
+
+            ExperienceValue.Text = Member.Experience.ToString();
 
             //MainPositionImg.Text = new BitmapImage(new Uri(ImagesService.GetPositionImageUrl(_memberModel.MainPosition), UriKind.Relative));
 
-            MainPositionValue.Text = _memberModel.MainPosition.ToString();
+            MainPositionValue.Text = Member.MainPosition.ToString();
 
-            AgeValue.Text = _memberModel.Age.ToString();
+            AgeValue.Text = Member.Age.ToString();
 
-            AttackValue.Text = _memberModel.Attack.ToString();
+            AttackValue.Text = Member.Attack.ToString();
 
-            DefenseValue.Text = _memberModel.Defense.ToString();
+            DefenseValue.Text = Member.Defense.ToString();
 
-            MentalPowerValue.Text = _memberModel.MentalPower.ToString();
+            MentalPowerValue.Text = Member.MentalPower.ToString();
 
-            MentalHealthValue.Value = _memberModel.MentalHealth;
-            MentalHealthValue.Maximum = _memberModel.MaxMentalHealth;
+            MentalHealthValue.Value = Member.MentalHealth;
+            MentalHealthValue.Maximum = Member.MaxMentalHealth;
 
-            EnergyValue.Value = _memberModel.Energy;
-            EnergyValue.Maximum = _memberModel.MaxEnergy;
+            EnergyValue.Value = Member.Energy;
+            EnergyValue.Maximum = Member.MaxEnergy;
 
-            TeamplayValue.Text = _memberModel.Teamplay.ToString();
+            TeamplayValue.Text = Member.Teamplay.ToString();
         }
 
         private void LvlUp_Button_Click(object sender, RoutedEventArgs e)
         {
-            var levelUp = UnityContainerProvider.GetNew<MemberLevelUpWindow>(new ParameterOverride("memberModel", _memberModel));
+            var levelUp = UnityContainerProvider.GetNew<MemberLevelUpWindow>(new ParameterOverride("memberModel", Member));
+
+            this.IsEnabled = false;
+            levelUp.Closed += (s, args) =>
+            {
+                IsEnabled = true;
+                BuildComponent();
+            };
+
             levelUp.ShowDialog();
         }
     }

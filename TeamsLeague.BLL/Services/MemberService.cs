@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeamsLeague.BLL.Interfaces;
+using TeamsLeague.BLL.Models;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Context;
@@ -10,24 +11,24 @@ namespace TeamsLeague.BLL.Services
 {
     public class MemberService : IMemberService
     {
-        private readonly GameDBContext _context;
+        private GameDBContext Context { get; set; }
 
 
         public MemberService()
         {
-            _context = new();
         }
 
 
         public MemberModel CreateMember(MemberModel memberModel)
         {
-            if (_context.Members.SingleOrDefault(m => m.Name == memberModel.Name) is not null)
+            Context = new();
+            if (Context.Members.SingleOrDefault(m => m.Name == memberModel.Name) is not null)
             { throw new Exception($"Member with name - {memberModel.Name}, is already exist!"); }
 
             Team? team = null;
             if (memberModel.Team is not null)
             {
-                team = _context.Teams.SingleOrDefault(t => t.Id == memberModel.Team.Id)
+                team = Context.Teams.SingleOrDefault(t => t.Id == memberModel.Team.Id)
                     ?? throw new Exception("Team wasn't found!");
             }
 
@@ -73,14 +74,15 @@ namespace TeamsLeague.BLL.Services
             };
 
 
-            _context.Members.Add(member);
-            _context.SaveChanges();
-            _context.Entry(member).State = EntityState.Detached;
+            Context.Members.Add(member);
+            Context.SaveChanges();
+            Context.Entry(member).State = EntityState.Detached;
             if (team != null)
             {
-                _context.Entry(team).State = EntityState.Detached;
+                Context.Entry(team).State = EntityState.Detached;
             }
-            _context.SaveChanges();
+            Context.SaveChanges();
+            Context.Dispose();
 
 
             memberModel.Id = member.Id;
@@ -90,7 +92,8 @@ namespace TeamsLeague.BLL.Services
 
         public IEnumerable<MemberModel> GetAllMembers()
         {
-            var members = _context.Members.AsNoTracking();
+            Context = new();
+            var members = Context.Members.AsNoTracking();
 
             var result = members.Select(m => new MemberModel
             {
@@ -136,14 +139,17 @@ namespace TeamsLeague.BLL.Services
                     Id = t.Id,
                     Type = t.Type
                 }).ToHashSet()
-            });
+            }).ToList();
+
+            Context.Dispose();
 
             return result;
         }
 
         public IEnumerable<MemberModel> GetAllFreeMembers()
         {
-            var members = _context.Members.Where(m => m.Team == null);
+            Context = new();
+            var members = Context.Members.Where(m => m.Team == null);
 
             var result = members.Select(m => new MemberModel
             {
@@ -189,14 +195,17 @@ namespace TeamsLeague.BLL.Services
                     Id = t.Id,
                     Type = t.Type
                 }).ToHashSet()
-            });
+            }).ToList();
+
+            Context.Dispose();
 
             return result;
         }
 
         public MemberModel GetMember(int memberId)
         {
-            var member = _context.Members.FirstOrDefault(m => m.Id == memberId)
+            Context = new();
+            var member = Context.Members.FirstOrDefault(m => m.Id == memberId)
                 ?? throw new Exception($"Member does not exist!");
 
             var result = new MemberModel
@@ -245,12 +254,15 @@ namespace TeamsLeague.BLL.Services
                 }).ToHashSet()
             };
 
+            Context.Dispose();
+
             return result;
         }
 
         public MemberModel UpdateMember(MemberModel memberModel)
         {
-            var member = _context.Members.FirstOrDefault(m => m.Id == memberModel.Id)
+            Context = new();
+            var member = Context.Members.FirstOrDefault(m => m.Id == memberModel.Id)
                 ?? throw new Exception($"Member does not exist!");
 
             memberModel.LastChanges = DateTime.Now;
@@ -281,7 +293,7 @@ namespace TeamsLeague.BLL.Services
             {
                 if (!memberModel.Positions.Select(p => p.Id).Contains(position.Id))
                 {
-                    _context.Positions.Remove(position);
+                    Context.Positions.Remove(position);
                 }
             }
 
@@ -295,7 +307,7 @@ namespace TeamsLeague.BLL.Services
                     position = new();
 
                     member.Positions.Add(position);
-                    _context.Positions.Add(position);
+                    Context.Positions.Add(position);
                 }
 
                 position.Type = positionModel.Type;
@@ -306,7 +318,7 @@ namespace TeamsLeague.BLL.Services
             {
                 if (!memberModel.Traits.Select(p => p.Id).Contains(trait.Id))
                 {
-                    _context.MemberTraits.Remove(trait);
+                    Context.MemberTraits.Remove(trait);
                 }
             }
 
@@ -320,28 +332,128 @@ namespace TeamsLeague.BLL.Services
                     trait = new();
 
                     member.Traits.Add(trait);
-                    _context.MemberTraits.Add(trait);
+                    Context.MemberTraits.Add(trait);
                 }
 
                 trait.Type = traitModel.Type;
             }
 
-            _context.SaveChanges();
-            _context.Entry(member).State = EntityState.Detached;
-            _context.SaveChanges();
+            Context.SaveChanges();
+            Context.Entry(member).State = EntityState.Detached;
+            Context.SaveChanges();
+            Context.Dispose();
 
             return memberModel;
         }
 
         public bool DeleteMember(int memberId)
         {
-            var member = _context.Members.FirstOrDefault(m => m.Id == memberId)
+            Context = new();
+            var member = Context.Members.FirstOrDefault(m => m.Id == memberId)
                 ?? throw new Exception($"Member does not exist!");
 
-            _context.Members.Remove(member);
-            _context.SaveChanges();
+            Context.Members.Remove(member);
+            Context.SaveChanges();
+            Context.Dispose();
 
             return true;
+        }
+
+        public MemberModel UseSkillPoints(int memberId, UsingSkillPointsTypes usingSkillPointsTypes)
+        {
+            Context = new();
+            var member = Context.Members.FirstOrDefault(m => m.Id == memberId)
+                ?? throw new Exception($"Member does not exist!");
+
+            member = member.SkillPoints > 0
+                ? UpStats(member, usingSkillPointsTypes)
+                : throw new Exception($"{member.Name} hasn't enough skill point's. Skill point's count was: {member.SkillPoints}");
+
+            Context.SaveChanges();
+
+            var result = new MemberModel
+            {
+                Id = member.Id,
+                Name = member.Name,
+                Age = member.Age,
+                Attack = member.Attack,
+                Defense = member.Defense,
+                CreationDate = member.CreationDate,
+                LastChanges = member.LastChanges,
+                MainPosition = member.MainPosition,
+
+                Experience = member.Experience,
+                SkillPoints = member.SkillPoints,
+                RankPoints = member.RankPoints,
+
+                Energy = member.Energy,
+                MaxEnergy = member.MaxEnergy,
+                MentalPower = member.MentalPower,
+                MaxMentalPower = member.MaxMentalPower,
+                MentalHealth = member.MentalHealth,
+                MaxMentalHealth = member.MaxMentalHealth,
+                Teamplay = member.Teamplay,
+                MinTeamplay = member.MinTeamplay,
+                MaxTeamplay = member.MaxTeamplay,
+
+                Team = member.Team != null
+                ? new TeamModel
+                {
+                    Id = member.Team.Id,
+                    Name = member.Team.Name,
+                }
+                : null,
+
+                Positions = member.Positions.Select(p => new PositionModel
+                {
+                    Id = p.Id,
+                    Type = p.Type,
+                }).ToHashSet(),
+
+                Traits = member.Traits.Select(t => new MemberTraitModel
+                {
+                    Id = t.Id,
+                    Type = t.Type
+                }).ToHashSet()
+            };
+
+            Context.Dispose();
+
+            return result;
+        }
+
+        private static Member UpStats(Member member, UsingSkillPointsTypes usingSkillPointsTypes)
+        {
+            member.SkillPoints--;
+
+            switch (usingSkillPointsTypes)
+            {
+                case UsingSkillPointsTypes.Attack:
+                    member.Attack++;
+                    return member;
+                case UsingSkillPointsTypes.Defense:
+                    member.Defense++;
+                    return member;
+                case UsingSkillPointsTypes.MentalPower:
+                    member.MentalPower+=5;
+                    member.MaxMentalPower+=5;
+                    return member;
+                case UsingSkillPointsTypes.MentalHealth:
+                    member.MentalHealth += 5;
+                    member.MaxMentalHealth += 5;
+                    return member;
+                case UsingSkillPointsTypes.Energy:
+                    member.Energy++;
+                    member.MaxEnergy++;
+                    return member;
+                case UsingSkillPointsTypes.Teamplay:
+                    member.Teamplay++;
+                    member.MinTeamplay++;
+                    member.MaxTeamplay++;
+                    return member;
+                default:
+                    return member;
+            }
         }
     }
 }

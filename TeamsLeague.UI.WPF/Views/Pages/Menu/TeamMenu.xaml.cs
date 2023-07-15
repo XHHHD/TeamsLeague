@@ -94,22 +94,33 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 Members_StackPanel.Background = null;
             }
 
-            if (TeamModel.Id == _cash.User?.Team.Id && TeamModel.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
+            if (TeamModel.Id == _cash.User?.Team.Id)
             {
-                var addMemberButton = new Button
+                BackButton.IsEnabled = false;
+                BackButton.Visibility = Visibility.Hidden;
+
+                if (TeamModel.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
                 {
-                    Width = 240,
-                    Margin = new Thickness(0),
-                    Background = null,
-                    Foreground = new SolidColorBrush(Color.FromArgb(120, 189, 189, 189)),
-                    FontFamily = new FontFamily("Arial Black"),
-                    FontSize = 120,
-                    Content = "+",
-                };
+                    var addMemberButton = new Button
+                    {
+                        Width = 240,
+                        Margin = new Thickness(0),
+                        Background = null,
+                        Foreground = new SolidColorBrush(Color.FromArgb(120, 189, 189, 189)),
+                        FontFamily = new FontFamily("Arial Black"),
+                        FontSize = 120,
+                        Content = "+",
+                    };
 
-                addMemberButton.Click += AddMemberButton_Click;
+                    addMemberButton.Click += AddMemberButton_Click;
 
-                Members_StackPanel.Children.Add(addMemberButton);
+                    Members_StackPanel.Children.Add(addMemberButton);
+                }
+            }
+            else
+            {
+                BackButton.IsEnabled = true;
+                BackButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -127,17 +138,51 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private Button GetMemberViews(MemberModel member)
         {
-            var mainMemberButton = new Button
+            #region BUTTON
+            var memberButton = new Button
             {
                 MinWidth = 240,
                 MaxWidth = 300,
-                Background = null,
+                Background = Brushes.Transparent,
                 BorderThickness = new Thickness(0),
+                BorderBrush = Brushes.Transparent,
                 VerticalAlignment = VerticalAlignment.Stretch,
+                OverridesDefaultStyle = true,
                 Tag = member,
             };
-            mainMemberButton.Click += MemberDetailsButton_Click;
 
+            Style buttonStyle = new(typeof(Button));
+            buttonStyle.Setters.Add(new Setter(Control.BackgroundProperty, Brushes.Transparent));
+            buttonStyle.Setters.Add(new Setter(Control.BorderBrushProperty, Brushes.Black));
+
+            ControlTemplate buttonTemplate = new(typeof(Button));
+            FrameworkElementFactory borderFactory = new(typeof(Border));
+            borderFactory.SetValue(Border.BackgroundProperty, new TemplateBindingExtension(Control.BackgroundProperty));
+            borderFactory.SetValue(Border.BorderBrushProperty, new TemplateBindingExtension(Control.BorderBrushProperty));
+            borderFactory.SetValue(Border.BorderThicknessProperty, new Thickness(1));
+
+            FrameworkElementFactory contentPresenterFactory = new(typeof(ContentPresenter));
+            contentPresenterFactory.SetValue(ContentPresenter.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            contentPresenterFactory.SetValue(ContentPresenter.VerticalAlignmentProperty, VerticalAlignment.Center);
+
+            borderFactory.AppendChild(contentPresenterFactory);
+
+            buttonTemplate.VisualTree = borderFactory;
+            buttonStyle.Setters.Add(new Setter(Control.TemplateProperty, buttonTemplate));
+
+            Trigger buttonTrigger = new();
+            buttonTrigger.Property = UIElement.IsMouseOverProperty;
+            buttonTrigger.Value = true;
+            buttonTrigger.Setters.Add(new Setter(Control.BackgroundProperty, Brushes.Transparent));
+
+            buttonStyle.Triggers.Add(buttonTrigger);
+
+            memberButton.Style = buttonStyle;
+
+            memberButton.Click += MemberDetailsButton_Click;
+            #endregion
+
+            #region GROUP BOX
             var memberGroup = new GroupBox
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -156,8 +201,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                     },
                 },
             };
-            mainMemberButton.Content = memberGroup;
+            memberButton.Content = memberGroup;
+            #endregion
 
+            #region STACK PANEL
             var stackPanel = new StackPanel
             {
                 VerticalAlignment = VerticalAlignment.Top,
@@ -192,8 +239,9 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             var parameters = GetParametersView(member);
 
             stackPanel.Children.Add(parameters);
+            #endregion
 
-            return mainMemberButton;
+            return memberButton;
         }
 
         private Grid GetParametersView(MemberModel member)

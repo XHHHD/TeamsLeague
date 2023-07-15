@@ -1,4 +1,5 @@
-﻿using TeamsLeague.BLL.Models.MemberParts;
+﻿using TeamsLeague.BLL.Models;
+using TeamsLeague.BLL.Models.MemberParts;
 
 namespace TeamsLeague.BLL.Interfaces
 {
@@ -10,5 +11,6 @@ namespace TeamsLeague.BLL.Interfaces
         IEnumerable<MemberModel> GetAllFreeMembers();
         MemberModel UpdateMember(MemberModel member);
         bool DeleteMember(int memberId);
+        MemberModel UseSkillPoints(int memberId, UsingSkillPointsTypes usingSkillPointsTypes);
     }
 }
