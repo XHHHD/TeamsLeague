@@ -23,7 +23,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Image x:Name="MemberLogo" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
+                <Image x:Name="TeamLogo" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
                        Width="200" Height="200" Margin="3" Source="/Resources/Img/Default/icons8-ос-free-bsd-100-white.png"/>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -44,16 +44,18 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <TextBlock HorizontalAlignment="Right" FontFamily="Arial Black"
-                                   FontSize="36" Text="Team Energy: "/>
-                        <TextBlock x:Name="TeamEnergy" HorizontalAlignment="Right" FontFamily="Arial Black"
-                                   FontSize="36" Text="0"/>
-                        <TextBlock HorizontalAlignment="Right" FontFamily="Arial Black"
-                                   FontSize="36" Text="/"/>
-                        <TextBlock x:Name="TeamMaxEnergy" HorizontalAlignment="Right" FontFamily="Arial Black"
-                                   FontSize="36" Text="0"/>
+                                   FontSize="36" Text="Energy: "/>
+                        <ProgressBar x:Name="Energy_Progress" Minimum="0" Maximum="100" Value="42"
+                                     BorderThickness="2" MinWidth="250" MaxWidth="300" HorizontalAlignment="Stretch" Background="CadetBlue"
+                                     Foreground="#60FFFFFF"/>
                     </StackPanel>
-                    <TextBlock x:Name="TeamInfo" HorizontalAlignment="Right" TextWrapping="Wrap" TextAlignment="Right"
-                               FontFamily="Arial" FontSize="30" Text="Other short information about team."/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock HorizontalAlignment="Right" FontFamily="Arial Black"
+                                   FontSize="36" Text="Health: "/>
+                        <ProgressBar x:Name="Health_Progress" Minimum="0" Maximum="100" Value="42"
+                                     BorderThickness="2" MinWidth="250" MaxWidth="300" HorizontalAlignment="Stretch" Background="CadetBlue"
+                                     Foreground="#60FFFFFF"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
             <GroupBox Grid.Row="1">
@@ -77,104 +79,98 @@
             </GroupBox>
         </Grid>
         <GroupBox Grid.Column="1">
-            <GroupBox.Header>
-                <TextBlock x:Name="Characteristics" HorizontalAlignment="Center" VerticalAlignment="Center"
-                           TextAlignment="Center" FontFamily="Arial Black" FontSize="48" Text="Characteristics" OpacityMask="Black"/>
-            </GroupBox.Header>
-            <StackPanel Grid.Row="1">
-                <Grid>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Expiriance:"/>
-                    <TextBlock x:Name="Expiriance" HorizontalAlignment="Right" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Value 1"/>
-                </Grid>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Health:"/>
-                    <TextBlock x:Name="Health" HorizontalAlignment="Right" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Value 2"/>
-                </Grid>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Power:"/>
-                    <TextBlock x:Name="Power" HorizontalAlignment="Right" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Value 3"/>
-                </Grid>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Teamplay:"/>
-                    <TextBlock x:Name="Teamplay" HorizontalAlignment="Right" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Value 4"/>
-                </Grid>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Rank points:"/>
-                    <TextBlock x:Name="RankPoints" HorizontalAlignment="Right" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Value 5"/>
-                </Grid>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                       TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Rank:"/>
-                    <Button x:Name="Rank" HorizontalAlignment="Right" VerticalAlignment="Center"
-                            Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Arial Black"
-                            FontSize="28" Content="Team rank"/>
-                </Grid>
-                <Grid>
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                               TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Trail:"/>
-                    <TextBlock x:Name="Trail" HorizontalAlignment="Right" VerticalAlignment="Center"
-                               TextAlignment="Center" FontFamily="Arial Black" FontSize="28" Text="Team trail"
-                               ToolTip=""/>
-                </Grid>
-                <GroupBox x:Name="MembersList" Visibility="Visible">
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <GroupBox x:Name="MembersList" Grid.Row="0" Visibility="Visible">
                     <GroupBox.Header>
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
                                    TextAlignment="Center" FontFamily="Arial Black" FontSize="32" Text="Members:"/>
                     </GroupBox.Header>
                     <StackPanel Orientation="Vertical">
                         <Grid>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="1.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"
                                        TextAlignment="Center" FontFamily="Arial Black" FontSize="28"
                                        Text="Topliner:"/>
-                            <Button x:Name="TopLiner" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            <Button x:Name="TopLiner_Button" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"
                                     FontFamily="Arial Black" FontSize="24" Background="{x:Null}" BorderBrush="{x:Null}"
                                     Content="There is no topliner"/>
-                        </Grid>
-                        <Grid>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+
+                            <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                                        TextAlignment="Center" FontFamily="Arial Black" FontSize="28"
                                        Text="Jungler:"/>
-                            <Button x:Name="Jungler" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            <Button x:Name="Jungler_Button" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                                     FontFamily="Arial Black" FontSize="24" Background="{x:Null}" BorderBrush="{x:Null}"
                                     Content="There is no jungler"/>
-                        </Grid>
-                        <Grid>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+
+                            <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"
                                        TextAlignment="Center" FontFamily="Arial Black" FontSize="28"
                                        Text="Midliner:"/>
-                            <Button x:Name="Midliner" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            <Button x:Name="Midliner_Button" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"
                                     FontFamily="Arial Black" FontSize="24" Background="{x:Null}" BorderBrush="{x:Null}"
                                     Content="There is no midliner"/>
-                        </Grid>
-                        <Grid>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+
+                            <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"
                                        TextAlignment="Center" FontFamily="Arial Black" FontSize="28"
                                        Text="Botliner:"/>
-                            <Button x:Name="Bottliner" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            <Button x:Name="Bottliner_Button" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"
                                     FontFamily="Arial Black" FontSize="24" Background="{x:Null}" BorderBrush="{x:Null}"
                                     Content="There is no botliner"/>
-                        </Grid>
-                        <Grid>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+
+                            <TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"
                                        TextAlignment="Center" FontFamily="Arial Black" FontSize="28"
                                        Text="Support:"/>
-                            <Button x:Name="Support" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            <Button x:Name="Support_Button" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"
                                     FontFamily="Arial Black" FontSize="24" Background="{x:Null}" BorderBrush="{x:Null}"
                                     Content="There is no support"/>
                         </Grid>
                     </StackPanel>
                 </GroupBox>
-                <StackPanel x:Name="NoMembersInTeam" Orientation="Vertical" Visibility="Visible">
+                
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition MinWidth="120" MaxWidth="200"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" FontFamily="Arial Black" FontSize="24"
+                               Text="Honor :"/>
+                    <TextBlock x:Name="Honor_TextBlock" Grid.Column="1" Grid.Row="0" FontFamily="Arial Black" FontSize="24"
+                               HorizontalAlignment="Right" TextAlignment="Justify" Text="_____"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" FontFamily="Arial Black" FontSize="24"
+                               Text="Experience :"/>
+                    <TextBlock x:Name="Experience_TextBlock" Grid.Column="1" Grid.Row="1" FontFamily="Arial Black" FontSize="24"
+                               HorizontalAlignment="Right" TextAlignment="Justify" Text="_____"/>
+                    <TextBlock Grid.Column="0" Grid.Row="2" FontFamily="Arial Black" FontSize="24"
+                               Text="Rank points :"/>
+                    <TextBlock x:Name="RankPoints_TextBlock" Grid.Column="1" Grid.Row="2" FontFamily="Arial Black" FontSize="24"
+                               HorizontalAlignment="Right" TextAlignment="Justify" Text="_____"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" FontFamily="Arial Black" FontSize="24"
+                               Text="Teamplay :"/>
+                    <TextBlock x:Name="Teamplay_TextBlock" Grid.Column="1" Grid.Row="3" FontFamily="Arial Black" FontSize="24"
+                               HorizontalAlignment="Right" TextAlignment="Justify" Text="_____"/>
+                </Grid>
+                
+                <StackPanel x:Name="NoMembersInTeam" Grid.Row="2" Orientation="Vertical" Visibility="Visible">
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                                TextAlignment="Center" FontFamily="Arial Black" FontSize="28"
                                TextWrapping="Wrap" Text="There is no members in this team!"/>
@@ -182,7 +178,7 @@
                             VerticalAlignment="Center" FontFamily="Arial Black" FontSize="28"
                             Background="{x:Null}" Content="Add members!"/>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
         </GroupBox>
     </Grid>
 </Page>

@@ -4,7 +4,7 @@
     {
         Top = 0,
         Jungle = 1,
-        Middle = 2,
+        Mid = 2,
         Bot = 3,
         Support = 4,
     }

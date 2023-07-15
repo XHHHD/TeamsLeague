@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
+using TeamsLeague.BLL.Services.Generators;
 using TeamsLeague.DAL.Entities.MemberParts;
 using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Views.Windows.Member;
@@ -51,7 +54,7 @@ namespace TeamsLeague.UI.WPF.Views.Windows
 
             ExperienceValue.Text = Member.Experience.ToString();
 
-            //MainPositionImg.Text = new BitmapImage(new Uri(ImagesService.GetPositionImageUrl(_memberModel.MainPosition), UriKind.Relative));
+            MemberRoleImg.Source = new BitmapImage(new Uri(ImagesService.GetPositionImageUrl(Member.MainPosition), UriKind.Relative));
 
             MainPositionValue.Text = Member.MainPosition.ToString();
 

@@ -33,10 +33,20 @@ namespace TeamsLeague.BLL.Services.Builders
 
         public ITeamBuilder GenerateBasicStats(string teamName)
         {
+            string teamImage;
+            try
+            {
+                teamImage = ImagesService.GetTeamImgUrl(_random.Next(38, 99));
+            }
+            catch
+            {
+                teamImage = defaultTeamImage;
+            }
+
             TeamModel = new TeamModel
             {
                 Name = teamName,
-                Image = defaultTeamImage,
+                Image = teamImage,
                 LastChanges = DateTime.UtcNow,
 
                 Experience = defaultExperience,

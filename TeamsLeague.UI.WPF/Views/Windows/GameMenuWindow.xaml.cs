@@ -169,7 +169,9 @@ namespace TeamsLeague.UI.WPF.Windows
             var image = new Image
             {
                 Name = "Img",
-                Source = new BitmapImage(new Uri("/Resources/Img/Default/icons8-ос-free-bsd-100-white.png", UriKind.Relative)),
+                Source = _cash.User?.Team?.Image is not null
+                ? new BitmapImage(new Uri(_cash.User.Team.Image, UriKind.Relative))
+                : new BitmapImage(new Uri("/Resources/Img/Default/icons8-ос-free-bsd-100-white.png", UriKind.Relative)),
                 Height = 70,
                 Width = 70,
                 Margin = new Thickness(3),

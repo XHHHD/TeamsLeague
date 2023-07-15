@@ -7,8 +7,9 @@ using System.Windows.Media.Imaging;
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
-using TeamsLeague.BLL.Services;
+using TeamsLeague.BLL.Services.Generators;
 using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Entities.MemberParts;
 using TeamsLeague.DAL.Entities.TeamParts;
 using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
@@ -24,7 +25,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         private readonly ICashBasket _cash;
         private readonly ITeamService _teamService;
 
-        private TeamModel TeamModel {get; set;}
+        private TeamModel Team {get; set;}
 
 
         public TeamMenu(ICashBasket cash, ITeamService teamService, int teamId, object creator)
@@ -32,7 +33,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             _creator = creator;
             _cash = cash;
             _teamService = teamService;
-            TeamModel = _teamService.GetTeam(teamId);
+            Team = _teamService.GetTeam(teamId);
 
             InitializeComponent();
             BuildComponent();
@@ -61,8 +62,8 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void AddMemberButton_Click(object sender, RoutedEventArgs e)
         {
-            var potentialPositions = Enum.GetValues<PositionType>().Where(t => !TeamModel.Members.Select(m => m.MainPosition).Contains(t)).ToList();
-            var addingMember = UnityContainerProvider.GetNew<AddMemberWindow>(new ParameterOverride("teamId", TeamModel.Id), new ParameterOverride("potentialPositions", potentialPositions));
+            var potentialPositions = Enum.GetValues<PositionType>().Where(t => !Team.Members.Select(m => m.MainPosition).Contains(t)).ToList();
+            var addingMember = UnityContainerProvider.GetNew<AddMemberWindow>(new ParameterOverride("teamId", Team.Id), new ParameterOverride("potentialPositions", potentialPositions));
 
             IsEnabled = false;
             addingMember.Closed += (s, args) =>
@@ -79,27 +80,51 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             _cash.GameWindow.GameMainFrame.Content = _creator;
         }
 
+        private void LvlUp_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                if (button.Tag is MemberModel member)
+                {
+                    var levelUp = UnityContainerProvider.GetNew<MemberLevelUpWindow>(new ParameterOverride("memberModel", member));
+
+                    this.IsEnabled = false;
+                    levelUp.Closed += (s, args) =>
+                    {
+                        IsEnabled = true;
+                        BuildComponent();
+                    };
+
+                    levelUp.ShowDialog();
+                }
+            }
+        }
+
         private void BuildComponent()
         {
-            TeamModel = _teamService.GetTeam(TeamModel.Id);
+            Team = _teamService.GetTeam(Team.Id);
 
-            TeamName_TextBlock.Text = TeamModel.Name;
+            TeamName_TextBlock.Text = Team.Name;
+            if (Team.Image is not null)
+            {
+                TeamLogo.Source = new BitmapImage(new Uri(Team.Image, UriKind.Relative));
+            }
 
             FillInStats();
 
             Members_StackPanel.Children.Clear();
-            foreach (var member in TeamModel.Members)
+            foreach (var member in Team.Members)
             {
                 Members_StackPanel.Children.Add(GetMemberViews(member));
                 Members_StackPanel.Background = null;
             }
 
-            if (TeamModel.Id == _cash.User?.Team.Id)
+            if (Team.Id == _cash.User?.Team.Id)
             {
                 BackButton.IsEnabled = false;
                 BackButton.Visibility = Visibility.Hidden;
 
-                if (TeamModel.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
+                if (Team.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
                 {
                     var addMemberButton = new Button
                     {
@@ -126,14 +151,14 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void FillInStats()
         {
-            Health_Progress.Value = TeamModel.Health;
-            Health_Progress.Maximum = TeamModel.MaxHealth;
-            Energy_Progress.Value = TeamModel.Energy;
-            Energy_Progress.Maximum = TeamModel.MaxEnergy;
-            Honor_TextBlock.Text = TeamModel.Honor.ToString();
-            Experience_TextBlock.Text = TeamModel.Experience.ToString();
-            RankPoints_TextBlock.Text = TeamModel.RankPoints.ToString();
-            Teamplay_TextBlock.Text = TeamModel.Teamplay.ToString();    //IN FEATURE NUMBER WILL BE HIDDEN AND SHOW ONLY MENTHAL LEVEL
+            Health_Progress.Value = Team.Health;
+            Health_Progress.Maximum = Team.MaxHealth;
+            Energy_Progress.Value = Team.Energy;
+            Energy_Progress.Maximum = Team.MaxEnergy;
+            Honor_TextBlock.Text = Team.Honor.ToString();
+            Experience_TextBlock.Text = Team.Experience.ToString();
+            RankPoints_TextBlock.Text = Team.RankPoints.ToString();
+            Teamplay_TextBlock.Text = Team.Teamplay.ToString();    //IN FEATURE NUMBER WILL BE HIDDEN AND SHOW ONLY MENTHAL LEVEL
         }
 
         private Button GetMemberViews(MemberModel member)
@@ -232,9 +257,28 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 MinHeight = 30,
                 MaxHeight = 180,
                 Margin = new Thickness(20),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
                 Source = new BitmapImage(new Uri(ImagesService.GetPositionImageUrl(member.MainPosition), UriKind.Relative)),
             };
             stackPanel.Children.Add(memberLeagueImg);
+
+            if (_cash.User?.Team is not null && Team.Id == _cash.User.Team.Id && member.SkillPoints > 0)
+            {
+                var levelUpButton = new Button
+                {
+                    Background = Brushes.CadetBlue,
+                    FontSize = 26,
+                    FontFamily = new FontFamily("Arial Black"),
+                    Content = "LEVEL UP!",
+                    Margin = new Thickness(2),
+                    Tag = member,
+                };
+
+                levelUpButton.Click += LvlUp_Button_Click;
+
+                stackPanel.Children.Add(levelUpButton);
+            }
 
             var parameters = GetParametersView(member);
 

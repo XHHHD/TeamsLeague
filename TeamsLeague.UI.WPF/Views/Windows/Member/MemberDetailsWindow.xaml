@@ -32,8 +32,16 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="MemberLogo" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
-                            Width="200" Height="200" Margin="3" Source="/Resources/Img/Default/icons8-ос-free-bsd-100-black.png"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="MemberLogo" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
+                                Width="200" Height="200" Margin="3" Source="/Resources/Img/Default/icons8-ос-free-bsd-100-black.png"/>
+                        <StackPanel Orientation="Vertical">
+                            <Image x:Name="MemberRoleImg" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Width="120" Height="120" Margin="3" Source="/Resources/Img/Default/icons8-ос-free-bsd-100-black.png"/>
+                            <TextBlock x:Name="MainPositionValue" Grid.Row="1" MaxWidth="600" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"
+                                    VerticalAlignment="Bottom" FontFamily="Arial" FontSize="32" Text="Position"/>
+                        </StackPanel>
+                    </StackPanel>
                     <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -53,8 +61,7 @@
                                     Content="LEVEL UP!" Margin="2" Click="LvlUp_Button_Click"/>
                             </Border>
                         </StackPanel>
-                        <TextBlock x:Name="MainPositionValue" Grid.Row="1" MaxWidth="600" HorizontalAlignment="Right" TextWrapping="Wrap" TextAlignment="Right"
-                                VerticalAlignment="Bottom" FontFamily="Arial" FontSize="32" Text="Position"/>
+                        
                     </Grid>
                 </Grid>
                 <GroupBox Grid.Row="1" Background="CadetBlue">

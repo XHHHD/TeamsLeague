@@ -37,7 +37,7 @@ namespace TeamsLeague.BLL.Services.Generators
                 .GenerateBasicStats(teamName)
                 .GenerateMember(PositionType.Top)
                 .GenerateMember(PositionType.Jungle)
-                .GenerateMember(PositionType.Middle)
+                .GenerateMember(PositionType.Mid)
                 .GenerateMember(PositionType.Bot)
                 .GenerateMember(PositionType.Support)
                 .Build();
