@@ -1,10 +1,8 @@
-﻿using System.Security.Policy;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.UI.WPF.Configuration;
-using TeamsLeague.UI.WPF.Views.Pages.Menu;
 using TeamsLeague.UI.WPF.Views.Windows.Member;
 using Unity.Resolution;
 
@@ -38,6 +36,11 @@ namespace TeamsLeague.UI.WPF.Views.Windows
 
         private void BuildComponent()
         {
+            LvlUp_Button.IsEnabled = _memberModel.SkillPoints > 0;
+            FreeSkillPoints.IsEnabled = _memberModel.SkillPoints > 0;
+            LvlUp_Button.Visibility = _memberModel.SkillPoints > 0 ? Visibility.Visible : Visibility.Hidden;
+            FreeSkillPoints.Visibility = _memberModel.SkillPoints > 0 ? Visibility.Visible : Visibility.Hidden;
+
             MemberNameValue.Text = _memberModel.Name;
 
             RankPointsValue.Text = _memberModel.RankPoints.ToString();

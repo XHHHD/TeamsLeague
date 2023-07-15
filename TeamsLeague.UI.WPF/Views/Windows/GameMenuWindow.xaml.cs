@@ -171,7 +171,7 @@ namespace TeamsLeague.UI.WPF.Windows
             var subText = new TextBlock
             {
                 Name = "SubText",
-                Text = _cash.User?.Team is not null ? _cash.User.Team.Name : "Team Name",
+                Text = _cash.User?.Team is not null ? _cash.User.Team.Name.ToUpper() : "Team Name",
                 FontSize = 30,
                 FontFamily = new FontFamily("Arial Black"),
                 HorizontalAlignment = HorizontalAlignment.Center,
