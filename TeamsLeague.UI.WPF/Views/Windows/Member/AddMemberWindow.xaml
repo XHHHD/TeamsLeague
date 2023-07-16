@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeamsLeague.UI.WPF.Views.Windows.Member"
         mc:Ignorable="d" WindowStyle="None" WindowStartupLocation="CenterScreen"
-        Title="AddMemberWindow" Height="250" Width="700">
+        Title="AddMemberWindow" Height="250" Width="1100">
     <Border Background="#FF255663">
         <Grid Margin="5" Background="CadetBlue">
             <Grid.ColumnDefinitions>
@@ -16,26 +16,29 @@
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Margin="5, 20, 5, 20" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="16" Foreground="#FF255663" Content="MEMBER NAME:"/>
-                <TextBox x:Name="MemberName" Grid.Column="1" Grid.Row="0" Margin="5, 15, 5, 15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" FontSize="20" Foreground="#FF255663" Background="#70FFFFFF"/>
-                <Label Grid.Column="0" Grid.Row="1" Margin="5, 20, 5, 20" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="16" Foreground="#FF255663" Content="MAIN POSITION:"/>
-                <ComboBox x:Name="PositionsList" Grid.Column="1" Grid.Row="1" Margin="5, 15, 5, 15" Background="#50FFFFFF" Foreground="#FF255663" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" FontSize="20"/>
-                <Label Grid.Column="0" Grid.Row="2" Margin="5, 20, 5, 20" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="16" Foreground="#FF255663" Content=", OR CHOISE:"/>
-                <Grid Grid.Column="1" Grid.Row="2" Margin="5, 15, 5, 15" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="8*"/>
-                    </Grid.ColumnDefinitions>
-                    <CheckBox x:Name="IsMemberThisExist" Grid.Column="0" MinHeight="20" MinWidth="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="PotentialMembers" Grid.Column="1" Background="#50FFFFFF" Foreground="#FF255663" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" FontSize="20"/>
-                </Grid>
+                <Label Grid.Column="0" Grid.Row="0" Margin="15, 0, 0, 0" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="16" Foreground="#FF255663" Content="MEMBER NAME:"/>
+                <TextBox x:Name="MemberName" Grid.Column="1" Grid.Row="0" Margin="5, 10, 5, 10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" FontSize="20" Foreground="#FF255663" Background="#70FFFFFF"/>
+                
+                <Label Grid.Column="0" Grid.Row="1" Margin="15, 0, 0, 0" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="16" Foreground="#FF255663" Content="MAIN POSITION:"/>
+                <ComboBox x:Name="PositionsList" Grid.Column="1" Grid.Row="1" Margin="5, 10, 5, 10" Background="#50FFFFFF" Foreground="#FF255663" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" FontSize="20"/>
+
+                <Label Grid.Column="0" Grid.Row="2" Margin="15, 0, 0, 0" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="16" Foreground="#FF255663" Content="PLAY STYLE:"/>
+                <ComboBox x:Name="PlayStylesList" Grid.Column="1" Grid.Row="2" Margin="5, 10, 5, 10" Background="#50FFFFFF" Foreground="#FF255663" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" FontSize="20"/>
+
+                <Label Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontFamily="Arial Black" FontSize="16" Foreground="#FF255663" Content="OR"/>
+                <CheckBox x:Name="IsMemberExist" Grid.Column="3" Grid.Row="1" MinHeight="20" MinWidth="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Checked="IsMemberExist_Checked" Unchecked="IsMemberExist_Checked"/>
+                
+                <Label Grid.Column="2" Grid.Row="2" Margin="15, 0, 0, 0" VerticalAlignment="Center" FontFamily="Arial Black" FontSize="16" Foreground="#FF255663" Content="CHOISE EXISTED:"/>
+                <ComboBox x:Name="PotentialMembers" Grid.Column="3" Grid.Row="2" Margin="5, 10, 5, 10" Background="#50FFFFFF" Foreground="#FF255663" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Black" FontSize="20"/>
             </Grid>
             <Button Grid.Column="1" Background="{x:Null}">
                 <Grid>

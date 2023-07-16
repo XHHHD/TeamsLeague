@@ -101,7 +101,7 @@
                     </Setter>
                 </Style>
             </ScrollViewer.Resources>
-            <StackPanel x:Name="Members_StackPanel" Orientation="Horizontal" HorizontalAlignment="Left" Background="#33FFFFFF">
+            <StackPanel x:Name="Members_StackPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="#33FFFFFF">
             </StackPanel>
         </ScrollViewer>
         <Image x:Name="TeamLogo" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin="5"

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,9 +9,7 @@ using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.BLL.Services.Generators;
-using TeamsLeague.DAL.Constants;
-using TeamsLeague.DAL.Entities.MemberParts;
-using TeamsLeague.DAL.Entities.TeamParts;
+using TeamsLeague.DAL.Constants.Member;
 using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Views.Windows;
@@ -24,16 +23,20 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         private readonly object _creator;
         private readonly ICashBasket _cash;
         private readonly ITeamService _teamService;
+        private readonly IMemberService _memberService;
 
-        private TeamModel Team {get; set;}
+        private TeamModel Team { get; set; }
+        private IEnumerable<MemberModel> Members { get; set; }
 
 
-        public TeamMenu(ICashBasket cash, ITeamService teamService, int teamId, object creator)
+        public TeamMenu(ICashBasket cash, ITeamService teamService, IMemberService memberService, int teamId, object creator)
         {
             _creator = creator;
             _cash = cash;
             _teamService = teamService;
+            _memberService = memberService;
             Team = _teamService.GetTeam(teamId);
+            Members = _memberService.GetMembersOfTeam(teamId);
 
             InitializeComponent();
             BuildComponent();
@@ -62,7 +65,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void AddMemberButton_Click(object sender, RoutedEventArgs e)
         {
-            var potentialPositions = Enum.GetValues<PositionType>().Where(t => !Team.Members.Select(m => m.MainPosition).Contains(t)).ToList();
+            var potentialPositions = Enum.GetValues<PositionType>().Where(t => !Members.Select(m => m.MainPosition).Contains(t)).ToList();
             var addingMember = UnityContainerProvider.GetNew<AddMemberWindow>(new ParameterOverride("teamId", Team.Id), new ParameterOverride("potentialPositions", potentialPositions));
 
             IsEnabled = false;
@@ -103,6 +106,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         private void BuildComponent()
         {
             Team = _teamService.GetTeam(Team.Id);
+            Members = _memberService.GetMembersOfTeam(Team.Id);
 
             TeamName_TextBlock.Text = Team.Name;
             if (Team.Image is not null)
@@ -113,9 +117,9 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             FillInStats();
 
             Members_StackPanel.Children.Clear();
-            foreach (var member in Team.Members)
+            foreach (var member in Members)
             {
-                Members_StackPanel.Children.Add(GetMemberViews(member));
+                Members_StackPanel.Children.Add(GetMemberViews(member, Members_StackPanel.Height));
                 Members_StackPanel.Background = null;
             }
 
@@ -124,7 +128,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 BackButton.IsEnabled = false;
                 BackButton.Visibility = Visibility.Hidden;
 
-                if (Team.Members.Count < Enum.GetValues(typeof(PositionType)).Length)
+                if (Members.Count() < Enum.GetValues(typeof(PositionType)).Length)
                 {
                     var addMemberButton = new Button
                     {
@@ -161,11 +165,12 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             Teamplay_TextBlock.Text = Team.Teamplay.ToString();    //IN FEATURE NUMBER WILL BE HIDDEN AND SHOW ONLY MENTHAL LEVEL
         }
 
-        private Button GetMemberViews(MemberModel member)
+        private Button GetMemberViews(MemberModel member, double height)
         {
             #region BUTTON
             var memberButton = new Button
             {
+                Height = height,
                 MinWidth = 240,
                 MaxWidth = 300,
                 Background = Brushes.Transparent,
@@ -210,6 +215,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             #region GROUP BOX
             var memberGroup = new GroupBox
             {
+                Height = height,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Background = new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0x88)),

@@ -15,8 +15,10 @@ namespace TeamsLeague.DAL.Entities.TeamParts
 
         public double Energy { get; set; }
         public double MaxEnergy { get; set; }
+        public double EnergyRegen { get; set; }
         public double Health { get; set; }
         public double MaxHealth { get; set; }
+        public double HealthRegen { get; set; }
         public double Teamplay { get; set; }
         #endregion
 

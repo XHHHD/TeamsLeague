@@ -39,6 +39,21 @@ namespace TeamsLeague.UI.WPF.Views.Windows
             this.Close();
         }
 
+        private void LvlUp_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var levelUp = UnityContainerProvider.GetNew<MemberLevelUpWindow>(new ParameterOverride("memberModel", Member));
+
+            this.IsEnabled = false;
+
+            levelUp.Closed += (s, args) =>
+            {
+                IsEnabled = true;
+                BuildComponent();
+            };
+
+            levelUp.ShowDialog();
+        }
+
         private void BuildComponent()
         {
             Member = _memberService.GetMember(Member.Id);
@@ -73,20 +88,6 @@ namespace TeamsLeague.UI.WPF.Views.Windows
             EnergyValue.Maximum = Member.MaxEnergy;
 
             TeamplayValue.Text = Member.Teamplay.ToString();
-        }
-
-        private void LvlUp_Button_Click(object sender, RoutedEventArgs e)
-        {
-            var levelUp = UnityContainerProvider.GetNew<MemberLevelUpWindow>(new ParameterOverride("memberModel", Member));
-
-            this.IsEnabled = false;
-            levelUp.Closed += (s, args) =>
-            {
-                IsEnabled = true;
-                BuildComponent();
-            };
-
-            levelUp.ShowDialog();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using TeamsLeague.DAL.Constants;
+﻿using TeamsLeague.DAL.Constants.Member;
 
 namespace TeamsLeague.DAL.Entities.MemberParts
 {

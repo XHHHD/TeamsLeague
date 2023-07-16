@@ -2,7 +2,6 @@
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models;
 using TeamsLeague.BLL.Models.MemberParts;
-using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities.MemberParts;
 using TeamsLeague.DAL.Entities.TeamParts;
@@ -42,6 +41,10 @@ namespace TeamsLeague.BLL.Services
                 Age = memberModel.Age,
                 Attack = memberModel.Attack,
                 Defense = memberModel.Defense,
+                Intelligence = memberModel.Intelligence,
+                ReactionSpeed = memberModel.ReactionSpeed,
+                MentalPower = memberModel.MentalPower,
+                MentalResistance = memberModel.MentalResistance,
                 CreationDate = memberModel.CreationDate,
                 LastChanges = memberModel.LastChanges,
                 MainPosition = memberModel.MainPosition,
@@ -52,10 +55,10 @@ namespace TeamsLeague.BLL.Services
 
                 Energy = memberModel.Energy,
                 MaxEnergy = memberModel.MaxEnergy,
-                MentalPower = memberModel.MentalPower,
-                MaxMentalPower = memberModel.MaxMentalPower,
+                EnergyRegen = memberModel.EnergyRegen,
                 MentalHealth = memberModel.MentalHealth,
                 MaxMentalHealth = memberModel.MaxMentalHealth,
+                MentalHealthRegen = memberModel.MentalHealthRegen,
                 Teamplay = memberModel.Teamplay,
                 MinTeamplay = memberModel.MinTeamplay,
                 MaxTeamplay = memberModel.MaxTeamplay,
@@ -72,20 +75,15 @@ namespace TeamsLeague.BLL.Services
                     Type = t.Type,
                 }).ToHashSet(),
             };
-
+            UpdateStatesToCurrentTime(member);
 
             Context.Members.Add(member);
             Context.SaveChanges();
-            Context.Entry(member).State = EntityState.Detached;
-            if (team != null)
-            {
-                Context.Entry(team).State = EntityState.Detached;
-            }
-            Context.SaveChanges();
-            Context.Dispose();
-
 
             memberModel.Id = member.Id;
+
+            Context.Dispose();
+
 
             return memberModel;
         }
@@ -94,52 +92,10 @@ namespace TeamsLeague.BLL.Services
         {
             Context = new();
             var members = Context.Members.AsNoTracking();
+            foreach (var member in members) { UpdateStatesToCurrentTime(member); }
+            Context.SaveChanges();
 
-            var result = members.Select(m => new MemberModel
-            {
-                Id = m.Id,
-                Name = m.Name,
-                Age = m.Age,
-                Attack = m.Attack,
-                Defense = m.Defense,
-                CreationDate = m.CreationDate,
-                LastChanges = m.LastChanges,
-                MainPosition = m.MainPosition,
-
-                Experience = m.Experience,
-                SkillPoints = m.SkillPoints,
-                RankPoints = m.RankPoints,
-
-                Energy = m.Energy,
-                MaxEnergy = m.MaxEnergy,
-                MentalPower = m.MentalPower,
-                MaxMentalPower = m.MaxMentalPower,
-                MentalHealth = m.MentalHealth,
-                MaxMentalHealth = m.MaxMentalHealth,
-                Teamplay = m.Teamplay,
-                MinTeamplay = m.MinTeamplay,
-                MaxTeamplay = m.MaxTeamplay,
-
-                Team = m.Team != null
-                ? new TeamModel
-                {
-                    Id = m.Team.Id,
-                    Name = m.Team.Name,
-                }
-                : null,
-
-                Positions = m.Positions.Select(p => new PositionModel
-                {
-                    Id = p.Id,
-                    Type = p.Type,
-                }).ToHashSet(),
-
-                Traits = m.Traits.Select(t => new MemberTraitModel
-                {
-                    Id = t.Id,
-                    Type = t.Type
-                }).ToHashSet()
-            }).ToList();
+            var result = members.Select(m => new MemberModel(m)).ToList();
 
             Context.Dispose();
 
@@ -150,52 +106,24 @@ namespace TeamsLeague.BLL.Services
         {
             Context = new();
             var members = Context.Members.Where(m => m.Team == null);
+            foreach (var member in members) { UpdateStatesToCurrentTime(member); }
+            Context.SaveChanges();
 
-            var result = members.Select(m => new MemberModel
-            {
-                Id = m.Id,
-                Name = m.Name,
-                Age = m.Age,
-                Attack = m.Attack,
-                Defense = m.Defense,
-                CreationDate = m.CreationDate,
-                LastChanges = m.LastChanges,
-                MainPosition = m.MainPosition,
+            var result = members.Select(m => new MemberModel(m)).ToList();
 
-                Experience = m.Experience,
-                SkillPoints = m.SkillPoints,
-                RankPoints = m.RankPoints,
+            Context.Dispose();
 
-                Energy = m.Energy,
-                MaxEnergy = m.MaxEnergy,
-                MentalPower = m.MentalPower,
-                MaxMentalPower = m.MaxMentalPower,
-                MentalHealth = m.MentalHealth,
-                MaxMentalHealth = m.MaxMentalHealth,
-                Teamplay = m.Teamplay,
-                MinTeamplay = m.MinTeamplay,
-                MaxTeamplay = m.MaxTeamplay,
+            return result;
+        }
 
-                Team = m.Team != null
-                ? new TeamModel
-                {
-                    Id = m.Team.Id,
-                    Name = m.Team.Name,
-                }
-                : null,
+        public IEnumerable<MemberModel> GetMembersOfTeam(int teamId)
+        {
+            Context = new();
+            var members = Context.Members.Where(m => m.TeamId == teamId);
+            foreach (var member in members) { UpdateStatesToCurrentTime(member); }
+            Context.SaveChanges();
 
-                Positions = m.Positions.Select(p => new PositionModel
-                {
-                    Id = p.Id,
-                    Type = p.Type,
-                }).ToHashSet(),
-
-                Traits = m.Traits.Select(t => new MemberTraitModel
-                {
-                    Id = t.Id,
-                    Type = t.Type
-                }).ToHashSet()
-            }).ToList();
+            var result = members.Select(m => new MemberModel(m)).ToList();
 
             Context.Dispose();
 
@@ -207,52 +135,10 @@ namespace TeamsLeague.BLL.Services
             Context = new();
             var member = Context.Members.FirstOrDefault(m => m.Id == memberId)
                 ?? throw new Exception($"Member does not exist!");
+            UpdateStatesToCurrentTime(member);
+            Context.SaveChanges();
 
-            var result = new MemberModel
-            {
-                Id = member.Id,
-                Name = member.Name,
-                Age = member.Age,
-                Attack = member.Attack,
-                Defense = member.Defense,
-                CreationDate = member.CreationDate,
-                LastChanges = member.LastChanges,
-                MainPosition = member.MainPosition,
-
-                Experience = member.Experience,
-                SkillPoints = member.SkillPoints,
-                RankPoints = member.RankPoints,
-
-                Energy = member.Energy,
-                MaxEnergy = member.MaxEnergy,
-                MentalPower = member.MentalPower,
-                MaxMentalPower = member.MaxMentalPower,
-                MentalHealth = member.MentalHealth,
-                MaxMentalHealth = member.MaxMentalHealth,
-                Teamplay = member.Teamplay,
-                MinTeamplay = member.MinTeamplay,
-                MaxTeamplay = member.MaxTeamplay,
-
-                Team = member.Team != null
-                ? new TeamModel
-                {
-                    Id = member.Team.Id,
-                    Name = member.Team.Name,
-                }
-                : null,
-
-                Positions = member.Positions.Select(p => new PositionModel
-                {
-                    Id = p.Id,
-                    Type = p.Type,
-                }).ToHashSet(),
-
-                Traits = member.Traits.Select(t => new MemberTraitModel
-                {
-                    Id = t.Id,
-                    Type = t.Type
-                }).ToHashSet()
-            };
+            var result = new MemberModel(member);
 
             Context.Dispose();
 
@@ -264,6 +150,7 @@ namespace TeamsLeague.BLL.Services
             Context = new();
             var member = Context.Members.FirstOrDefault(m => m.Id == memberModel.Id)
                 ?? throw new Exception($"Member does not exist!");
+            UpdateStatesToCurrentTime(member);
 
             memberModel.LastChanges = DateTime.Now;
 
@@ -271,6 +158,10 @@ namespace TeamsLeague.BLL.Services
             member.Age = memberModel.Age;
             member.Attack = memberModel.Attack;
             member.Defense = memberModel.Defense;
+            member.Intelligence = memberModel.Intelligence;
+            member.ReactionSpeed = memberModel.ReactionSpeed;
+            member.MentalPower = memberModel.MentalPower;
+            member.MentalResistance = memberModel.MentalResistance;
             member.CreationDate = memberModel.CreationDate;
             member.MainPosition = memberModel.MainPosition;
 
@@ -280,10 +171,10 @@ namespace TeamsLeague.BLL.Services
 
             member.Energy = memberModel.Energy;
             member.MaxEnergy = memberModel.MaxEnergy;
-            member.MentalPower = memberModel.MentalPower;
-            member.MaxMentalPower = memberModel.MaxMentalPower;
+            member.EnergyRegen = memberModel.EnergyRegen;
             member.MentalHealth = memberModel.MentalHealth;
             member.MaxMentalHealth = memberModel.MaxMentalHealth;
+            member.MentalHealthRegen = memberModel.MentalHealthRegen;
             member.Teamplay = memberModel.Teamplay;
             member.MinTeamplay = memberModel.MinTeamplay;
             member.MaxTeamplay = memberModel.MaxTeamplay;
@@ -364,6 +255,7 @@ namespace TeamsLeague.BLL.Services
             Context = new();
             var member = Context.Members.FirstOrDefault(m => m.Id == memberId)
                 ?? throw new Exception($"Member does not exist!");
+            UpdateStatesToCurrentTime(member);
 
             member = member.SkillPoints > 0
                 ? UpStats(member, usingSkillPointsTypes)
@@ -371,51 +263,7 @@ namespace TeamsLeague.BLL.Services
 
             Context.SaveChanges();
 
-            var result = new MemberModel
-            {
-                Id = member.Id,
-                Name = member.Name,
-                Age = member.Age,
-                Attack = member.Attack,
-                Defense = member.Defense,
-                CreationDate = member.CreationDate,
-                LastChanges = member.LastChanges,
-                MainPosition = member.MainPosition,
-
-                Experience = member.Experience,
-                SkillPoints = member.SkillPoints,
-                RankPoints = member.RankPoints,
-
-                Energy = member.Energy,
-                MaxEnergy = member.MaxEnergy,
-                MentalPower = member.MentalPower,
-                MaxMentalPower = member.MaxMentalPower,
-                MentalHealth = member.MentalHealth,
-                MaxMentalHealth = member.MaxMentalHealth,
-                Teamplay = member.Teamplay,
-                MinTeamplay = member.MinTeamplay,
-                MaxTeamplay = member.MaxTeamplay,
-
-                Team = member.Team != null
-                ? new TeamModel
-                {
-                    Id = member.Team.Id,
-                    Name = member.Team.Name,
-                }
-                : null,
-
-                Positions = member.Positions.Select(p => new PositionModel
-                {
-                    Id = p.Id,
-                    Type = p.Type,
-                }).ToHashSet(),
-
-                Traits = member.Traits.Select(t => new MemberTraitModel
-                {
-                    Id = t.Id,
-                    Type = t.Type
-                }).ToHashSet()
-            };
+            var result = new MemberModel(member);
 
             Context.Dispose();
 
@@ -435,8 +283,7 @@ namespace TeamsLeague.BLL.Services
                     member.Defense++;
                     return member;
                 case UsingSkillPointsTypes.MentalPower:
-                    member.MentalPower+=5;
-                    member.MaxMentalPower+=5;
+                    member.MentalPower++;
                     return member;
                 case UsingSkillPointsTypes.MentalHealth:
                     member.MentalHealth += 5;
@@ -454,6 +301,21 @@ namespace TeamsLeague.BLL.Services
                 default:
                     return member;
             }
+        }
+
+        private static void UpdateStatesToCurrentTime(Member member)
+        {
+            var currentTime = DateTime.Now;
+
+            member.Energy += (member.LastChanges - currentTime).TotalSeconds * member.EnergyRegen;
+            member.Energy = member.Energy < 0 ? 0 : member.Energy;
+            member.Energy = member.Energy > member.MaxEnergy ? member.MaxEnergy : member.Energy;
+
+            member.MentalHealth += (member.LastChanges - currentTime).TotalSeconds * member.MentalHealthRegen;
+            member.MentalHealth = member.MentalHealth < 0 ? 0 : member.MentalHealth;
+            member.MentalHealth = member.MentalHealth > member.MaxMentalHealth ? member.MaxMentalHealth : member.MentalHealth;
+
+            member.LastChanges = currentTime;
         }
     }
 }

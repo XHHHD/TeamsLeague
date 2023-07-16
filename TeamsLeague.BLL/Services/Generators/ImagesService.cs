@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using TeamsLeague.BLL.Interfaces;
-using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Constants.Member;
 
 namespace TeamsLeague.BLL.Services.Generators
 {

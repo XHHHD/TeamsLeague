@@ -9,6 +9,7 @@ namespace TeamsLeague.BLL.Interfaces
         MemberModel GetMember(int memberId);
         IEnumerable<MemberModel> GetAllMembers();
         IEnumerable<MemberModel> GetAllFreeMembers();
+        IEnumerable<MemberModel> GetMembersOfTeam(int teamId);
         MemberModel UpdateMember(MemberModel member);
         bool DeleteMember(int memberId);
         MemberModel UseSkillPoints(int memberId, UsingSkillPointsTypes usingSkillPointsTypes);

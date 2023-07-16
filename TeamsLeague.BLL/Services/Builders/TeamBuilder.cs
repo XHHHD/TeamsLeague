@@ -3,6 +3,7 @@ using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.BLL.Services.Generators;
 using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Constants.Member;
 
 namespace TeamsLeague.BLL.Services.Builders
 {
@@ -17,8 +18,10 @@ namespace TeamsLeague.BLL.Services.Builders
         private const double defaultHonor = 0;
         private const double defaultEnergy = 0;
         private const double defaultMaxEnergy = 100;
+        private const double defaultEnergyRegen = 0.5;
         private const double defaultHealth = 100;
         private const double defaultMaxHealth = 100;
+        private const double defaultHealthRegen = 0.5;
         private const double defaultTeamplay = 0;
 
         private TeamModel TeamModel { get; set; }
@@ -55,8 +58,10 @@ namespace TeamsLeague.BLL.Services.Builders
 
                 Energy = defaultEnergy,
                 MaxEnergy = defaultMaxEnergy,
+                EnergyRegen = defaultEnergyRegen,
                 Health = defaultHealth,
                 MaxHealth = defaultMaxHealth,
+                HealthRegen = defaultHealthRegen,
                 Teamplay = defaultTeamplay,
 
                 Members = new HashSet<MemberModel>(),

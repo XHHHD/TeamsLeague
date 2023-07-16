@@ -1,5 +1,5 @@
 ﻿using TeamsLeague.BLL.Models.MemberParts;
-using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Constants.Member;
 
 namespace TeamsLeague.BLL.Interfaces
 {
@@ -7,6 +7,7 @@ namespace TeamsLeague.BLL.Interfaces
     {
         IMemberBuilder GenerateBasicStats();
         IMemberBuilder GenerateBasicStats(string memberName);
+        IMemberBuilder ChoosePlaystyle(PlaystyleType playstyle);
         /// <summary>
         /// Add to the member position with random type, except position types he already have, or do nothing.
         /// </summary>

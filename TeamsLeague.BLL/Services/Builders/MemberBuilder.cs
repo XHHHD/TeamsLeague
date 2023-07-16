@@ -1,9 +1,7 @@
 ﻿using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Services.Generators;
-using TeamsLeague.DAL.Constants;
-using TeamsLeague.DAL.Constants.Names;
-using TeamsLeague.DAL.Entities.MemberParts;
+using TeamsLeague.DAL.Constants.Member;
 
 namespace TeamsLeague.BLL.Services.Builders
 {
@@ -14,15 +12,19 @@ namespace TeamsLeague.BLL.Services.Builders
         private const int defaultAge = 14;
         private const double defaultAttack = 10;
         private const double defaultDefense = 10;
+        private const double defaultIntelligence = 20;
+        private const double defaultReactionSpeed = 20;
+        private const double defaultMentalPower = 10;
+        private const double defaultMentalResistance = 10;
         private const double defaultExperience = 0;
         private const byte defaultSkillPoints = 0;
         private const int defaultRankPoints = 0;
         private const double defaultEnergy = 100;
         private const double defaultMaxEnergy = 100;
-        private const double defaultMentalPower = 100;
-        private const double defaultMaxMentalPower = 100;
+        private const double defaultEnergyRegen = 1;
         private const double defaultMentalHealth = 100;
         private const double defaultMaxMentalHealth = 100;
+        private const double defaultMentalHealthRegen = 1;
         private const double defaultTeamplay = 0;
         private const double defaultMinTeamplay = 0;
         private const double defaultMaxTeamplay = 100;
@@ -39,34 +41,9 @@ namespace TeamsLeague.BLL.Services.Builders
 
         public IMemberBuilder GenerateBasicStats()
         {
-            MemberModel = new MemberModel
-            {
-                Name = NameGenerator.GenerateMemberName(),
-                Age = defaultAge,
-                Attack = defaultAttack,
-                Defense = defaultDefense,
-                CreationDate = DateTime.Now,
-                LastChanges = DateTime.Now,
-                MainPosition = 0,
+            var name = NameGenerator.GenerateMemberName();
 
-                Experience = defaultExperience,
-                SkillPoints = defaultSkillPoints,
-                RankPoints = defaultRankPoints,
-                Teamplay = defaultTeamplay,
-                MinTeamplay = defaultMinTeamplay,
-                MaxTeamplay = defaultMaxTeamplay,
-
-                Energy = defaultEnergy,
-                MaxEnergy = defaultMaxEnergy,
-                MentalPower = defaultMentalPower,
-                MaxMentalPower = defaultMaxMentalPower,
-                MentalHealth = defaultMentalHealth,
-                MaxMentalHealth = defaultMaxMentalHealth,
-
-                Positions = new HashSet<PositionModel>(),
-                Traits = new HashSet<MemberTraitModel>(),
-            };
-
+            GenerateBasicStats(name);
 
             return this;
         }
@@ -76,12 +53,17 @@ namespace TeamsLeague.BLL.Services.Builders
             MemberModel = new MemberModel
             {
                 Name = memberName,
-                Age = defaultAge,
-                Attack = defaultAttack,
-                Defense = defaultDefense,
+                Age = defaultAge + _random.Next(0, 6),
+                Attack = defaultAttack + _random.Next(-6, 6),
+                Defense = defaultDefense + _random.Next(-6, 6),
+                Intelligence = defaultIntelligence + _random.Next(-16, 16),
+                ReactionSpeed = defaultReactionSpeed + _random.Next(-16, 16),
+                MentalPower = defaultMentalPower + _random.Next(-8, 8),
+                MentalResistance = defaultMentalResistance + _random.Next(-10, 10),
                 CreationDate = DateTime.Now,
                 LastChanges = DateTime.Now,
-                MainPosition = 0,
+                MainPosition = Enum.GetValues<PositionType>().ToList()[_random.Next(0, Enum.GetValues<PositionType>().ToList().Count - 1)],
+                PlayStyle = Enum.GetValues<PlaystyleType>().ToList()[_random.Next(0, Enum.GetValues<PlaystyleType>().ToList().Count - 1)],
 
                 Experience = defaultExperience,
                 SkillPoints = defaultSkillPoints,
@@ -91,16 +73,23 @@ namespace TeamsLeague.BLL.Services.Builders
                 MaxTeamplay = defaultMaxTeamplay,
 
                 Energy = defaultEnergy,
-                MaxEnergy = defaultMaxEnergy,
-                MentalPower = defaultMentalPower,
-                MaxMentalPower = defaultMaxMentalPower,
-                MentalHealth = defaultMentalHealth,
-                MaxMentalHealth = defaultMaxMentalHealth,
+                MaxEnergy = defaultMaxEnergy + _random.Next(-6, 6),
+                EnergyRegen = defaultEnergyRegen + _random.NextDouble(),
+                MentalHealth = defaultMentalHealth + _random.Next(-16, 16),
+                MaxMentalHealth = defaultMaxMentalHealth + _random.Next(-16, 16),
+                MentalHealthRegen = defaultMentalHealthRegen + _random.NextDouble(),
 
                 Positions = new HashSet<PositionModel>(),
                 Traits = new HashSet<MemberTraitModel>(),
             };
 
+
+            return this;
+        }
+
+        public IMemberBuilder ChoosePlaystyle(PlaystyleType playstyle)
+        {
+            MemberModel.PlayStyle = playstyle;
 
             return this;
         }

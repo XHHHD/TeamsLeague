@@ -1,5 +1,6 @@
 ﻿using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Constants.Member;
 
 namespace TeamsLeague.BLL.Interfaces
 {

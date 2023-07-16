@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -6,7 +7,7 @@ using System.Windows.Media.Imaging;
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
-using TeamsLeague.DAL.Constants;
+using TeamsLeague.DAL.Constants.Member;
 using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Views.Windows;
@@ -21,17 +22,21 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private readonly ICashBasket _cash;
         private readonly ITeamService _teamService;
+        private readonly IMemberService _memberService;
 
         private TeamModel Team { get; set; }
+        private IEnumerable<MemberModel> Members { get; set; }
 
-        public TeamTrainingsMenu(ICashBasket cash, ITeamService teamService)
+        public TeamTrainingsMenu(ICashBasket cash, ITeamService teamService, IMemberService memberService)
         {
             _cash = cash;
             _teamService = teamService;
+            _memberService = memberService;
 
             if (_cash.User?.Team is not null)
             {
                 Team = _teamService.GetTeam(_cash.User.Team.Id);
+                Members = _memberService.GetMembersOfTeam(_cash.User.Team.Id);
             }
 
             InitializeComponent();
@@ -61,7 +66,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void AddMemberButton_Click(object sender, RoutedEventArgs e)
         {
-            var potentialPositions = Enum.GetValues<PositionType>().Where(t => !Team.Members.Select(m => m.MainPosition).Contains(t)).ToList();
+            var potentialPositions = Enum.GetValues<PositionType>().Where(t => !Members.Select(m => m.MainPosition).Contains(t)).ToList();
             var addingMember = UnityContainerProvider.GetNew<AddMemberWindow>(new ParameterOverride("teamId", Team.Id), new ParameterOverride("potentialPositions", potentialPositions));
 
             IsEnabled = false;
@@ -77,6 +82,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         private void BuildComponent()
         {
             Team = _teamService.GetTeam(Team.Id);
+            Members = _memberService.GetMembersOfTeam(Team.Id);
 
             TeamName_TextBlock.Text = _cash.User?.Team is not null ? _cash.User?.Team.Name : "Team Name";
             TeamShortName_TextBlock.Text = _cash.User?.Team is not null ? _cash.User?.Team.Name.ToUpper().Remove(3) : "ONE";
@@ -100,11 +106,11 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
         private void FillInMembersButtons()
         {
-            var top = Team.Members.FirstOrDefault(m => m.MainPosition == PositionType.Top);
-            var jun = Team.Members.FirstOrDefault(m => m.MainPosition == PositionType.Jungle);
-            var mid = Team.Members.FirstOrDefault(m => m.MainPosition == PositionType.Mid);
-            var bot = Team.Members.FirstOrDefault(m => m.MainPosition == PositionType.Bot);
-            var sup = Team.Members.FirstOrDefault(m => m.MainPosition == PositionType.Support);
+            var top = Members.FirstOrDefault(m => m.MainPosition == PositionType.Top);
+            var jun = Members.FirstOrDefault(m => m.MainPosition == PositionType.Jungle);
+            var mid = Members.FirstOrDefault(m => m.MainPosition == PositionType.Mid);
+            var bot = Members.FirstOrDefault(m => m.MainPosition == PositionType.Bot);
+            var sup = Members.FirstOrDefault(m => m.MainPosition == PositionType.Support);
 
             TopLiner_Button.Content = top?.Name ?? noAssignedMember;
             TopLiner_Button.Tag = top;

@@ -1,4 +1,4 @@
-﻿namespace TeamsLeague.DAL.Constants
+﻿namespace TeamsLeague.DAL.Constants.Member
 {
     public enum MemberTraitType
     {
