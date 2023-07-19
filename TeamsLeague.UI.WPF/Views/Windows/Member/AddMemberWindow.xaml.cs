@@ -48,12 +48,14 @@ namespace TeamsLeague.UI.WPF.Views.Windows.Member
                 PotentialMembers.IsEnabled = true;
                 MemberName.IsEnabled = false;
                 PositionsList.IsEnabled = false;
+                PlayStylesList.IsEnabled = false;
             }
             else
             {
                 PotentialMembers.IsEnabled = false;
                 MemberName.IsEnabled = true;
                 PositionsList.IsEnabled = true;
+                PlayStylesList.IsEnabled = true;
             }
         }
 

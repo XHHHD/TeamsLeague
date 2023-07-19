@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeamsLeague.UI.WPF.Views.Windows.Member"
         WindowStyle="None" WindowStartupLocation="CenterScreen"
-        mc:Ignorable="d" Background="{x:Null}"
+        mc:Ignorable="d" Background="Transparent"
         Title="MemberLevelUpWindow" Height="300" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>

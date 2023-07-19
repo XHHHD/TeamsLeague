@@ -60,19 +60,19 @@
             </Grid>
             <GroupBox Grid.Row="1">
                 <StackPanel>
-                    <Button x:Name="Action1" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Use this to expend remaining energy points.">
+                    <Button x:Name="Act1_SoloRank" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Use this to expend remaining energy points." Click="Act1_SoloRank_Click">
                         <TextBlock FontFamily="Arial Black" FontSize="28" Text="Solo Ranked Games"/>
                     </Button>
-                    <Button x:Name="Action2" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Some group trainings for boosting team play.">
+                    <Button x:Name="Act2_GroupTrain" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Some group trainings for boosting team play." Click="Act2_GroupTrain_Click">
                         <TextBlock FontFamily="Arial Black" FontSize="28" Text="Group Trainings"/>
                     </Button>
-                    <Button x:Name="Action3" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Hard trainings, that can wreck morale.">
+                    <Button x:Name="Act3_Screams" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Hard trainings, that can wreck morale." Click="Act3_Screams_Click">
                         <TextBlock FontFamily="Arial Black" FontSize="28" TextWrapping="Wrap" TextAlignment="Center" Text="Scrimmages with other teams in legue"/>
                     </Button>
-                    <Button x:Name="Action4" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Try to gain or luse rank points.">
+                    <Button x:Name="Act4_GroupRank" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Try to gain or luse rank points." Click="Act4_GroupRank_Click">
                         <TextBlock FontFamily="Arial Black" FontSize="28" Text="Ranked match"/>
                     </Button>
-                    <Button x:Name="Action5" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Take part in the current tournament.">
+                    <Button x:Name="Act5_Tournament" MinHeight="100" Margin="3" Background="{x:Null}" ToolTip="Take part in the current tournament." Click="Act5_Tournament_Click">
                         <TextBlock  FontFamily="Arial Black" FontSize="28" Text="Current tournament"/>
                     </Button>
                 </StackPanel>

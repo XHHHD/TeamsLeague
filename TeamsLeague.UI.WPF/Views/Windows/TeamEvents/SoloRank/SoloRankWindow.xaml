@@ -6,13 +6,53 @@
         xmlns:local="clr-namespace:TeamsLeague.UI.WPF.Views.Windows.TeamEvents"
         mc:Ignorable="d"
         WindowStyle="None" WindowStartupLocation="CenterScreen"
-        MinWidth="1240" MinHeight="736" Background="#00000000"
+        MinWidth="1240" MinHeight="736" Background="Transparent"
         Title="SoloRankWindow">
     <Border Background="#FF3D7E88">
         <Grid>
-            <Frame x:Name="Event_Frame" Panel.ZIndex="0"/>
-            <Label x:Name="EventStadiaName" Panel.ZIndex="1" Content="Preview" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Width="220" Height="120" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" Background="#FF255663" Foreground="CadetBlue" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Button x:Name="Back_Button" Panel.ZIndex="1" Content="BACK" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Width="180" Height="120" FontFamily="Arial Black" FontSize="36" FontWeight="Bold" Background="#FF255663" Foreground="CadetBlue" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Back_Button_Click"/>
+            <Frame x:Name="Event_Frame"
+                   Panel.ZIndex="0"
+                   NavigationUIVisibility="Hidden"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"/>
+            <Label x:Name="EventStadiaName"
+                   Panel.ZIndex="1"
+                   Content="PREVIEW"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="5"
+                   Width="220"
+                   Height="100"
+                   FontFamily="Arial Black"
+                   FontSize="36"
+                   FontWeight="Bold"
+                   Background="#FF255663"
+                   Foreground="CadetBlue"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"/>
+            <Grid x:Name="MoveButtonts"
+                  Panel.ZIndex="1"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Back_Button"
+                        Grid.Column="1"
+                        Content="BACK"
+                        Margin="5"
+                        Width="180"
+                        Height="100"
+                        FontFamily="Arial Black"
+                        FontSize="36"
+                        FontWeight="Bold"
+                        Background="#FF255663"
+                        Foreground="CadetBlue"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Click="Back_Button_Click"/>
+            </Grid>
         </Grid>
     </Border>
 </Window>

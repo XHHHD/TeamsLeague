@@ -216,6 +216,8 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             var memberGroup = new GroupBox
             {
                 Height = height,
+                MinHeight = 450,
+                MinWidth = 220,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Background = new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0x88)),
@@ -258,6 +260,15 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             };
             stackPanel.Children.Add(mainPositionName);
 
+            var imgGrid = new Grid
+            {
+                MinHeight = 30,
+                MaxHeight = 180,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            stackPanel.Children.Add(imgGrid);
+
             var memberLeagueImg = new Image
             {
                 MinHeight = 30,
@@ -267,7 +278,7 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 VerticalAlignment = VerticalAlignment.Center,
                 Source = new BitmapImage(new Uri(ImagesService.GetPositionImageUrl(member.MainPosition), UriKind.Relative)),
             };
-            stackPanel.Children.Add(memberLeagueImg);
+            imgGrid.Children.Add(memberLeagueImg);
 
             if (_cash.User?.Team is not null && Team.Id == _cash.User.Team.Id && member.SkillPoints > 0)
             {
@@ -278,16 +289,17 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                     FontFamily = new FontFamily("Arial Black"),
                     Content = "LEVEL UP!",
                     Margin = new Thickness(2),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment= VerticalAlignment.Bottom,
                     Tag = member,
                 };
 
                 levelUpButton.Click += LvlUp_Button_Click;
 
-                stackPanel.Children.Add(levelUpButton);
+                imgGrid.Children.Add(levelUpButton);
             }
 
             var parameters = GetParametersView(member);
-
             stackPanel.Children.Add(parameters);
             #endregion
 

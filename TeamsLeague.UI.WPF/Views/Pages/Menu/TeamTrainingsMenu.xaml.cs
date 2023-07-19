@@ -12,6 +12,7 @@ using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
 using TeamsLeague.UI.WPF.Views.Windows;
 using TeamsLeague.UI.WPF.Views.Windows.Member;
+using TeamsLeague.UI.WPF.Views.Windows.TeamEvents;
 using Unity.Resolution;
 
 namespace TeamsLeague.UI.WPF.Views.Pages.Menu
@@ -77,6 +78,40 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             };
 
             addingMember.ShowDialog();
+        }
+
+        private void Act1_SoloRank_Click(object sender, RoutedEventArgs e)
+        {
+            var soloRankEvent = UnityContainerProvider.GetNew<SoloRankWindow>(new ParameterOverride("teamId", Team.Id));
+
+            IsEnabled = false;
+            soloRankEvent.Closed += (s, args) =>
+            {
+                IsEnabled = true;
+                BuildComponent();
+            };
+
+            soloRankEvent.ShowDialog();
+        }
+
+        private void Act2_GroupTrain_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Act3_Screams_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Act4_GroupRank_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Act5_Tournament_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void BuildComponent()

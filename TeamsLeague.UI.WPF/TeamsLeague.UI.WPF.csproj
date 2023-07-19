@@ -8,9 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Img\Default\G1.png" />
-    <None Remove="Resources\Img\Default\G2.png" />
-    <None Remove="Resources\Img\Default\G3.png" />
     <None Remove="Resources\Img\Default\icons8-ос-free-bsd-100-black.png" />
     <None Remove="Resources\Img\Default\icons8-ос-free-bsd-100-white.png" />
     <None Remove="Resources\Img\Default\icons8-ос-free-bsd-50-black.png" />
@@ -98,15 +95,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Img\Default\G1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Img\Default\G2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Img\Default\G3.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-100-black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -338,8 +326,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Pages\TeamEvents\" />
-    <Folder Include="Views\Pages\TeamEvents\SoloRank\" />
     <Folder Include="Views\Windows\TeamEvents\GroupTrain\" />
     <Folder Include="Views\Windows\TeamEvents\Tournament\" />
     <Folder Include="Views\Windows\TeamEvents\TeamRanked\" />
