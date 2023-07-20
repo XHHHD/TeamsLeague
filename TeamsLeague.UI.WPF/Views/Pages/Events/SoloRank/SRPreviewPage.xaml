@@ -7,8 +7,19 @@
       mc:Ignorable="d" 
       d:DesignHeight="736" d:DesignWidth="1240" Background="Transparent"
       Title="PREVIEW">
-
-    <ScrollViewer>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0">
+            <TextBlock Text="CHOOSE MEMBER"
+                       FontFamily="Arial Black"
+                       FontSize="42"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Border>
+        <ScrollViewer Grid.Row="1">
         <ScrollViewer.Resources>
             <Style TargetType="ScrollBar">
                 <Setter Property="Background" Value="#0000FFFF"/>
@@ -21,15 +32,17 @@
                         <ControlTemplate TargetType="ScrollBar">
                             <Grid Background="{TemplateBinding Background}">
                                 <Track x:Name="PART_Track"
-                                               IsDirectionReversed="True">
+                                        IsDirectionReversed="True">
                                     <Track.DecreaseRepeatButton>
-                                        <RepeatButton Command="{x:Static ScrollBar.LineUpCommand}" Visibility="Collapsed"/>
+                                        <RepeatButton Command="{x:Static ScrollBar.LineUpCommand}"
+                                                        Visibility="Collapsed"/>
                                     </Track.DecreaseRepeatButton>
                                     <Track.Thumb>
                                         <Thumb Background="{TemplateBinding Foreground}"/>
                                     </Track.Thumb>
                                     <Track.IncreaseRepeatButton>
-                                        <RepeatButton Command="{x:Static ScrollBar.LineDownCommand}" Visibility="Collapsed"/>
+                                        <RepeatButton Command="{x:Static ScrollBar.LineDownCommand}"
+                                                        Visibility="Collapsed"/>
                                     </Track.IncreaseRepeatButton>
                                 </Track>
                             </Grid>
@@ -43,5 +56,6 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
         </StackPanel>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </Page>

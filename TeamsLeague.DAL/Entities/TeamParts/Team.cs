@@ -1,4 +1,5 @@
-﻿using TeamsLeague.DAL.Entities.MemberParts;
+﻿using TeamsLeague.DAL.Entities.MatchParts;
+using TeamsLeague.DAL.Entities.MemberParts;
 
 namespace TeamsLeague.DAL.Entities.TeamParts
 {
@@ -22,13 +23,12 @@ namespace TeamsLeague.DAL.Entities.TeamParts
         public double Teamplay { get; set; }
         #endregion
 
-
         #region PROXY STATS
         public virtual User? User { get; set; }
         public virtual ICollection<Member> Members { get; set; } = new HashSet<Member>();
         public virtual ICollection<TeamTrait> Traits { get; set; } = new HashSet<TeamTrait>();
+        public virtual ICollection<Match> History { get; set; } = new HashSet<Match>();
         #endregion
-
 
         #region DB KEYS
         public int Id { get; set; }

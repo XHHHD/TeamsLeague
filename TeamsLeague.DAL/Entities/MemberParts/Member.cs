@@ -1,4 +1,5 @@
 ﻿using TeamsLeague.DAL.Constants.Member;
+using TeamsLeague.DAL.Entities.MatchParts;
 using TeamsLeague.DAL.Entities.TeamParts;
 
 namespace TeamsLeague.DAL.Entities.MemberParts
@@ -38,6 +39,7 @@ namespace TeamsLeague.DAL.Entities.MemberParts
         public virtual Team? Team { get; set; }
         public virtual ICollection<Position> Positions { get; set; } = new HashSet<Position>();
         public virtual ICollection<MemberTrait> Traits { get; set; } = new HashSet<MemberTrait>();
+        public virtual ICollection<MatchSeat> SeatsHistory { get; set; } = new HashSet<MatchSeat>();
         #endregion
 
         #region DB KEYS

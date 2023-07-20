@@ -2,6 +2,7 @@
 using TeamsLeague.BLL.Interfaces;
 using TeamsLeague.BLL.Models;
 using TeamsLeague.BLL.Models.MemberParts;
+using TeamsLeague.DAL.Constants.Member;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities.MemberParts;
 using TeamsLeague.DAL.Entities.TeamParts;
@@ -140,6 +141,24 @@ namespace TeamsLeague.BLL.Services
 
             var result = new MemberModel(member);
 
+            Context.Dispose();
+
+            return result;
+        }
+
+        public IEnumerable<MemberModel> GetMembersInRank(PositionType type, int lowestRank, int highestRank)
+        {
+            Context = new();
+            var members = Context.Members.Where(m => m.MainPosition == type).Where(m => m.RankPoints > lowestRank && m.RankPoints < highestRank);
+
+            var result = new HashSet<MemberModel>();
+            foreach (var member in members)
+            {
+                UpdateStatesToCurrentTime(member);
+                result.Add(new MemberModel(member));
+            }
+
+            Context.SaveChanges();
             Context.Dispose();
 
             return result;

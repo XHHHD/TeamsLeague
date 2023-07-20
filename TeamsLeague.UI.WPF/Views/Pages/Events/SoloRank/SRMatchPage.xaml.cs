@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using TeamsLeague.BLL.Interfaces;
@@ -9,16 +10,17 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Events.SoloRank
 {
     public partial class SRMatchPage : Page
     {
-        private readonly IGameMech _gameMech;
+        private readonly IMatchService _matchService;
         private readonly IMemberService _memberService;
         private readonly SoloRankWindow _eventWindow;
 
         private MemberModel Member { get; set; }
+        private List<MemberModel> Members { get; set; }
 
 
-        public SRMatchPage(IGameMech gameMech, IMemberService memberService, int memberId, SoloRankWindow eventWindow)
+        public SRMatchPage(IMatchService matchService, IMemberService memberService, int memberId, SoloRankWindow eventWindow)
         {
-            _gameMech = gameMech;
+            _matchService = matchService;
             _memberService = memberService;
             _eventWindow = eventWindow;
 
@@ -44,6 +46,24 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Events.SoloRank
                                     //<<<< ADD GAME MECHANIC HERE! <<<<
 
             _eventWindow.CreateAndShowNextButton(matchId, true);
+        }
+
+        public void BuildComponent()
+        {
+            var memberView = BuildMemberView(Member);
+
+            L_Player1_StackPanel.Children.Add(memberView);
+        }
+
+        public TextBlock BuildMemberView(MemberModel member)
+        {
+            var memberName = new TextBlock
+            {
+                Text = member.Name,
+                FontSize = 32,
+            };
+
+            return memberName;
         }
     }
 }
