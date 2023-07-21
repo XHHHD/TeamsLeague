@@ -1,4 +1,5 @@
-﻿using TeamsLeague.BLL.Models.TeamParts;
+﻿using TeamsLeague.BLL.Models.MatchParts;
+using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Constants.Member;
 using TeamsLeague.DAL.Entities.MemberParts;
 
@@ -36,8 +37,9 @@ namespace TeamsLeague.BLL.Models.MemberParts
         public double MaxTeamplay { get; set; }
 
         public TeamShortModel? Team { get; set; }
-        public HashSet<PositionModel> Positions { get; set; }
-        public HashSet<MemberTraitModel> Traits { get; set; }
+        public HashSet<PositionModel> Positions { get; set; } = new();
+        public HashSet<MemberTraitModel> Traits { get; set; } = new();
+        public HashSet<MatchSeatModel> SeatsHistory { get; set; } = new();
 
 
         public MemberModel() { }
@@ -76,6 +78,7 @@ namespace TeamsLeague.BLL.Models.MemberParts
             Team = member.Team is not null ? new TeamShortModel(member.Team) : null;
             Positions = member.Positions.Select(p => new PositionModel(p)).ToHashSet();
             Traits = member.Traits.Select(t => new MemberTraitModel(t)).ToHashSet();
+            SeatsHistory = member.SeatsHistory.Select(s => new MatchSeatModel(s)).ToHashSet();
         }
     }
 }

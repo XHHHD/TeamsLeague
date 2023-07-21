@@ -1,4 +1,5 @@
-﻿using TeamsLeague.BLL.Models.MemberParts;
+﻿using TeamsLeague.BLL.Models.MatchParts;
+using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.DAL.Entities.TeamParts;
 
 namespace TeamsLeague.BLL.Models.TeamParts
@@ -23,8 +24,9 @@ namespace TeamsLeague.BLL.Models.TeamParts
         public double Teamplay { get; set; }
 
         public UserModel? User { get; set; }
-        public HashSet<MemberModel> Members { get; set; }
-        public HashSet<TeamTraitModel> Traits { get; set; }
+        public HashSet<MemberModel> Members { get; set; } = new();
+        public HashSet<TeamTraitModel> Traits { get; set; } = new();
+        public HashSet<MatchModel> History { get; set; } = new();
 
 
         public TeamModel() { }
@@ -52,6 +54,7 @@ namespace TeamsLeague.BLL.Models.TeamParts
             User = team.User is not null ? new UserModel(team.User) : null;
             Members = team.Members.Select(m => new MemberModel(m)).ToHashSet();
             Traits = team.Traits.Select(t => new TeamTraitModel(t)).ToHashSet();
+            History = team.History.Select(m => new MatchModel(m)).ToHashSet();
         }
     }
 }

@@ -10,8 +10,8 @@ namespace TeamsLeague.DAL.Entities.MatchParts
         /// </summary>
         public double Duration { get; set; }
         public DateTime Date { get; set; }
-        public MatchSide Winer { get; set; }
-        public bool IsItEnded { get; set; }
+        public MatchSide? Winer { get; set; }
+        public bool IsItEnded { get; set; } = false;
 
         public virtual ICollection<Team> Teams { get; set; } = new HashSet<Team>();
         public virtual ICollection<MatchSeat> Seats { get; set; } = new HashSet<MatchSeat>();

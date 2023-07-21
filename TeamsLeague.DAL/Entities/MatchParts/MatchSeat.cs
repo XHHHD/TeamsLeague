@@ -9,15 +9,6 @@ namespace TeamsLeague.DAL.Entities.MatchParts
     {
         public int GainedRankPoints { get; set; }
         public int GainedExperience { get; set; }
-        public uint DamageDone { get; set; }
-        public uint DamageTaken { get; set; }
-        public uint DamageBlocked { get; set; }
-        public uint HealingDone { get; set; }
-        public uint ShieldsDone { get; set; }
-        public uint ControlTime { get; set; }
-        public uint ControlTaken { get; set; }
-        public uint SlowsDone { get; set; }
-        public uint SlowsTaken { get; set; }
         public PositionType Position { get; set; }
         public MatchSide Side { get; set; }
 

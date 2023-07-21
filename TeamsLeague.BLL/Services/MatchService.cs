@@ -98,9 +98,9 @@ namespace TeamsLeague.BLL.Services
         }
 
 
-        private MatchPlaceModel GetMemberPlace(MemberModel member)
+        private MatchSeatModel GetMemberPlace(MemberModel member)
         {
-            var result = new MatchPlaceModel
+            var result = new MatchSeatModel
             {
                 Position = member.MainPosition,
                 Side = MatchSide.A,
@@ -111,7 +111,7 @@ namespace TeamsLeague.BLL.Services
             return result;
         }
 
-        private MatchPlaceModel GetMemberPlace(MemberModel member, PositionType position)
+        private MatchSeatModel GetMemberPlace(MemberModel member, PositionType position)
         {
             var result = GetMemberPlace(member);
 
@@ -156,7 +156,7 @@ namespace TeamsLeague.BLL.Services
             }
         }
 
-        private readonly MatchModel SaveMatch(MatchModel matchModel)
+        private MatchModel SaveMatch(MatchModel matchModel)
         {
             using var dbContext = new GameDBContext();
 
