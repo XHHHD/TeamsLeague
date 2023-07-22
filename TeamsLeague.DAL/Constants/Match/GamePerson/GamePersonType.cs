@@ -1,0 +1,30 @@
+﻿namespace TeamsLeague.DAL.Constants.Match.GamePerson
+{
+    public enum GamePersonType
+    {
+        Aurelia,
+        Ragnus,
+        Ivy,
+        Cogsworth,
+        Elara,
+        Thundar,
+        Morok,
+        Lyra,
+        Grimclaw,
+        Nymphia,
+        Ignis,
+        Vera,
+        Zephyr,
+        Solus,
+        Grom,
+        Vespera,
+        Zarael,
+        Tusk,
+        Lunara,
+        Hex,
+        Dracor,
+        Arachna,
+        Zilon,
+        Lyth,
+    }
+}
