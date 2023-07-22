@@ -9,19 +9,23 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Events.SoloRank
 {
     public partial class SRMatchPage : Page
     {
+        private readonly IMatchService _matchService;
         private readonly IMatchBuilder _matchBuilder;
         private readonly IMemberService _memberService;
         private readonly SoloRankWindow _eventWindow;
-        private readonly MatchModel _matchModel;
 
 
-        public SRMatchPage(IMatchBuilder matchBuilder, IMemberService memberService, int memberId, SoloRankWindow eventWindow)
+        private MatchModel CurrentMatch;
+
+
+        public SRMatchPage(IMatchService matchService, IMatchBuilder matchBuilder, IMemberService memberService, int memberId, SoloRankWindow eventWindow)
         {
+            _matchService = matchService;
             _matchBuilder = matchBuilder;
             _memberService = memberService;
             _eventWindow = eventWindow;
 
-            _matchModel = _matchBuilder.SetupSoloRank(memberId).GetMatch();
+            CurrentMatch = _matchBuilder.SetupSoloRank(memberId).GetMatch();
 
             InitializeComponent();
             ShowPreMatchLobby();
@@ -39,12 +43,13 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Events.SoloRank
 
         internal void Match()
         {
-            var matchId = 999;      //<<<< ADD GAME MECHANIC HERE! <<<<
-                                    //<<<< ADD GAME MECHANIC HERE! <<<<
-                                    //<<<< ADD GAME MECHANIC HERE! <<<<
-                                    //<<<< ADD GAME MECHANIC HERE! <<<<
+            CurrentMatch = _matchService.InitiateMatch(CurrentMatch.Id);
 
-            _eventWindow.CreateAndShowNextButton(matchId, true);
+            //<<<< ADD WIN ANIMATION HERE! <<<<
+            //<<<< ADD WIN ANIMATION HERE! <<<<
+            //<<<< ADD WIN ANIMATION HERE! <<<<
+
+            _eventWindow.CreateAndShowNextButton(CurrentMatch.Id, true);
         }
 
         private void BuildComponent()
@@ -55,11 +60,11 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Events.SoloRank
         private void ViewTeams()
         {
             //TEAM A
-            var lTop = _matchModel.TeamA.First(s => s.Position == PositionType.Top);
-            var lJun = _matchModel.TeamA.First(s => s.Position == PositionType.Jungle);
-            var lMid = _matchModel.TeamA.First(s => s.Position == PositionType.Mid);
-            var lBot = _matchModel.TeamA.First(s => s.Position == PositionType.Bot);
-            var lSup = _matchModel.TeamA.First(s => s.Position == PositionType.Support);
+            var lTop = CurrentMatch.TeamA.First(s => s.Position == PositionType.Top);
+            var lJun = CurrentMatch.TeamA.First(s => s.Position == PositionType.Jungle);
+            var lMid = CurrentMatch.TeamA.First(s => s.Position == PositionType.Mid);
+            var lBot = CurrentMatch.TeamA.First(s => s.Position == PositionType.Bot);
+            var lSup = CurrentMatch.TeamA.First(s => s.Position == PositionType.Support);
 
             L_Player1_Name.Text = lTop.Member.Name;
             L_Player2_Name.Text = lJun.Member.Name;
@@ -87,11 +92,11 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Events.SoloRank
 
 
             //TEAM B
-            var rTop = _matchModel.TeamB.First(s => s.Position == PositionType.Top);
-            var rJun = _matchModel.TeamB.First(s => s.Position == PositionType.Jungle);
-            var rMid = _matchModel.TeamB.First(s => s.Position == PositionType.Mid);
-            var rBot = _matchModel.TeamB.First(s => s.Position == PositionType.Bot);
-            var rSup = _matchModel.TeamB.First(s => s.Position == PositionType.Support);
+            var rTop = CurrentMatch.TeamB.First(s => s.Position == PositionType.Top);
+            var rJun = CurrentMatch.TeamB.First(s => s.Position == PositionType.Jungle);
+            var rMid = CurrentMatch.TeamB.First(s => s.Position == PositionType.Mid);
+            var rBot = CurrentMatch.TeamB.First(s => s.Position == PositionType.Bot);
+            var rSup = CurrentMatch.TeamB.First(s => s.Position == PositionType.Support);
 
             R_Player1_Name.Text = rTop.Member.Name;
             R_Player2_Name.Text = rJun.Member.Name;
