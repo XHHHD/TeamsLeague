@@ -14,7 +14,8 @@
             <RowDefinition/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="1">
+        <Grid x:Name="ContentGrid"
+              Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="2*"/>
@@ -34,7 +35,7 @@
                 <RowDefinition x:Name="Sup"
                                Height="*"/>
             </Grid.RowDefinitions>
-            
+
             <Grid Grid.Column="2"
                   Grid.Row="0">
                 <Image Panel.ZIndex="0"
@@ -61,7 +62,6 @@
                     </TextBlock.Foreground>
                 </TextBlock>
             </Grid>
-            
             <Grid Grid.Column="2"
                   Grid.Row="1">
                 <Image Source="/Resources/Img/Default/Roles/2.png"/>
@@ -87,7 +87,6 @@
                     </TextBlock.Foreground>
                 </TextBlock>
             </Grid>
-
             <Grid Grid.Column="2"
                    Grid.Row="2">
                 <Image Source="/Resources/Img/Default/Roles/3.png"/>
@@ -164,11 +163,985 @@
                 </TextBlock>
             </Grid>
 
-            <StackPanel x:Name="L_Player1_StackPanel"
+            <GroupBox x:Name="L_Player1"
                         Grid.Column="1"
                         Grid.Row="0"
-                        Orientation="Horizontal">
-            </StackPanel>
+                      BorderThickness="1">
+                <Button x:Name="L_Player1_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock x:Name="L_Player1_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="L_Player1_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       FontSize="12"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+                        
+                        <Grid Grid.Column="1"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+
+                            <TextBlock x:Name="L_Player1_Experience"
+                                       Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player1_RankPoints"
+                                       Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player1_V1"
+                                       Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock x:Name="L_Player1_V2"
+                                       Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+            
+            <GroupBox x:Name="L_Player2"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                      BorderThickness="1">
+                <Button x:Name="L_Player2_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock x:Name="L_Player2_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="L_Player2_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="1"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+
+                            <TextBlock x:Name="L_Player2_Experience"
+                                       Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player2_RankPoints"
+                                       Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player2_V1"
+                                       Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock x:Name="L_Player2_V2"
+                                       Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+            
+            <GroupBox x:Name="L_Player3"
+                        Grid.Column="1"
+                        Grid.Row="2"
+                      BorderThickness="1">
+                <Button x:Name="L_Player3_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock x:Name="L_Player3_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="L_Player3_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="1"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+
+                            <TextBlock x:Name="L_Player3_Experience"
+                                       Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player3_RankPoints"
+                                       Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player3_V1"
+                                       Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock x:Name="L_Player3_V2"
+                                       Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+            
+            <GroupBox x:Name="L_Player4"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                      BorderThickness="1">
+                <Button x:Name="L_Player4_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock x:Name="L_Player4_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="L_Player4_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="1"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+
+                            <TextBlock x:Name="L_Player4_Experience"
+                                       Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player4_RankPoints"
+                                       Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player4_V1"
+                                       Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock x:Name="L_Player4_V2"
+                                       Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+            
+            <GroupBox x:Name="L_Player5"
+                        Grid.Column="1"
+                        Grid.Row="4"
+                      BorderThickness="1">
+                <Button x:Name="L_Player5_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock x:Name="L_Player5_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="L_Player5_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="1"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+
+                            <TextBlock x:Name="L_Player5_Experience"
+                                       Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player5_RankPoints"
+                                       Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="0"/>
+                            <TextBlock x:Name="L_Player5_V1"
+                                       Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock x:Name="L_Player5_V2"
+                                       Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+
+            <GroupBox x:Name="R_Player1"
+                        Grid.Column="3"
+                        Grid.Row="0"
+                      BorderThickness="1">
+                <Button x:Name="R_Player1_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock x:Name="R_Player1_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="R_Player1_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="0"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+
+                            <TextBlock x:Name="R_Player1_Experience"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player1_RankPoints"
+                                       Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player1_V1"
+                                       Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock x:Name="R_Player1_V2"
+                                       Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+            
+            <GroupBox x:Name="R_Player2"
+                        Grid.Column="3"
+                        Grid.Row="1"
+                      BorderThickness="1">
+                <Button x:Name="R_Player2_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock x:Name="R_Player2_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="R_Player2_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="0"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+
+                            <TextBlock x:Name="R_Player2_Experience"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player2_RankPoints"
+                                       Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player2_V1"
+                                       Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock x:Name="R_Player2_V2"
+                                       Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+
+            <GroupBox x:Name="R_Player3"
+                        Grid.Column="3"
+                        Grid.Row="2"
+                      BorderThickness="1">
+                <Button x:Name="R_Player3_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock x:Name="R_Player3_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="R_Player3_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="0"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+
+                            <TextBlock x:Name="R_Player3_Experience"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player3_RankPoints"
+                                       Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player3_V1"
+                                       Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock x:Name="R_Player3_V2"
+                                       Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+
+            <GroupBox x:Name="R_Player4"
+                        Grid.Column="3"
+                        Grid.Row="3"
+                      BorderThickness="1">
+                <Button x:Name="R_Player4_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock x:Name="R_Player4_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="R_Player4_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="0"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+
+                            <TextBlock x:Name="R_Player4_Experience"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player4_RankPoints"
+                                       Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player4_V1"
+                                       Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock x:Name="R_Player4_V2"
+                                       Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
+
+            <GroupBox x:Name="R_Player5"
+                        Grid.Column="3"
+                        Grid.Row="4"
+                      BorderThickness="1">
+                <Button x:Name="R_Player5_Button"
+                        Background="{x:Null}"
+                        VerticalAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock x:Name="R_Player5_Name"
+                                       Margin="5"
+                                       MaxWidth="200"
+                                       FontFamily="Arial Black"
+                                       FontSize="18"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NAME"/>
+                            <TextBlock x:Name="R_Player5_Team"
+                                       Margin="2"
+                                       FontFamily="Arial Black"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       TextAlignment="Right"
+                                       Text="NO TEAM"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="0"
+                              Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="EXPERIENCE"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text="RANK"/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+                            <TextBlock Grid.Column="1"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Right"
+                                       Text=""/>
+
+                            <TextBlock x:Name="R_Player5_Experience"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player5_RankPoints"
+                                       Grid.Column="0"
+                                       Grid.Row="1"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text="0"/>
+                            <TextBlock x:Name="R_Player5_V1"
+                                       Grid.Column="0"
+                                       Grid.Row="2"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                            <TextBlock x:Name="R_Player5_V2"
+                                       Grid.Column="0"
+                                       Grid.Row="3"
+                                       FontSize="12"
+                                       HorizontalAlignment="Left"
+                                       Text=""/>
+                        </Grid>
+                    </Grid>
+                </Button>
+            </GroupBox>
         </Grid>
     </Grid>
 </Page>

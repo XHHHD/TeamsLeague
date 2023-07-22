@@ -7,8 +7,9 @@ namespace TeamsLeague.DAL.Entities.MatchParts
 {
     public class MatchSeat
     {
-        public int GainedRankPoints { get; set; }
-        public int GainedExperience { get; set; }
+        public uint GainedRankPoints { get; set; }
+        public uint GainedExperience { get; set; }
+        public uint GainedGold { get; set; }
         public PositionType Position { get; set; }
         public MatchSide Side { get; set; }
 

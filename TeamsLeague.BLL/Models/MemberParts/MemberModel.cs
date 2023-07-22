@@ -50,12 +50,12 @@ namespace TeamsLeague.BLL.Models.MemberParts
 
             Name = member.Name;
             Age = member.Age;
-            Attack = member.Attack;
-            Defense = member.Defense;
-            Intelligence = member.Intelligence;
-            ReactionSpeed = member.ReactionSpeed;
-            MentalPower = member.MentalPower;
-            MentalResistance = member.MentalResistance;
+            Attack = Math.Round(member.Attack);
+            Defense = Math.Round(member.Defense);
+            Intelligence = Math.Round(member.Intelligence);
+            ReactionSpeed = Math.Round(member.ReactionSpeed);
+            MentalPower = Math.Round(member.MentalPower);
+            MentalResistance = Math.Round(member.MentalResistance);
             CreationDate = member.CreationDate;
             LastChanges = member.LastChanges;
             MainPosition = member.MainPosition;
@@ -65,15 +65,15 @@ namespace TeamsLeague.BLL.Models.MemberParts
             SkillPoints = member.SkillPoints;
             RankPoints = member.RankPoints;
 
-            Energy = member.Energy;
-            MaxEnergy = member.MaxEnergy;
-            EnergyRegen = member.EnergyRegen;
-            MentalHealth = member.MentalHealth;
-            MaxMentalHealth = member.MaxMentalHealth;
-            MentalHealthRegen = member.MentalHealthRegen;
-            Teamplay = member.Teamplay;
-            MinTeamplay = member.MinTeamplay;
-            MaxTeamplay = member.MaxTeamplay;
+            Energy = Math.Round(member.Energy);
+            MaxEnergy = Math.Round(member.MaxEnergy);
+            EnergyRegen = Math.Round(member.EnergyRegen);
+            MentalHealth = Math.Round(member.MentalHealth);
+            MaxMentalHealth = Math.Round(member.MaxMentalHealth);
+            MentalHealthRegen = Math.Round(member.MentalHealthRegen);
+            Teamplay = Math.Round(member.Teamplay);
+            MinTeamplay = Math.Round(member.MinTeamplay);
+            MaxTeamplay = Math.Round(member.MaxTeamplay);
 
             Team = member.Team is not null ? new TeamShortModel(member.Team) : null;
             Positions = member.Positions.Select(p => new PositionModel(p)).ToHashSet();

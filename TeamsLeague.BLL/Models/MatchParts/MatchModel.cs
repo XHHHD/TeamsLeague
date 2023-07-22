@@ -11,8 +11,9 @@ namespace TeamsLeague.BLL.Models.MatchParts
         /// SECONDS
         /// </summary>
         public double Duration { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public MatchSide? Winer { get; set; }
+        public TypeOfMatch Type { get; set; }
         public bool IsItEnded { get; set; } = false;
 
         public HashSet<TeamShortModel> Teams { get; set; } = new();
@@ -30,6 +31,7 @@ namespace TeamsLeague.BLL.Models.MatchParts
             Duration = match.Duration;
             Date = match.Date;
             Winer = match.Winer;
+            Type = match.Type;
             IsItEnded = match.IsItEnded;
 
             Teams = match.Teams.Select(t => new TeamShortModel(t)).ToHashSet();

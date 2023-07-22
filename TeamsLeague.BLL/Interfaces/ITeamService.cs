@@ -6,6 +6,7 @@ namespace TeamsLeague.BLL.Interfaces
     {
         TeamModel CreateTeam(TeamModel team);
         TeamModel GetTeam(int teamId);
+        IEnumerable<TeamModel> GetTeamsInRank(int rankFrom, int rankTo);
         IEnumerable<TeamModel> GetAllTeams();
         TeamModel UpdateTeam(TeamModel team);
         bool DeleteTeam(int teamId);

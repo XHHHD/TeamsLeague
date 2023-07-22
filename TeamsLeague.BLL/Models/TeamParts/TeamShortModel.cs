@@ -15,5 +15,11 @@ namespace TeamsLeague.BLL.Models.TeamParts
             Id = team.Id;
             Name = team.Name;
         }
+
+        public TeamShortModel(TeamModel model)
+        {
+            Id = model.Id;
+            Name = model.Name;
+        }
     }
 }

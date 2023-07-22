@@ -12,6 +12,7 @@ using TeamsLeague.BLL.Services.Generators;
 using TeamsLeague.DAL.Constants.Member;
 using TeamsLeague.UI.WPF.Buffer;
 using TeamsLeague.UI.WPF.Configuration;
+using TeamsLeague.UI.WPF.Extensions;
 using TeamsLeague.UI.WPF.Views.Windows;
 using TeamsLeague.UI.WPF.Views.Windows.Member;
 using Unity.Resolution;
@@ -81,26 +82,6 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             _cash.GameWindow.GameMainFrame.Content = _creator;
-        }
-
-        private void LvlUp_Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is Button button)
-            {
-                if (button.Tag is MemberModel member)
-                {
-                    var levelUp = UnityContainerProvider.GetNew<MemberLevelUpWindow>(new ParameterOverride("memberModel", member));
-
-                    this.IsEnabled = false;
-                    levelUp.Closed += (s, args) =>
-                    {
-                        IsEnabled = true;
-                        BuildComponent();
-                    };
-
-                    levelUp.ShowDialog();
-                }
-            }
         }
 
         private void BuildComponent()
@@ -216,17 +197,22 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             var memberGroup = new GroupBox
             {
                 Height = height,
-                MinHeight = 450,
-                MinWidth = 220,
+                MinHeight = 460,
+                MinWidth = 260,
+                MaxWidth = 260,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Background = new SolidColorBrush(Color.FromRgb(0x3D, 0x8E, 0x88)),
                 Header = new GroupBox
                 {
+                    VerticalAlignment = VerticalAlignment.Top,
                     Background = Brushes.CadetBlue,
                     Content = new TextBlock
                     {
                         Text = member.Name,
+                        MaxHeight = 100,
+                        MaxWidth = 220,
+                        TextWrapping = TextWrapping.Wrap,
                         TextAlignment = TextAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Top,
                         FontFamily = new FontFamily("Arial Black"),
@@ -282,21 +268,19 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
 
             if (_cash.User?.Team is not null && Team.Id == _cash.User.Team.Id && member.SkillPoints > 0)
             {
-                var levelUpButton = new Button
+                var levelUp = new TextBlock
                 {
                     Background = Brushes.CadetBlue,
                     FontSize = 26,
                     FontFamily = new FontFamily("Arial Black"),
-                    Content = "LEVEL UP!",
+                    Text = "LEVEL UP!",
                     Margin = new Thickness(2),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment= VerticalAlignment.Bottom,
                     Tag = member,
                 };
 
-                levelUpButton.Click += LvlUp_Button_Click;
-
-                imgGrid.Children.Add(levelUpButton);
+                imgGrid.Children.Add(levelUp);
             }
 
             var parameters = GetParametersView(member);
@@ -373,6 +357,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                     Color = new Color { R = 0, G = 0, B = 0, },
                     Opacity = 0.2,
                 },
+                Foreground = new SolidColorBrush
+                {
+                    Color = Brusher.GetColorByLevel(member.Attack),
+                },
             };
 
             var defense = new TextBlock
@@ -399,6 +387,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                     Color = new Color { R = 0, G = 0, B = 0, },
                     Opacity = 0.2,
                 },
+                Foreground = new SolidColorBrush
+                {
+                    Color = Brusher.GetColorByLevel(member.Defense),
+                },
             };
 
             var experience = new TextBlock
@@ -424,6 +416,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 {
                     Color = new Color { R = 0, G = 0, B = 0, },
                     Opacity = 0.2,
+                },
+                Foreground = new SolidColorBrush
+                {
+                    Color = Brusher.GetColorByLevel(member.Experience),
                 },
             };
 
@@ -476,6 +472,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 {
                     Color = new Color { R = 0, G = 0, B = 0, },
                     Opacity = 0.2,
+                },
+                Foreground = new SolidColorBrush
+                {
+                    Color = Brusher.GetColorByLevel(member.RankPoints),
                 },
             };
 
@@ -531,6 +531,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                     Color = new Color { R = 0, G = 0, B = 0, },
                     Opacity = 0.2,
                 },
+                Foreground = new SolidColorBrush
+                {
+                    Color = Brusher.GetColorByLevel(member.MentalPower),
+                },
             };
 
             var mentalHealth = new TextBlock
@@ -582,6 +586,10 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
                 {
                     Color = new Color { R = 0, G = 0, B = 0, },
                     Opacity = 0.2,
+                },
+                Foreground = new SolidColorBrush
+                {
+                    Color = Brusher.GetColorByLevel(member.Teamplay),
                 },
             };
 

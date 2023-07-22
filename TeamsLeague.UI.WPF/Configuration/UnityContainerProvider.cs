@@ -21,7 +21,7 @@ namespace TeamsLeague.UI.WPF.Configuration
             Container.RegisterType<GameDBContext>(new ContainerControlledLifetimeManager());
             Container.RegisterType<Random>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IGameMech, GameMech>();
-            Container.RegisterType<IMatchService, MatchService>();
+            Container.RegisterType<IMatchBuilder, MatchBuilder>();
             Container.RegisterType<IGameGenerator, GameGenerator>();
             Container.RegisterType<ICashBasket, CashBasket>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IUserServices, UserServices>();

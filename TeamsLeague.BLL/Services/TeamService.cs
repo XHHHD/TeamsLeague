@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeamsLeague.BLL.Interfaces;
-using TeamsLeague.BLL.Models;
-using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities;
@@ -61,7 +59,7 @@ namespace TeamsLeague.BLL.Services
             //CREATE MEMBERS
             if (teamModel.Members is not null)
             {
-                foreach(var memberModel in teamModel.Members)
+                foreach (var memberModel in teamModel.Members)
                 {
                     var member = Context.Members.FirstOrDefault(m => m.Name == memberModel.Name);
 
@@ -86,6 +84,23 @@ namespace TeamsLeague.BLL.Services
 
 
             return teamModel;
+        }
+
+        public IEnumerable<TeamModel> GetTeamsInRank(int rankFrom, int rankTo)
+        {
+            Context = new();
+            var teams = Context.Teams
+                .Include(t => t.Members)
+                .Include(t => t.Traits)
+                .Where(t => t.RankPoints >= rankFrom && t.RankPoints <= rankTo);
+            foreach (var team in teams) { UpdateStatesToCurrentTime(team); }
+            Context.SaveChanges();
+
+            var result = teams.Select(t => new TeamModel(t)).ToList();
+
+            Context.Dispose();
+
+            return result;
         }
 
         public IEnumerable<TeamModel> GetAllTeams()
@@ -255,11 +270,11 @@ namespace TeamsLeague.BLL.Services
         {
             var currentTime = DateTime.Now;
 
-            team.Energy += (team.LastChanges - currentTime).TotalSeconds * team.EnergyRegen;
-            team.Health += (team.LastChanges - currentTime).TotalSeconds * team.HealthRegen;
+            team.Energy += (currentTime - team.LastChanges).TotalSeconds * team.EnergyRegen;
+            team.Health += (currentTime - team.LastChanges).TotalSeconds * team.HealthRegen;
 
-            team.Energy += team.Energy > team.MaxEnergy ? team.MaxEnergy : team.Energy;
-            team.Health += team.Health > team.MaxHealth ? team.MaxHealth : team.Health;
+            team.Energy = team.Energy > team.MaxEnergy ? team.MaxEnergy : team.Energy;
+            team.Health = team.Health > team.MaxHealth ? team.MaxHealth : team.Health;
 
             team.LastChanges = currentTime;
         }

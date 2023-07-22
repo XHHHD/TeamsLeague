@@ -1,5 +1,6 @@
 ﻿using TeamsLeague.BLL.Models.MatchParts.KDA;
 using TeamsLeague.BLL.Models.MemberParts;
+using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.DAL.Constants.Match;
 using TeamsLeague.DAL.Constants.Member;
 using TeamsLeague.DAL.Entities.MatchParts;
@@ -9,8 +10,9 @@ namespace TeamsLeague.BLL.Models.MatchParts
     public class MatchSeatModel
     {
         public int Id { get; set; }
-        public int GainedRankPoints { get; set; }
-        public int GainedExperience { get; set; }
+        public uint GainedRankPoints { get; set; }
+        public uint GainedExperience { get; set; }
+        public uint GainedGold { get; set; }
         public PositionType Position { get; set; }
         public MatchSide Side { get; set; }
 
@@ -29,6 +31,7 @@ namespace TeamsLeague.BLL.Models.MatchParts
             Id = place.Id;
             GainedRankPoints = place.GainedRankPoints;
             GainedExperience = place.GainedExperience;
+            GainedGold = place.GainedGold;
             Position = place.Position;
             Side = place.Side;
 
@@ -36,6 +39,12 @@ namespace TeamsLeague.BLL.Models.MatchParts
             {
                 Id = place.Member.Id,
                 Name = place.Member.Name,
+                Team = place.Member.Team is not null
+                ? new TeamShortModel
+                {
+                    Id = place.Member.Team.Id,
+                    Name = place.Member.Team.Name,
+                } : null,
             };
             Match = new MatchModel
             {

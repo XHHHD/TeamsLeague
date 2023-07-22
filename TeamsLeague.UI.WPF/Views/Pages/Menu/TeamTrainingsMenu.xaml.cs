@@ -137,6 +137,12 @@ namespace TeamsLeague.UI.WPF.Views.Pages.Menu
             RankPoints_TextBlock.Text = Team.RankPoints.ToString();
 
             Teamplay_TextBlock.Text= Team.Teamplay.ToString();
+
+            Energy_Progress.Value = Team.Energy;
+            Energy_Progress.Maximum = Team.MaxEnergy;
+
+            Health_Progress.Value = Team.Health;
+            Health_Progress.Maximum = Team.MaxHealth;
         }
 
         private void FillInMembersButtons()

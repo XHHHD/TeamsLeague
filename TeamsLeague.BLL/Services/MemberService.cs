@@ -92,7 +92,9 @@ namespace TeamsLeague.BLL.Services
         public IEnumerable<MemberModel> GetAllMembers()
         {
             Context = new();
-            var members = Context.Members.AsNoTracking();
+            var members = Context.Members
+                .Include(m => m.Team)
+                .AsNoTracking();
             foreach (var member in members) { UpdateStatesToCurrentTime(member); }
             Context.SaveChanges();
 
@@ -106,7 +108,9 @@ namespace TeamsLeague.BLL.Services
         public IEnumerable<MemberModel> GetAllFreeMembers()
         {
             Context = new();
-            var members = Context.Members.Where(m => m.Team == null);
+            var members = Context.Members
+                .Include(m => m.Team)
+                .Where(m => m.Team == null);
             foreach (var member in members) { UpdateStatesToCurrentTime(member); }
             Context.SaveChanges();
 
@@ -120,7 +124,9 @@ namespace TeamsLeague.BLL.Services
         public IEnumerable<MemberModel> GetMembersOfTeam(int teamId)
         {
             Context = new();
-            var members = Context.Members.Where(m => m.TeamId == teamId);
+            var members = Context.Members
+                .Include(m => m.Team)
+                .Where(m => m.TeamId == teamId);
             foreach (var member in members) { UpdateStatesToCurrentTime(member); }
             Context.SaveChanges();
 
@@ -134,7 +140,9 @@ namespace TeamsLeague.BLL.Services
         public MemberModel GetMember(int memberId)
         {
             Context = new();
-            var member = Context.Members.FirstOrDefault(m => m.Id == memberId)
+            var member = Context.Members
+                .Include(m => m.Team)
+                .FirstOrDefault(m => m.Id == memberId)
                 ?? throw new Exception($"Member does not exist!");
             UpdateStatesToCurrentTime(member);
             Context.SaveChanges();
@@ -149,7 +157,10 @@ namespace TeamsLeague.BLL.Services
         public IEnumerable<MemberModel> GetMembersInRank(PositionType type, int lowestRank, int highestRank)
         {
             Context = new();
-            var members = Context.Members.Where(m => m.MainPosition == type).Where(m => m.RankPoints > lowestRank && m.RankPoints < highestRank);
+            var members = Context.Members
+                .Include(m => m.Team)
+                .Where(m => m.MainPosition == type)
+                .Where(m => m.RankPoints > lowestRank && m.RankPoints < highestRank);
 
             var result = new HashSet<MemberModel>();
             foreach (var member in members)
@@ -167,7 +178,9 @@ namespace TeamsLeague.BLL.Services
         public MemberModel UpdateMember(MemberModel memberModel)
         {
             Context = new();
-            var member = Context.Members.FirstOrDefault(m => m.Id == memberModel.Id)
+            var member = Context.Members
+                .Include(m => m.Team)
+                .FirstOrDefault(m => m.Id == memberModel.Id)
                 ?? throw new Exception($"Member does not exist!");
             UpdateStatesToCurrentTime(member);
 
@@ -326,11 +339,11 @@ namespace TeamsLeague.BLL.Services
         {
             var currentTime = DateTime.Now;
 
-            member.Energy += (member.LastChanges - currentTime).TotalSeconds * member.EnergyRegen;
+            member.Energy += (currentTime - member.LastChanges).TotalSeconds * member.EnergyRegen;
             member.Energy = member.Energy < 0 ? 0 : member.Energy;
             member.Energy = member.Energy > member.MaxEnergy ? member.MaxEnergy : member.Energy;
 
-            member.MentalHealth += (member.LastChanges - currentTime).TotalSeconds * member.MentalHealthRegen;
+            member.MentalHealth += (currentTime - member.LastChanges).TotalSeconds * member.MentalHealthRegen;
             member.MentalHealth = member.MentalHealth < 0 ? 0 : member.MentalHealth;
             member.MentalHealth = member.MentalHealth > member.MaxMentalHealth ? member.MaxMentalHealth : member.MentalHealth;
 
