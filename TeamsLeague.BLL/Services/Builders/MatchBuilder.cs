@@ -8,292 +8,254 @@ using TeamsLeague.DAL.Constants.Member;
 using TeamsLeague.DAL.Context;
 using TeamsLeague.DAL.Entities.MatchParts;
 
-namespace TeamsLeague.BLL.Services.Builders
+namespace TeamsLeague.BLL.Services.Builders;
+
+public class MatchBuilder(
+    ITeamService teamService,
+    IMemberService memberService,
+    Random random) : IMatchBuilder
 {
-    public class MatchBuilder : IMatchBuilder
+    private const int RANK_SEARCHING_DIAPASON = 100;
+
+    private readonly ITeamService _teamService = teamService;
+    private readonly IMemberService _memberService = memberService;
+    private readonly Random _random = random;
+
+    private MatchModel Match { get; set; } = new();
+
+    public IMatchBuilder SetupSoloRank(int memberId)
     {
-        private readonly ITeamService _teamService;
-        private readonly IMemberService _memberService;
-        private readonly Random _random;
+        Match.Type = TypeOfMatch.SoloRank;
+        var member = _memberService.GetMember(memberId);
+        var memberMatchPlace = GetMemberPlace(member);
+        Match.TeamA.Add(memberMatchPlace);
+        BalanceMatch(member.RankPoints);
 
+        return this;
+    }
 
-        private const int rankSearchingDiapason = 100;
+    public IMatchBuilder SetupSoloRank(int memberId, PositionType position)
+    {
+        Match.Type = TypeOfMatch.SoloRank;
+        var member = _memberService.GetMember(memberId);
+        var memberMatchPlace = GetMemberPlace(member, position);
+        Match.TeamA.Add(memberMatchPlace);
+        BalanceMatch(member.RankPoints);
 
+        return this;
+    }
 
-        private MatchModel Match { get; set; }
-
-
-        public MatchBuilder(ITeamService teamService, IMemberService memberService, Random random)
+    public IMatchBuilder SetupCommonRank(Dictionary<int, PositionType> membersPositions)
+    {
+        Match.Type = TypeOfMatch.CommonRank;
+        var rank = 0;
+        foreach (var memberPosition in membersPositions)
         {
-            _teamService = teamService;
-            _memberService = memberService;
-            _random = random;
-
-            Match = new();
-        }
-
-
-        public IMatchBuilder SetupSoloRank(int memberId)
-        {
-            Match.Type = TypeOfMatch.SoloRank;
-
-            var member = _memberService.GetMember(memberId);
-
-            var memberMatchPlace = GetMemberPlace(member);
-
+            var member = _memberService.GetMember(memberPosition.Key);
+            var memberMatchPlace = GetMemberPlace(member, memberPosition.Value);
             Match.TeamA.Add(memberMatchPlace);
-
-            BalanceMatch(member.RankPoints);
-
-            return this;
+            rank += member.RankPoints;
         }
 
-        public IMatchBuilder SetupSoloRank(int memberId, PositionType position)
-        {
-            Match.Type = TypeOfMatch.SoloRank;
+        rank /= membersPositions.Count;
+        BalanceMatch(rank);
 
+        return this;
+    }
+
+    public IMatchBuilder SetupTeamRank(int teamId)
+    {
+        Match.Type = TypeOfMatch.TeamRank;
+        var teamA = _teamService.GetTeam(teamId);
+        foreach (var memberId in teamA.Members.Select(m => m.Id))
+        {
             var member = _memberService.GetMember(memberId);
-
-            var memberMatchPlace = GetMemberPlace(member, position);
-
+            var memberMatchPlace = GetMemberPlace(member, member.MainPosition);
             Match.TeamA.Add(memberMatchPlace);
-
-            BalanceMatch(member.RankPoints);
-
-            return this;
         }
 
-        public IMatchBuilder SetupCommonRank(Dictionary<int, PositionType> membersPositions)
+        Match.Teams.Add(new TeamShortModel(teamA));
+        BalanceTeamMatch(teamA.RankPoints, MatchSide.B);
+
+        return this;
+    }
+
+    public IMatchBuilder SetupScrimmages(int teamAId, int teamBId)
+    {
+        Match.Type = TypeOfMatch.Scrimmages;
+        var teamA = _teamService.GetTeam(teamAId);
+        var teamB = _teamService.GetTeam(teamBId);
+
+        foreach (var memberId in teamA.Members.Select(m => m.Id))
         {
-            Match.Type = TypeOfMatch.CommonRank;
+            var member = _memberService.GetMember(memberId);
+            var memberMatchPlace = GetMemberPlace(member, member.MainPosition);
+            Match.TeamA.Add(memberMatchPlace);
+        }
 
-            var rank = 0;
+        foreach (var memberId in teamB.Members.Select(m => m.Id))
+        {
+            var member = _memberService.GetMember(memberId);
+            var memberMatchPlace = GetMemberPlace(member, member.MainPosition, MatchSide.B);
+            Match.TeamB.Add(memberMatchPlace);
+        }
 
-            foreach (var memberPosition in membersPositions)
+        Match.Teams.Add(new TeamShortModel(teamA));
+        Match.Teams.Add(new TeamShortModel(teamB));
+
+        return this;
+    }
+
+
+    public IMatchBuilder AddResults()
+    {
+        if (Match.Id == 0)
+        {
+            SaveMatchPreview();
+        }
+        //CALCULATE
+        //RESULTS
+        //HERE
+        return this;
+    }
+
+    public MatchModel GetMatch()
+    {
+        if (Match.Id == 0)
+        {
+            SaveMatchPreview();
+        }
+        //CHECK
+        //ALL
+        //HERE
+        return Match;
+    }
+
+
+    private MatchSeatModel GetMemberPlace(MemberModel member, MatchSide side = MatchSide.A)
+    {
+        var result = new MatchSeatModel
+        {
+            Position = member.MainPosition,
+            Side = side,
+            Member = member,
+            Match = Match,
+        };
+
+        return result;
+    }
+
+    private MatchSeatModel GetMemberPlace(MemberModel member, PositionType position, MatchSide side = MatchSide.A)
+    {
+        var result = GetMemberPlace(member, side);
+        result.Position = position;
+
+        return result;
+    }
+
+    private void BalanceMatch(int rank)
+    {
+        BalanceTeam(rank, MatchSide.A);
+        BalanceTeam(rank, MatchSide.B);
+    }
+
+    private void BalanceTeamMatch(int teamRank, MatchSide side)
+    {
+        if (Match.Teams.Count > 2) throw new Exception("Attempt to add third team in Match!");
+
+        var diapasonFrom = teamRank;
+        var diapasonTo = teamRank;
+        var teamMembers = side is MatchSide.A
+            ? Match.TeamA
+            : Match.TeamB;
+        while (teamMembers is null)
+        {
+            var potentialTeams = _teamService.GetTeamsInRank(diapasonFrom, diapasonTo).ToList();
+
+            if (potentialTeams.Any())
             {
-                var member = _memberService.GetMember(memberPosition.Key);
+                var teamIndex = _random.Next(potentialTeams.Count - 1);
+                var team = potentialTeams[teamIndex];
 
-                var memberMatchPlace = GetMemberPlace(member, memberPosition.Value);
+                Match.Teams.Add(new TeamShortModel(team));
 
-                Match.TeamA.Add(memberMatchPlace);
-
-                rank += member.RankPoints;
-            }
-
-            rank /= membersPositions.Count;
-
-            BalanceMatch(rank);
-
-            return this;
-        }
-
-        public IMatchBuilder SetupTeamRank(int teamId)
-        {
-            Match.Type = TypeOfMatch.TeamRank;
-
-            var teamA = _teamService.GetTeam(teamId);
-
-            foreach (var memberId in teamA.Members.Select(m => m.Id))
-            {
-                var member = _memberService.GetMember(memberId);
-
-                var memberMatchPlace = GetMemberPlace(member, member.MainPosition);
-
-                Match.TeamA.Add(memberMatchPlace);
-            }
-
-            Match.Teams.Add(new TeamShortModel(teamA));
-
-            BalanceTeamMatch(teamA.RankPoints, MatchSide.B);
-
-            return this;
-        }
-
-        public IMatchBuilder SetupScrimmages(int teamAId, int teamBId)
-        {
-            Match.Type = TypeOfMatch.Scrimmages;
-
-            var teamA = _teamService.GetTeam(teamAId);
-            var teamB = _teamService.GetTeam(teamBId);
-
-            foreach (var memberId in teamA.Members.Select(m => m.Id))
-            {
-                var member = _memberService.GetMember(memberId);
-
-                var memberMatchPlace = GetMemberPlace(member, member.MainPosition);
-
-                Match.TeamA.Add(memberMatchPlace);
-            }
-
-            foreach (var memberId in teamB.Members.Select(m => m.Id))
-            {
-                var member = _memberService.GetMember(memberId);
-
-                var memberMatchPlace = GetMemberPlace(member, member.MainPosition, MatchSide.B);
-
-                Match.TeamB.Add(memberMatchPlace);
-            }
-
-            Match.Teams.Add(new TeamShortModel(teamA));
-            Match.Teams.Add(new TeamShortModel(teamB));
-
-            return this;
-        }
-
-
-        public IMatchBuilder AddResults()
-        {
-            if (Match.Id == 0)
-            {
-                SaveMatchPreview();
-            }
-            //CALCULATE
-            //RESULTS
-            //HERE
-            return this;
-        }
-
-        public MatchModel GetMatch()
-        {
-            if (Match.Id == 0)
-            {
-                SaveMatchPreview();
-            }
-            //CHECK
-            //ALL
-            //HERE
-            return Match;
-        }
-
-
-        private MatchSeatModel GetMemberPlace(MemberModel member, MatchSide side = MatchSide.A)
-        {
-            var result = new MatchSeatModel
-            {
-                Position = member.MainPosition,
-                Side = side,
-                Member = member,
-                Match = Match,
-            };
-
-            return result;
-        }
-
-        private MatchSeatModel GetMemberPlace(MemberModel member, PositionType position, MatchSide side = MatchSide.A)
-        {
-            var result = GetMemberPlace(member, side);
-
-            result.Position = position;
-
-            return result;
-        }
-
-        private void BalanceMatch(int rank)
-        {
-            BalanceTeam(rank, MatchSide.A);
-            BalanceTeam(rank, MatchSide.B);
-        }
-
-        private void BalanceTeamMatch(int teamRank, MatchSide side)
-        {
-            if (Match.Teams.Count > 2) throw new Exception("Attempt to add third team in Match!");
-
-            var diapasonFrom = teamRank;
-            var diapasonTo = teamRank;
-            var teamMembers = side is MatchSide.A
-                ? Match.TeamA
-                : Match.TeamB;
-            while (teamMembers is null)
-            {
-                var potentialTeams = _teamService.GetTeamsInRank(diapasonFrom, diapasonTo).ToList();
-
-                if (potentialTeams.Any())
+                switch (side)
                 {
-                    var teamIndex = _random.Next(potentialTeams.Count - 1);
-                    var team = potentialTeams[teamIndex];
-
-                    Match.Teams.Add(new TeamShortModel(team));
-
-                    switch (side)
-                    {
-                        case MatchSide.A:
-                            Match.TeamA = team.Members.Select(m => GetMemberPlace(m, m.MainPosition, side)).ToHashSet();
-                            break;
-                        case MatchSide.B:
-                            Match.TeamB = team.Members.Select(m => GetMemberPlace(m, m.MainPosition, side)).ToHashSet();
-                            break;
-                    }
+                    case MatchSide.A:
+                        Match.TeamA = team.Members.Select(m => GetMemberPlace(m, m.MainPosition, side)).ToHashSet();
+                        break;
+                    case MatchSide.B:
+                        Match.TeamB = team.Members.Select(m => GetMemberPlace(m, m.MainPosition, side)).ToHashSet();
+                        break;
                 }
             }
         }
+    }
 
-        private void BalanceTeam(int rank, MatchSide side)
+    private void BalanceTeam(int rank, MatchSide side)
+    {
+        var team = side is MatchSide.A
+            ? Match.TeamA : Match.TeamB;
+
+        foreach (var type in Enum.GetValues<PositionType>())
         {
-            var team = side is MatchSide.A
-                ? Match.TeamA : Match.TeamB;
+            var memberPlace = team.FirstOrDefault(p => p.Position == type);
+            var diapasonFrom = rank;
+            var diapasonTo = rank;
 
-            foreach (var type in Enum.GetValues<PositionType>())
+            while (memberPlace is null)
             {
-                var memberPlace = team.FirstOrDefault(p => p.Position == type);
+                diapasonFrom -= RANK_SEARCHING_DIAPASON;
+                diapasonTo += RANK_SEARCHING_DIAPASON;
 
-                var diapasonFrom = rank;
-                var diapasonTo = rank;
+                var potentialMembers = _memberService
+                    .GetMembersInRank(type, diapasonFrom, diapasonTo)
+                    .Except(Match.TeamA.Concat(Match.TeamB).Select(p => p.Member))
+                    .ToList();
 
-                while (memberPlace is null)
+                if (potentialMembers?.Count > 0)
                 {
-                    diapasonFrom -= rankSearchingDiapason;
-                    diapasonTo += rankSearchingDiapason;
+                    var memberIndex = _random.Next(potentialMembers.Count - 1);
 
-                    var potentialMembers = _memberService
-                        .GetMembersInRank(type, diapasonFrom, diapasonTo)
-                        .Except(Match.TeamA.Concat(Match.TeamB).Select(p => p.Member))
-                        .ToList();
+                    var member = potentialMembers[memberIndex];
 
-                    if (potentialMembers?.Count > 0)
-                    {
-                        var memberIndex = _random.Next(potentialMembers.Count - 1);
+                    memberPlace = GetMemberPlace(member, type, side);
 
-                        var member = potentialMembers[memberIndex];
-
-                        memberPlace = GetMemberPlace(member, type, side);
-
-                        team.Add(memberPlace);
-                    }
+                    team.Add(memberPlace);
                 }
             }
         }
+    }
 
-        /// <summary>
-        /// >>> DO NOT USE AFTER MATCH WAS CALCULATED!!! <<<
-        /// </summary>
-        private void SaveMatchPreview()
+    /// <summary>
+    /// >>> DO NOT USE AFTER MATCH WAS CALCULATED!!! <<<
+    /// </summary>
+    private void SaveMatchPreview()
+    {
+        using var context = new GameDBContext();
+        var match = new Match
         {
-            using var context = new GameDBContext();
-
-            var match = new Match
+            Duration = Match.Duration,
+            Date = Match.Date,
+            Winer = Match.Winer,
+            Type = Match.Type,
+            IsItEnded = Match.IsItEnded,
+            Seats = Match.TeamA.Concat(Match.TeamB).Select(s => new MatchSeat
             {
-                Duration = Match.Duration,
-                Date = Match.Date,
-                Winer = Match.Winer,
-                Type = Match.Type,
-                IsItEnded = Match.IsItEnded,
-                Seats = Match.TeamA.Concat(Match.TeamB).Select(s => new MatchSeat
-                {
-                    Position = s.Position,
-                    Side = s.Side,
-                    Member = context.Members.Include(m => m.Team).First(m => m.Id == s.Member.Id),
-                }).ToHashSet(),
-            };
+                Position = s.Position,
+                Side = s.Side,
+                Member = context.Members.Include(m => m.Team).First(m => m.Id == s.Member.Id),
+            }).ToHashSet(),
+        };
 
-            foreach (var teamModel in Match.Teams)
-            {
-                match.Teams.Add(context.Teams.First(t => t.Id == teamModel.Id));
-            }
-
-            context.Matches.Add(match);
-            context.SaveChanges();
-
-            Match = new MatchModel(match);
+        foreach (var teamModel in Match.Teams)
+        {
+            match.Teams.Add(context.Teams.First(t => t.Id == teamModel.Id));
         }
+
+        context.Matches.Add(match);
+        context.SaveChanges();
+
+        Match = new MatchModel(match);
     }
 }

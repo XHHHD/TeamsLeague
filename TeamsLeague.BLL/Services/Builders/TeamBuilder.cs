@@ -1,5 +1,4 @@
 ﻿using TeamsLeague.BLL.Interfaces;
-using TeamsLeague.BLL.Models.MemberParts;
 using TeamsLeague.BLL.Models.TeamParts;
 using TeamsLeague.BLL.Services.Generators;
 using TeamsLeague.DAL.Constants;
@@ -7,67 +6,51 @@ using TeamsLeague.DAL.Constants.Member;
 
 namespace TeamsLeague.BLL.Services.Builders
 {
-    public class TeamBuilder : ITeamBuilder
+    public class TeamBuilder(IMemberBuilder memberBuilder, Random random) : ITeamBuilder
     {
-        private readonly IMemberBuilder _memberBuilder;
-        private readonly Random _random;
+        private const string DEFAULT_TEAMIMAGE = "/Resources/Img/Default/icons8-ос-free-bsd-100-white.png";
+        private const double DEFAULT_EXPERIENCE = 0;
+        private const int DEFAULT_RANKPOINTS = 0;
+        private const double DEFAULT_HONOR = 0;
+        private const double DEFAULT_ENERGY = 0;
+        private const double DEFAULT_ENERGYMAX = 100;
+        private const double DEFAULT_ENERGYREGEN = 0.5;
+        private const double DEFAULT_HEALTH = 100;
+        private const double DEFAULT_HEALTHMAX = 100;
+        private const double DEFAULT_HEALTHREGEN = 0.5;
+        private const double DEFAULT_TEAMPLAY = 0;
+        private const int IMAGE_NUMBER_RANDOMING_MIN = 38;
+        private const int IMAGE_NUMBER_RANDOMING_MAX = 99;
 
-        private const string defaultTeamImage = "/Resources/Img/Default/icons8-ос-free-bsd-100-white.png";
-        private const double defaultExperience = 0;
-        private const int defaultRankPoints = 0;
-        private const double defaultHonor = 0;
-        private const double defaultEnergy = 0;
-        private const double defaultMaxEnergy = 100;
-        private const double defaultEnergyRegen = 0.5;
-        private const double defaultHealth = 100;
-        private const double defaultMaxHealth = 100;
-        private const double defaultHealthRegen = 0.5;
-        private const double defaultTeamplay = 0;
+        private readonly IMemberBuilder _memberBuilder = memberBuilder;
+        private readonly Random _random = random;
 
-        private TeamModel TeamModel { get; set; }
-
-
-        public TeamBuilder(IMemberBuilder memberBuilder, Random random)
-        {
-            _memberBuilder = memberBuilder;
-            _random = random;
-            TeamModel = new();
-        }
+        private TeamModel TeamModel { get; set; } = new();
 
         public ITeamBuilder GenerateBasicStats(string teamName)
         {
-            string teamImage;
-            try
-            {
-                teamImage = ImagesService.GetTeamImgUrl(_random.Next(38, 99));
-            }
-            catch
-            {
-                teamImage = defaultTeamImage;
-            }
-
+            var teamImage = GetImagePath();
             TeamModel = new TeamModel
             {
                 Name = teamName,
                 Image = teamImage,
                 LastChanges = DateTime.UtcNow,
 
-                Experience = defaultExperience,
-                RankPoints = defaultRankPoints,
-                Honor = defaultHonor,
+                Experience = DEFAULT_EXPERIENCE,
+                RankPoints = DEFAULT_RANKPOINTS,
+                Honor = DEFAULT_HONOR,
 
-                Energy = defaultEnergy,
-                MaxEnergy = defaultMaxEnergy,
-                EnergyRegen = defaultEnergyRegen,
-                Health = defaultHealth,
-                MaxHealth = defaultMaxHealth,
-                HealthRegen = defaultHealthRegen,
-                Teamplay = defaultTeamplay,
+                Energy = DEFAULT_ENERGY,
+                MaxEnergy = DEFAULT_ENERGYMAX,
+                EnergyRegen = DEFAULT_ENERGYREGEN,
+                Health = DEFAULT_HEALTH,
+                MaxHealth = DEFAULT_HEALTHMAX,
+                HealthRegen = DEFAULT_HEALTHREGEN,
+                Teamplay = DEFAULT_TEAMPLAY,
 
-                Members = new HashSet<MemberModel>(),
-                Traits = new HashSet<TeamTraitModel>(),
+                Members = [],
+                Traits = [],
             };
-
 
             return this;
         }
@@ -77,15 +60,12 @@ namespace TeamsLeague.BLL.Services.Builders
         /// </summary>
         public ITeamBuilder GenerateMember()
         {
-            TeamModel.Members ??= new HashSet<MemberModel>();
-
+            TeamModel.Members ??= [];
             var memberName = NameGenerator.GenerateMemberName();
-
             var member = _memberBuilder
                 .GenerateBasicStats(memberName)
                 .AddPosition()
                 .Build();
-
             TeamModel.Members.Add(member);
 
             return this;
@@ -97,15 +77,12 @@ namespace TeamsLeague.BLL.Services.Builders
         /// <param name="type">Desired position type of member.</param>
         public ITeamBuilder GenerateMember(PositionType type)
         {
-            TeamModel.Members ??= new HashSet<MemberModel>();
-
+            TeamModel.Members ??= [];
             var memberName = NameGenerator.GenerateMemberName();
-
             var member = _memberBuilder
                 .GenerateBasicStats(memberName)
                 .AddPosition(type)
                 .Build();
-
             TeamModel.Members.Add(member);
 
             return this;
@@ -116,20 +93,9 @@ namespace TeamsLeague.BLL.Services.Builders
         /// </summary>
         public ITeamBuilder AddTrait()
         {
-            TeamModel.Traits ??= new HashSet<TeamTraitModel>();
-
-            var existTypes = Enum.GetValues<TeamTraitType>().ToList();
-            var potentialTypes = existTypes;
-
-            foreach (var type in existTypes)
-            {
-                if (TeamModel.Traits.Select(p => p.Type).Contains(type))
-                {
-                    potentialTypes.Remove(type);
-                }
-            }
-
-            if (potentialTypes.Count == 0)
+            TeamModel.Traits ??= [];
+            var potentialTypes = GetFreeTeamTraitTypes();
+            if (!potentialTypes.Any())
             {
                 return this;
             }
@@ -148,7 +114,7 @@ namespace TeamsLeague.BLL.Services.Builders
         /// <param name="type">Desired trait type.</param>
         public ITeamBuilder AddTrait(TeamTraitType type)
         {
-            TeamModel.Traits ??= new HashSet<TeamTraitModel>();
+            TeamModel.Traits ??= [];
 
             if (TeamModel.Traits.Select(p => p.Type).Contains(type))
             {
@@ -178,6 +144,33 @@ namespace TeamsLeague.BLL.Services.Builders
 
 
             return TeamModel;
+        }
+
+        private IList<TeamTraitType> GetFreeTeamTraitTypes()
+        {
+            var existTypes = Enum.GetValues<TeamTraitType>().ToList();
+            var potentialTypes = existTypes;
+            existTypes.ForEach(t =>
+            {
+                if (TeamModel.Traits.Select(p => p.Type).Contains(t))
+                {
+                    potentialTypes.Remove(t);
+                }
+            });
+
+            return potentialTypes;
+        }
+
+        private string GetImagePath()
+        {
+            try
+            {
+                return ImagesService.GetTeamImgUrl(_random.Next(IMAGE_NUMBER_RANDOMING_MIN, IMAGE_NUMBER_RANDOMING_MAX));
+            }
+            catch
+            {
+                return DEFAULT_TEAMIMAGE;
+            }
         }
     }
 }
