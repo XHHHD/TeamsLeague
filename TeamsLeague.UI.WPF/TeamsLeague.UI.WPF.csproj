@@ -1,0 +1,335 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Img\Default\icons8-ос-free-bsd-100-black.png" />
+    <None Remove="Resources\Img\Default\icons8-ос-free-bsd-100-white.png" />
+    <None Remove="Resources\Img\Default\icons8-ос-free-bsd-50-black.png" />
+    <None Remove="Resources\Img\Default\icons8-ос-free-bsd-50-white.png" />
+    <None Remove="Resources\Img\Default\Roles\1.png" />
+    <None Remove="Resources\Img\Default\Roles\2.png" />
+    <None Remove="Resources\Img\Default\Roles\3.png" />
+    <None Remove="Resources\Img\Default\Roles\4.png" />
+    <None Remove="Resources\Img\Default\Roles\5.png" />
+    <None Remove="Resources\Img\Default\Roles\botline.jpg" />
+    <None Remove="Resources\Img\Default\Roles\jungley.jpg" />
+    <None Remove="Resources\Img\Default\Roles\midline.jpg" />
+    <None Remove="Resources\Img\Default\Roles\support.jpg" />
+    <None Remove="Resources\Img\Default\Roles\topline.jpg" />
+    <None Remove="Resources\Img\Default\Teams\38.jpg" />
+    <None Remove="Resources\Img\Default\Teams\39.jpg" />
+    <None Remove="Resources\Img\Default\Teams\40.jpg" />
+    <None Remove="Resources\Img\Default\Teams\41.jpg" />
+    <None Remove="Resources\Img\Default\Teams\42.jpg" />
+    <None Remove="Resources\Img\Default\Teams\43.jpg" />
+    <None Remove="Resources\Img\Default\Teams\44.jpg" />
+    <None Remove="Resources\Img\Default\Teams\45.jpg" />
+    <None Remove="Resources\Img\Default\Teams\46.jpg" />
+    <None Remove="Resources\Img\Default\Teams\47.jpg" />
+    <None Remove="Resources\Img\Default\Teams\48.jpg" />
+    <None Remove="Resources\Img\Default\Teams\49.jpg" />
+    <None Remove="Resources\Img\Default\Teams\50.jpg" />
+    <None Remove="Resources\Img\Default\Teams\51.jpg" />
+    <None Remove="Resources\Img\Default\Teams\52.jpg" />
+    <None Remove="Resources\Img\Default\Teams\53.jpg" />
+    <None Remove="Resources\Img\Default\Teams\54.jpg" />
+    <None Remove="Resources\Img\Default\Teams\55.jpg" />
+    <None Remove="Resources\Img\Default\Teams\56.jpg" />
+    <None Remove="Resources\Img\Default\Teams\57.jpg" />
+    <None Remove="Resources\Img\Default\Teams\58.jpg" />
+    <None Remove="Resources\Img\Default\Teams\59.jpg" />
+    <None Remove="Resources\Img\Default\Teams\60.jpg" />
+    <None Remove="Resources\Img\Default\Teams\61.jpg" />
+    <None Remove="Resources\Img\Default\Teams\62.jpg" />
+    <None Remove="Resources\Img\Default\Teams\63.jpg" />
+    <None Remove="Resources\Img\Default\Teams\64.jpg" />
+    <None Remove="Resources\Img\Default\Teams\65.jpg" />
+    <None Remove="Resources\Img\Default\Teams\66.jpg" />
+    <None Remove="Resources\Img\Default\Teams\67.jpg" />
+    <None Remove="Resources\Img\Default\Teams\68.jpg" />
+    <None Remove="Resources\Img\Default\Teams\69.jpg" />
+    <None Remove="Resources\Img\Default\Teams\70.jpg" />
+    <None Remove="Resources\Img\Default\Teams\71.jpg" />
+    <None Remove="Resources\Img\Default\Teams\72.jpg" />
+    <None Remove="Resources\Img\Default\Teams\73.jpg" />
+    <None Remove="Resources\Img\Default\Teams\74.jpg" />
+    <None Remove="Resources\Img\Default\Teams\75.jpg" />
+    <None Remove="Resources\Img\Default\Teams\76.jpg" />
+    <None Remove="Resources\Img\Default\Teams\77.jpg" />
+    <None Remove="Resources\Img\Default\Teams\78.jpg" />
+    <None Remove="Resources\Img\Default\Teams\79.jpg" />
+    <None Remove="Resources\Img\Default\Teams\80.jpg" />
+    <None Remove="Resources\Img\Default\Teams\81.jpg" />
+    <None Remove="Resources\Img\Default\Teams\82.jpg" />
+    <None Remove="Resources\Img\Default\Teams\83.jpg" />
+    <None Remove="Resources\Img\Default\Teams\84.jpg" />
+    <None Remove="Resources\Img\Default\Teams\85.jpg" />
+    <None Remove="Resources\Img\Default\Teams\86.jpg" />
+    <None Remove="Resources\Img\Default\Teams\87.jpg" />
+    <None Remove="Resources\Img\Default\Teams\88.jpg" />
+    <None Remove="Resources\Img\Default\Teams\89.jpg" />
+    <None Remove="Resources\Img\Default\Teams\90.jpg" />
+    <None Remove="Resources\Img\Default\Teams\91.jpg" />
+    <None Remove="Resources\Img\Default\Teams\92.jpg" />
+    <None Remove="Resources\Img\Default\Teams\93.jpg" />
+    <None Remove="Resources\Img\Default\Teams\94.jpg" />
+    <None Remove="Resources\Img\Default\Teams\95.jpg" />
+    <None Remove="Resources\Img\Default\Teams\96.jpg" />
+    <None Remove="Resources\Img\Default\Teams\97.jpg" />
+    <None Remove="Resources\Img\Default\Teams\98.jpg" />
+    <None Remove="Resources\Img\Default\Teams\99.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TeamsLeague.BLL\TeamsLeague.BLL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity" Version="5.11.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-100-black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-100-white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-50-black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\icons8-ос-free-bsd-50-white.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\botline.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\jungley.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\midline.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\support.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Roles\topline.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\38.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\39.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\40.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\41.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\42.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\43.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\44.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\45.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\46.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\47.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\48.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\49.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\50.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\51.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\52.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\53.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\54.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\55.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\56.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\57.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\58.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\59.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\60.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\61.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\62.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\63.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\64.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\65.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\66.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\67.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\68.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\69.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\70.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\71.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\72.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\73.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\74.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\75.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\76.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\77.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\78.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\79.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\80.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\81.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\82.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\83.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\84.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\85.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\86.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\87.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\88.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\89.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\90.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\91.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\92.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\93.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\94.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\95.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\96.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\97.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\98.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Img\Default\Teams\99.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Windows\TeamEvents\GroupTrain\" />
+    <Folder Include="Views\Windows\TeamEvents\Tournament\" />
+    <Folder Include="Views\Windows\TeamEvents\TeamRanked\" />
+    <Folder Include="Views\Windows\TeamEvents\Scrimmages\" />
+  </ItemGroup>
+
+</Project>

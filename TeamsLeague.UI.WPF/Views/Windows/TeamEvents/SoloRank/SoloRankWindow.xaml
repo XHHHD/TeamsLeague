@@ -1,0 +1,58 @@
+﻿<Window x:Class="TeamsLeague.UI.WPF.Views.Windows.TeamEvents.SoloRankWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TeamsLeague.UI.WPF.Views.Windows.TeamEvents"
+        mc:Ignorable="d"
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        MinWidth="1240" MinHeight="736" Background="Transparent"
+        Title="SoloRankWindow">
+    <Border Background="#FF3D7E88">
+        <Grid>
+            <Frame x:Name="Event_Frame"
+                   Panel.ZIndex="0"
+                   NavigationUIVisibility="Hidden"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"/>
+            <Label x:Name="EventStadiaName"
+                   Panel.ZIndex="1"
+                   Content="PREVIEW"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="5"
+                   Width="160"
+                   Height="50"
+                   FontFamily="Arial Black"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Background="#FF255663"
+                   Foreground="CadetBlue"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center"/>
+            <Grid x:Name="MoveButtonts"
+                  Panel.ZIndex="1"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="Back_Button"
+                        Grid.Column="1"
+                        Content="BACK"
+                        Margin="5"
+                        Width="180"
+                        Height="100"
+                        FontFamily="Arial Black"
+                        FontSize="36"
+                        FontWeight="Bold"
+                        Background="#FF255663"
+                        Foreground="CadetBlue"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Click="Back_Button_Click"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
